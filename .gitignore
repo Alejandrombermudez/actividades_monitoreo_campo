@@ -1,0 +1,18 @@
+# Vercel
+.vercel
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+
+# Documentacion interna del ecosistema (Supabase, migraciones propuestas).
+# Este repo es publico: no se sube.
+docs-internos/
+
+# Herramientas locales
+.claude/
