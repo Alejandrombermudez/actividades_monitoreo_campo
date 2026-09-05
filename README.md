@@ -114,6 +114,26 @@ al abrir la app o al importar un respaldo viejo: nada de lo ya registrado se pie
   consumido en los registros de campo**: *recibido − consumido = saldo* por insumo, con
   faltantes en rojo.
 
+## Cómo se ve, y por qué
+
+La app entera va sobre **verde bosque profundo**, con las tarjetas en hueso flotando
+encima y el **ámbar reservado para lo que se toca**. No es capricho: esto se abre a pleno
+sol en un potrero, y una pantalla clara a brillo alto se lava. Sobre verde oscuro la
+tarjeta clara es lo único que brilla y el ojo va directo a ella.
+
+Reglas para no romperlo al editar:
+
+- **Color:** sobre el verde se escribe en `--crema` y `--salvia`; dentro de una tarjeta se
+  escribe en `--tinta` y `--verde`. Las clases que aparecen en los dos sitios (`.hint`,
+  `.section-title`, `label`) llevan la versión clara por defecto y se corrigen dentro de
+  `.card` / `.item` / `.table-wrap` / `.login-box` / `.modal-box`.
+- **Toque:** nada por debajo de 44 px. Se usa de pie, con las manos sucias.
+- **Contraste:** todo el texto pasa 4.5:1 contra su fondo real (3:1 el texto grande).
+  Al cambiar un color de la paleta, revisar que siga cumpliendo.
+- **Nada de `top` en píxeles escrito a mano.** La cabecera y las pestañas son un solo
+  bloque pegajoso; en el celular la cabecera se va con el scroll y quedan solo las
+  pestañas, usando el alto real que mide `ajustarTopbar()` en `--h-cabecera`.
+
 ## Estructura
 
 ```
@@ -129,7 +149,7 @@ icon-512.png
 ## Publicar un cambio
 
 1. Editar `index.html`.
-2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v2` → `ae-actividades-v3`).
+2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v3` → `ae-actividades-v4`).
    Es el único paso fácil de olvidar y el que hace que el cambio llegue: sin eso, los
    celulares siguen abriendo la copia guardada.
 3. Empujar a `main`. Vercel despliega solo.

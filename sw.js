@@ -2,7 +2,7 @@
    Guarda la app en el dispositivo para que funcione sin internet.
    Sube el número de VERSION cuando cambies algo, para que se reemplace lo guardado. */
 
-const VERSION = 'ae-actividades-v2';
+const VERSION = 'ae-actividades-v3';
 const CACHE = `${VERSION}`;
 
 /* Todo lo que hace falta para que la app abra sin conexión. */
