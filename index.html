@@ -17,167 +17,428 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================================
+     Amazonía Emprende — paleta de marca: hueso, verde bosque y ámbar.
+     Nada de azules de dashboard: esto se abre a pleno sol, en un potrero, y tiene
+     que verse como lo demás de la casa. Los tamaños de toque son grandes a
+     propósito (mínimo 44 px): se usa de pie, con las manos sucias y a veces con
+     guantes.
+     ============================================================================ */
   :root{
-    --hueso:#e4ded2; --hueso-2:#efeae0; --negro:#1e1a18;
-    --bosque:#2f3f32; --bosque-2:#3c4f3f; --pizarra:#385161;
-    --taupe:#b8a28e; --oliva:#7a7847; --ambar:#e1a644; --ambar-d:#c98f2e;
-    --salvia:#afbdb2; --marron:#7e5f3b;
+    /* papel */
+    --papel:#eee9df; --papel-2:#e5dfd3; --card:#fffdf8; --card-2:#f7f3e9;
+    /* tinta */
+    --negro:#1f1c19; --tinta-2:#5f584d; --tinta-3:#8a8275;
+    /* marca */
+    --bosque:#2f3f32; --bosque-2:#3c4f3f; --bosque-3:#243026; --musgo:#546b58;
+    --ambar:#e1a644; --ambar-d:#c98f2e; --ambar-l:#f8ecd3;
+    --hueso:#e4ded2; --hueso-2:#efeae0;
+    --salvia:#afbdb2; --taupe:#b8a28e; --oliva:#7a7847;
+    --pizarra:#385161; --marron:#7e5f3b;
     --ok:#3f7d52; --bad:#a2412f;
-    --line:#d7cfc0; --card:#fbf9f4; --shadow:0 1px 2px rgba(30,26,24,.06),0 4px 14px rgba(30,26,24,.06);
-    --r:14px;
+    /* líneas y relieve */
+    --line:#ded6c7; --line-2:#eae4d8;
+    --sh-1:0 1px 2px rgba(45,38,30,.05);
+    --sh-2:0 1px 2px rgba(45,38,30,.05),0 4px 14px rgba(45,38,30,.07);
+    --sh-3:0 2px 6px rgba(45,38,30,.07),0 16px 36px rgba(45,38,30,.11);
+    --anillo:0 0 0 3px rgba(225,166,68,.35);
+    --r:16px; --r-sm:11px; --r-xs:8px; --pill:999px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--hueso);color:var(--negro);line-height:1.45;-webkit-font-smoothing:antialiased;font-size:15px}
-  h1,h2,h3,.brand,.tab,.stat-num{font-family:'Josefin Sans',system-ui,sans-serif}
-  header{background:var(--bosque);color:var(--hueso);padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(30,26,24,.15)}
-  .logo{width:38px;height:38px;flex:0 0 auto;border-radius:50%;background:var(--ambar);display:grid;place-items:center;color:var(--bosque);font-weight:700;font-size:20px;font-family:'Josefin Sans'}
-  .brand b{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:18px;display:block;line-height:1.1}
-  .brand span{font-size:12px;color:var(--salvia);letter-spacing:.02em}
-  .header-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-  nav{background:var(--bosque-2);display:flex;gap:2px;padding:0 10px;overflow-x:auto;position:sticky;top:66px;z-index:19;box-shadow:0 2px 8px rgba(30,26,24,.1)}
-  .tab{background:none;border:none;color:var(--salvia);padding:12px 16px;cursor:pointer;font-size:15px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;letter-spacing:.02em}
-  .tab:hover{color:var(--hueso)}
-  .tab.active{color:#fff;border-bottom-color:var(--ambar)}
-  main{max-width:1160px;margin:0 auto;padding:18px 16px 60px}
-  .view{display:none;animation:fade .25s ease}
-  .view.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-  .view-head{display:flex;align-items:center;gap:12px;margin:4px 0 16px;flex-wrap:wrap}
-  .view-head h2{margin:0;font-size:24px;color:var(--bosque);font-weight:600;letter-spacing:.01em}
-  .view-head p{margin:2px 0 0;color:#6b6459;font-size:13.5px;width:100%}
-  button.btn,a.btn{font-family:'Poppins';font-size:14px;font-weight:600;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:7px;text-decoration:none;line-height:1}
-  .btn-primary{background:var(--ambar);color:var(--bosque);border-color:var(--ambar-d)}
-  .btn-primary:hover{background:var(--ambar-d);color:#fff}
-  .btn-ghost{background:transparent;color:var(--hueso);border-color:rgba(228,222,210,.4)}
-  .btn-ghost:hover{background:rgba(228,222,210,.12)}
-  .btn-soft{background:#fff;color:var(--bosque);border-color:var(--line)}
-  .btn-soft:hover{border-color:var(--taupe)}
-  .btn-sm{padding:6px 10px;font-size:13px}
-  .btn-danger{background:transparent;border-color:transparent;color:var(--bad);padding:6px;cursor:pointer;border-radius:8px;font-size:16px;line-height:1}
-  .btn-danger:hover{background:rgba(162,65,47,.1)}
-  .btn-icon{background:transparent;border:none;color:var(--pizarra);cursor:pointer;padding:6px;border-radius:8px;font-size:15px}
-  .btn-icon:hover{background:var(--hueso)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
-  .list{display:grid;gap:12px}
-  .item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shadow)}
-  .item-top{display:flex;align-items:flex-start;gap:10px}
-  .item-top h3{margin:0;font-size:17px;color:var(--bosque);font-weight:600;flex:1}
-  .item-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:13px;color:#5f584d}
-  .item-meta b{color:var(--negro);font-weight:600}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-  .chip{background:var(--hueso);border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--bosque);font-weight:500}
-  .chip.amber{background:#f7ecd6;border-color:#ecd6a8;color:var(--marron)}
-  .chip.slate{background:#e3ebef;border-color:#c7d7de;color:var(--pizarra)}
-  .chip.green{background:#e2efe4;border-color:#bfd9c5;color:var(--ok)}
-  .tag-grupo{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--oliva);font-weight:600}
-  .grid-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  label{display:block;font-size:12.5px;font-weight:600;color:var(--bosque);margin-bottom:5px;letter-spacing:.01em}
-  input,select,textarea{width:100%;font-family:'Poppins';font-size:14.5px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--negro)}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ambar);box-shadow:0 0 0 3px rgba(225,166,68,.18)}
-  textarea{resize:vertical;min-height:44px}
-  .form-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center}
-  .hint{font-size:12px;color:#8a8275}
-  .derived{background:var(--hueso-2);border:1px dashed var(--taupe);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--bosque);display:flex;flex-wrap:wrap;gap:6px 18px}
-  .derived b{font-family:'Josefin Sans';font-size:15px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
-  .stat{background:linear-gradient(160deg,var(--bosque),var(--bosque-2));color:var(--hueso);border-radius:var(--r);padding:15px 16px;box-shadow:var(--shadow)}
-  .stat .stat-num{font-size:26px;font-weight:700;letter-spacing:.01em;line-height:1.1;color:#fff}
-  .stat .stat-lbl{font-size:12.5px;color:var(--salvia);margin-top:3px}
-  .stat.amber{background:linear-gradient(160deg,var(--ambar),var(--ambar-d));color:var(--bosque)}
-  .stat.amber .stat-num{color:var(--bosque)} .stat.amber .stat-lbl{color:var(--marron)}
-  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow)}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
-  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
-  th{background:var(--hueso-2);color:var(--bosque);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;position:sticky;top:0}
-  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-  tbody tr:hover{background:var(--hueso-2)}
-  tfoot td{font-weight:700;background:var(--hueso-2);border-top:2px solid var(--taupe)}
-  .section-title{font-family:'Josefin Sans';font-size:17px;color:var(--bosque);font-weight:600;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
-  .section-title:before{content:"";width:5px;height:18px;background:var(--ambar);border-radius:3px}
-  .empty{text-align:center;padding:40px 20px;color:#8a8275}
-  .empty .big{font-size:44px;margin-bottom:8px}
-  .filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-  .filter-bar label{margin:0;display:inline}
-  .filter-bar select{width:auto;min-width:180px}
-  .banner{background:#f7ecd6;border:1px solid #ecd6a8;color:var(--marron);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:16px}
-  footer{text-align:center;color:#8a8275;font-size:12px;padding:24px 16px}
-  .req{color:var(--bad)}
-  /* insumo rows dentro del registro */
-  .ins-row{display:grid;grid-template-columns:1.6fr .8fr .9fr 1fr auto;gap:8px;margin-bottom:8px;align-items:end}
-  .ins-row .mini-lbl{display:none}
-  .nuc-count{font-family:'Josefin Sans';font-weight:700;color:var(--bosque)}
-  /* selector de nucleos por botones + apoyo cartografico */
-  .nuc-picker{border:1px solid var(--line);border-radius:var(--r);background:var(--card);padding:10px}
-  .nuc-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-  .nuc-bar .nuc-info{font-size:12px;color:#6b6459;margin-right:auto}
-  .nuc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px;max-height:236px;overflow-y:auto;padding:2px}
-  .nuc-btn{min-height:44px;padding:4px 2px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--negro);
-    font-family:'Josefin Sans';font-weight:700;font-size:16px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent}
-  .nuc-btn:active{transform:scale(.94)}
-  .nuc-btn.on{background:var(--bosque);border-color:var(--bosque);color:#fff}
-  .nuc-map{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#eee8dc}
-  .nuc-map svg{display:block;width:100%;height:auto}
-  .nuc-map .area{fill:var(--salvia);fill-opacity:.30;stroke:#8fa093;stroke-width:1}
-  .nuc-map .nuc{fill:#fff;fill-opacity:.85;stroke:var(--bosque);stroke-width:1.2;cursor:pointer}
-  .nuc-map .nuc.on{fill:var(--ambar);fill-opacity:1;stroke:var(--ambar-d);stroke-width:2}
-  .nuc-map .yo{fill:var(--pizarra);stroke:#fff;stroke-width:2}
-  .nuc-map .cap{font-family:'Josefin Sans';font-size:11px;fill:#6b6459}
-  .nuc-msg{padding:12px 14px;font-size:12px;color:#6b6459;text-align:center;line-height:1.5}
-  /* monitoreo: opciones rapidas y foto */
-  .opt-row{display:flex;gap:8px;flex-wrap:wrap}
-  .opt{flex:1 1 92px;min-height:46px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;
-    color:var(--negro);font-family:'Poppins';font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
-  .opt:active{transform:scale(.96)}
-  .opt.on{background:var(--bosque);border-color:var(--bosque);color:#fff}
-  .opt.on.bueno{background:var(--ok);border-color:var(--ok)}
-  .opt.on.regular{background:var(--ambar);border-color:var(--ambar-d);color:var(--bosque)}
-  .opt.on.muerto{background:var(--bad);border-color:var(--bad)}
-  .foto-box{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
-  .foto-prev{width:120px;height:120px;border-radius:10px;border:1px solid var(--line);object-fit:cover;background:var(--hueso-2)}
-  .foto-mini{width:64px;height:64px;border-radius:8px;border:1px solid var(--line);object-fit:cover;cursor:pointer}
-  .est-pill{display:inline-block;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600}
-  .est-bueno{background:#e2efe4;border:1px solid #bfd9c5;color:var(--ok)}
-  .est-regular{background:#f7ecd6;border:1px solid #ecd6a8;color:var(--marron)}
-  .est-muerto{background:#f4dedb;border:1px solid #e0bcb4;color:var(--bad)}
-  .opt-row.tres .opt{flex:1 1 0;min-width:0}
-  @media (max-width:640px){
-    .opt{flex:1 1 calc(50% - 8px);min-height:50px}
-    .opt-row.tres .opt{flex:1 1 0;padding:8px 4px;font-size:13px}
-    /* tope para que la grilla y el mapa quepan en la misma pantalla del celular */
-    .nuc-grid{grid-template-columns:repeat(auto-fill,minmax(52px,1fr));max-height:328px}
-    .nuc-btn{min-height:48px;font-size:17px}
-    header{padding:12px 14px} .brand b{font-size:16px}
-    nav{top:62px} main{padding:14px 12px 60px}
-    .view-head h2{font-size:21px}
-    .header-actions .btn span{display:none}
-    .ins-row{grid-template-columns:1fr 1fr;gap:8px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--hueso-2)}
-    .ins-row .mini-lbl{display:block;font-size:11px;color:var(--oliva);font-weight:600;margin-bottom:3px}
-    .ins-row .ins-rm{grid-column:1/-1}
+  body{
+    font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--negro); line-height:1.5; font-size:15px; -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1100px 620px at 8% -12%, #f7f3ea 0%, rgba(247,243,234,0) 62%),
+      radial-gradient(900px 520px at 102% -4%, #e6e2d5 0%, rgba(230,226,213,0) 58%),
+      var(--papel);
+    background-attachment:fixed;
   }
-  /* Login / sesión */
-  #login{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,var(--bosque),var(--bosque-2));display:none;align-items:center;justify-content:center;padding:24px;overflow:auto}
-  .login-box{background:var(--card);border-radius:20px;padding:28px 26px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
-  .login-box .logo{width:52px;height:52px;font-size:26px;margin-bottom:14px}
-  .login-box h1{font-size:24px;color:var(--bosque);margin:0 0 2px;font-weight:700;font-family:'Josefin Sans'}
-  .login-box .sub{color:#6b6459;font-size:14px;margin:0 0 20px}
-  .login-users{display:grid;gap:10px}
-  .login-card{display:flex;align-items:center;gap:14px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;font-family:'Poppins';width:100%}
-  .login-card:hover{border-color:var(--ambar);box-shadow:0 0 0 3px rgba(225,166,68,.18)}
-  .login-avatar{width:42px;height:42px;flex:0 0 auto;border-radius:50%;background:var(--bosque);color:var(--hueso);display:grid;place-items:center;font-family:'Josefin Sans';font-weight:700;font-size:20px}
-  .login-name{font-weight:600;color:var(--negro);font-size:15px}
-  .login-rol{font-size:12.5px;color:#6b6459}
-  .sesion-chip{display:flex;align-items:center;gap:6px;background:rgba(228,222,210,.12);border:1px solid rgba(228,222,210,.3);color:var(--hueso);border-radius:20px;padding:5px 12px;font-size:13px;white-space:nowrap}
-  .badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;background:var(--bad);color:#fff;border-radius:9px;font-size:11px;font-weight:700;font-family:'Poppins';vertical-align:middle}
-  /* Modal de acciones */
-  .modal-overlay{position:fixed;inset:0;z-index:90;background:rgba(30,26,24,.55);display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow:auto}
-  .modal-box{background:var(--card);border-radius:16px;max-width:580px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.35);margin:auto}
-  .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
-  .modal-head h3{margin:0;font-size:19px;color:var(--bosque);font-family:'Josefin Sans';font-weight:600}
-  .modal-x{background:none;border:none;font-size:20px;cursor:pointer;color:#8a8275;line-height:1;padding:4px}
+  h1,h2,h3,.brand,.tab,.stat-num,.section-title,.paso-n,.nuc-btn,.sel-n{font-family:'Josefin Sans',system-ui,sans-serif}
+  ::selection{background:var(--ambar);color:var(--bosque)}
+
+  /* ------------------------------------------------------------------ cabecera */
+  header{
+    background:linear-gradient(118deg,#293828 0%,var(--bosque) 42%,#3a4d3d 100%);
+    color:var(--hueso); padding:13px 18px; display:flex; align-items:center; gap:13px; flex-wrap:wrap;
+    position:sticky; top:0; z-index:20;
+    box-shadow:0 1px 0 rgba(225,166,68,.5),0 6px 20px rgba(31,28,25,.22);
+  }
+  .logo{
+    width:40px; height:40px; flex:0 0 auto; border-radius:50%;
+    background:linear-gradient(150deg,var(--ambar),var(--ambar-d));
+    display:grid; place-items:center; color:var(--bosque-3); font-weight:700; font-size:21px;
+    font-family:'Josefin Sans'; box-shadow:0 2px 8px rgba(31,28,25,.3),inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .brand b{font-weight:700; letter-spacing:.07em; text-transform:uppercase; font-size:17px; display:block; line-height:1.1}
+  .brand span{font-size:11.5px; color:var(--salvia); letter-spacing:.03em}
+  .header-actions{margin-left:auto; display:flex; gap:7px; flex-wrap:wrap; align-items:center}
+
+  /* ------------------------------------------------------------------ pestañas */
+  nav{
+    background:var(--bosque-3); display:flex; gap:4px; padding:8px 10px; overflow-x:auto;
+    position:sticky; top:66px; z-index:19; box-shadow:0 4px 14px rgba(31,28,25,.16);
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none}
+  .tab{
+    background:transparent; border:1px solid transparent; color:var(--salvia); padding:8px 15px;
+    cursor:pointer; font-size:14.5px; font-weight:600; white-space:nowrap; border-radius:var(--pill);
+    letter-spacing:.02em; transition:background .15s,color .15s;
+  }
+  .tab:hover{color:var(--hueso); background:rgba(228,222,210,.09)}
+  .tab.active{background:var(--hueso); color:var(--bosque); border-color:var(--hueso); box-shadow:0 2px 8px rgba(0,0,0,.22)}
+
+  main{max-width:1120px; margin:0 auto; padding:22px 16px 72px}
+  .view{display:none; animation:fade .28s cubic-bezier(.2,.7,.3,1)}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .view-head{margin:2px 0 18px}
+  .view-head h2{
+    margin:0; font-size:27px; color:var(--bosque); font-weight:600; letter-spacing:.01em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .view-head h2:before{content:""; width:6px; height:24px; border-radius:3px; background:linear-gradient(var(--ambar),var(--ambar-d))}
+  .view-head p{margin:6px 0 0 16px; color:var(--tinta-2); font-size:13.5px; max-width:74ch}
+
+  /* ------------------------------------------------------------------ botones */
+  button.btn,a.btn{
+    font-family:'Poppins'; font-size:14px; font-weight:600; border-radius:var(--r-sm); padding:10px 15px;
+    cursor:pointer; border:1px solid transparent; display:inline-flex; align-items:center; gap:7px;
+    text-decoration:none; line-height:1; transition:background .15s,border-color .15s,box-shadow .15s,transform .06s;
+  }
+  button.btn:active,a.btn:active{transform:translateY(1px)}
+  .btn-primary{background:linear-gradient(170deg,var(--ambar),var(--ambar-d)); color:var(--bosque-3); border-color:var(--ambar-d); box-shadow:0 2px 8px rgba(201,143,46,.32)}
+  .btn-primary:hover{background:var(--ambar-d); color:#fff; box-shadow:0 4px 14px rgba(201,143,46,.42)}
+  .btn-lg{padding:13px 24px; font-size:15.5px; border-radius:var(--r-sm)}
+  .btn-ghost{background:rgba(228,222,210,.08); color:var(--hueso); border-color:rgba(228,222,210,.32)}
+  .btn-ghost:hover{background:rgba(228,222,210,.18)}
+  .btn-soft{background:var(--card); color:var(--bosque); border-color:var(--line); box-shadow:var(--sh-1)}
+  .btn-soft:hover{border-color:var(--taupe); background:#fff}
+  .btn-sm{padding:7px 12px; font-size:13px}
+  .btn-danger{background:transparent; border:1px solid transparent; color:var(--bad); padding:7px; cursor:pointer; border-radius:var(--r-xs); font-size:16px; line-height:1}
+  .btn-danger:hover{background:rgba(162,65,47,.1)}
+  .btn-icon{background:transparent; border:none; color:var(--pizarra); cursor:pointer; padding:7px; border-radius:var(--r-xs); font-size:15px}
+  .btn-icon:hover{background:var(--hueso)}
+  :focus-visible{outline:2px solid var(--ambar); outline-offset:2px}
+
+  /* ------------------------------------------------------------------ tarjetas */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px; box-shadow:var(--sh-2); margin-bottom:16px}
+  .list{display:grid; gap:12px}
+  .item{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; box-shadow:var(--sh-2)}
+  .item-top{display:flex; align-items:flex-start; gap:10px}
+  .item-top h3{margin:0; font-size:17px; color:var(--bosque); font-weight:600; flex:1}
+  .item-meta{display:flex; flex-wrap:wrap; gap:5px 15px; margin-top:8px; font-size:13px; color:var(--tinta-2)}
+  .item-meta b{color:var(--negro); font-weight:600}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+  .chip{background:var(--hueso-2); border:1px solid var(--line); border-radius:var(--pill); padding:4px 11px; font-size:12px; color:var(--bosque); font-weight:500}
+  .chip.amber{background:var(--ambar-l); border-color:#ecd6a8; color:var(--marron)}
+  .chip.slate{background:#e5edf1; border-color:#c7d7de; color:var(--pizarra)}
+  .chip.green{background:#e4f0e6; border-color:#bfd9c5; color:var(--ok)}
+  .tag-grupo{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--oliva); font-weight:600; display:block}
+
+  /* --------------------------------------------------- pasos del formulario */
+  .paso{padding:0; overflow:hidden}
+  .paso>*:not(.paso-head){margin-left:18px; margin-right:18px}
+  .paso>*:last-child{margin-bottom:18px}
+  .paso-head{
+    display:flex; align-items:flex-start; gap:13px; padding:15px 18px; margin:0 0 16px;
+    background:linear-gradient(var(--card-2),#f3efe4); border-bottom:1px solid var(--line-2);
+  }
+  .paso-n{
+    flex:0 0 auto; width:30px; height:30px; border-radius:50%; display:grid; place-items:center;
+    background:var(--bosque); color:var(--ambar); font-weight:700; font-size:16px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  .paso-head h3{margin:0; font-size:18px; color:var(--bosque); font-weight:600; letter-spacing:.01em}
+  .paso-head p{margin:3px 0 0; font-size:12.5px; color:var(--tinta-2); line-height:1.45}
+  .editando{
+    background:var(--ambar-l); border:1px solid #ecd6a8; color:var(--marron); border-radius:var(--r-sm);
+    padding:10px 14px; font-size:13px; font-weight:600; margin-bottom:14px;
+  }
+
+  /* ------------------------------------------------------------------ formularios */
+  .grid-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:13px}
+  label{display:block; font-size:12.5px; font-weight:600; color:var(--bosque); margin-bottom:6px; letter-spacing:.02em}
+  input,select,textarea{
+    width:100%; font-family:'Poppins'; font-size:15px; padding:11px 12px; border:1px solid var(--line);
+    border-radius:var(--r-sm); background:#fff; color:var(--negro); transition:border-color .15s,box-shadow .15s;
+  }
+  input:hover,select:hover,textarea:hover{border-color:var(--taupe)}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--ambar); box-shadow:var(--anillo)}
+  textarea{resize:vertical; min-height:46px}
+  input[type=file]{padding:9px; font-size:13px; background:var(--hueso-2); cursor:pointer}
+  .form-actions{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; align-items:center}
+  .hint{font-size:12px; color:var(--tinta-3); line-height:1.5}
+  .req{color:var(--bad)}
+  .derived{
+    background:linear-gradient(var(--hueso-2),#eae4d7); border:1px solid var(--line); border-left:4px solid var(--ambar);
+    border-radius:var(--r-sm); padding:12px 14px; font-size:13px; color:var(--bosque);
+    display:flex; flex-wrap:wrap; gap:7px 20px;
+  }
+  .derived b{font-family:'Josefin Sans'; font-size:16px}
+
+  /* ------------------------------------- resumen de lo seleccionado (núcleos y actividades) */
+  .sel-resumen{
+    display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:13px; padding:11px 13px;
+    background:var(--hueso-2); border:1px dashed var(--taupe); border-radius:var(--r-sm); min-height:46px;
+  }
+  .sel-n{
+    background:var(--bosque); color:var(--ambar); border-radius:var(--pill); padding:2px 11px;
+    font-weight:700; font-size:15px; line-height:1.5;
+  }
+  .sel-txt{font-size:12.5px; color:var(--tinta-2); font-weight:600; margin-right:3px}
+  .sel-rangos{font-size:13.5px; color:var(--bosque); font-weight:600}
+  .sel-chip{
+    background:var(--bosque); color:#fff; border:1px solid var(--bosque); border-radius:var(--pill);
+    padding:5px 10px; font-family:'Poppins'; font-size:12.5px; font-weight:600; cursor:pointer; line-height:1;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .sel-chip span{color:var(--salvia); font-size:11px}
+  .sel-chip:hover{background:var(--bad); border-color:var(--bad)}
+  .sel-chip:hover span{color:#fff}
+  .sel-vacio{font-size:13px; color:var(--bad); font-weight:600}
+
+  /* ------------------------------------------------------- selector de actividades */
+  .act-grupo{margin-bottom:14px}
+  .act-grupo:last-child{margin-bottom:0}
+  .act-grupo-lbl{
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.09em; color:var(--oliva);
+    font-weight:600; margin-bottom:7px;
+  }
+  .act-chips{display:flex; flex-wrap:wrap; gap:8px}
+  .act{
+    min-height:44px; padding:10px 15px; border:1px solid var(--line); border-radius:12px;
+    background:#fff; color:var(--negro); font-family:'Poppins'; font-size:14px; font-weight:600;
+    cursor:pointer; -webkit-tap-highlight-color:transparent; box-shadow:var(--sh-1);
+    transition:background .14s,color .14s,border-color .14s,box-shadow .14s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .act:before{
+    content:""; width:16px; height:16px; border-radius:5px; border:2px solid var(--taupe);
+    flex:0 0 auto; transition:background .14s,border-color .14s;
+  }
+  .act:hover{border-color:var(--ambar)}
+  .act:active{transform:scale(.97)}
+  .act.on{background:var(--bosque); border-color:var(--bosque); color:#fff; box-shadow:0 3px 10px rgba(47,63,50,.28)}
+  .act.on:before{background:var(--ambar); border-color:var(--ambar)}
+
+  /* ------------------------------------------------------------------ mapa y núcleos */
+  .nuc-picker{border:1px solid var(--line); border-radius:var(--r); background:var(--card-2); padding:11px; box-shadow:inset 0 1px 3px rgba(45,38,30,.05)}
+  .nuc-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:11px}
+  .nuc-bar .nuc-info{font-size:12.5px; color:var(--tinta-2); font-weight:600; margin-right:auto}
+  .nuc-lista-btn{margin-left:0}
+  .nuc-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(50px,1fr)); gap:7px;
+    max-height:260px; overflow-y:auto; padding:11px 3px 3px; margin-top:4px; border-top:1px solid var(--line-2);
+  }
+  .nuc-btn{
+    min-height:46px; padding:4px 2px; border:1px solid var(--line); border-radius:var(--r-sm); background:#fff;
+    color:var(--negro); font-weight:700; font-size:16px; line-height:1; cursor:pointer;
+    -webkit-tap-highlight-color:transparent; box-shadow:var(--sh-1); transition:background .12s,color .12s;
+  }
+  .nuc-btn:active{transform:scale(.93)}
+  .nuc-btn.on{background:var(--bosque); border-color:var(--bosque); color:#fff}
+
+  .nuc-map{border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden; background:linear-gradient(#f0ece1,#e8e3d6)}
+  .nuc-scroll{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y pinch-zoom; scrollbar-width:thin}
+  .nuc-map svg{display:block; width:100%; height:auto}
+  .nuc-map.arrastrable .nuc-scroll{cursor:grab}
+  .nuc-map.arrastrable .nuc-scroll:active{cursor:grabbing}
+  .nuc-leyenda{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center}
+  .nuc-leyenda span{display:inline-flex; align-items:center; gap:6px}
+  .nuc-leyenda .lg{width:13px; height:13px; border-radius:50%; display:inline-block; flex:0 0 auto}
+  .lg-off{background:#fffdf8; border:1.5px solid var(--bosque)}
+  .lg-on{background:var(--ambar); border:1.5px solid var(--bosque)}
+  .lg-area{background:var(--salvia); border:1.5px dashed #8b9d8f; border-radius:3px}
+  .nuc-acciones{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-left:auto}
+  .zoom-ctl{display:inline-flex; align-items:center; background:#fff; border:1px solid var(--line); border-radius:var(--pill); box-shadow:var(--sh-1); overflow:hidden}
+  .zoom-ctl button{
+    width:38px; height:36px; border:none; background:none; cursor:pointer; color:var(--bosque);
+    font-size:18px; font-weight:700; line-height:1; font-family:'Poppins';
+  }
+  .zoom-ctl button:hover{background:var(--ambar-l)}
+  .zoom-nivel{font-size:11.5px; color:var(--tinta-2); min-width:40px; text-align:center; font-variant-numeric:tabular-nums}
+  .nuc-map .area{fill:var(--salvia); fill-opacity:.34; stroke:#8b9d8f; stroke-width:1.2; stroke-dasharray:5 4}
+  .nuc-map .nuc{fill:#fffdf8; fill-opacity:.95; stroke:var(--bosque); stroke-width:1.4; cursor:pointer; transition:fill .12s}
+  .nuc-map .nuc:hover{fill:var(--ambar-l)}
+  .nuc-map .nuc.on{fill:var(--ambar); fill-opacity:1; stroke:var(--bosque); stroke-width:2.4}
+  .nuc-map .nuc-lbl{
+    font-family:'Josefin Sans',sans-serif; font-weight:700; text-anchor:middle; dominant-baseline:central;
+    fill:var(--bosque); pointer-events:none; letter-spacing:-.02em;
+  }
+  .nuc-map .nuc-lbl.on{fill:var(--bosque-3)}
+  .nuc-map .yo{fill:var(--pizarra); stroke:#fff; stroke-width:2.5}
+  .nuc-map .cap{font-family:'Josefin Sans'; font-size:11px; fill:var(--tinta-2)}
+  .nuc-msg{
+    padding:10px 12px; font-size:12px; color:var(--tinta-2); line-height:1.55;
+    background:var(--card); border-top:1px solid var(--line-2);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .nuc-msg:only-child{display:block; text-align:center; padding:13px; border-top:none}
+
+  /* --------------------------------------------------- insumos dentro del registro */
+  .ins-row{display:grid; grid-template-columns:1.6fr .8fr .9fr 1fr auto; gap:9px; margin-bottom:9px; align-items:end}
+  .ins-row .mini-lbl{display:none}
+
+  /* ------------------------------------------------------------------ lista desplegable */
+  .item-desplegable{padding:0; overflow:hidden; transition:box-shadow .15s,border-color .15s}
+  .item-desplegable:hover{border-color:var(--taupe); box-shadow:var(--sh-3)}
+  .item-desplegable.abierto{border-color:var(--ambar); box-shadow:var(--sh-3)}
+  .item-desplegable.en-edicion{border-color:var(--ambar-d); background:linear-gradient(var(--ambar-l),var(--card))}
+  .item-cab{
+    display:flex; align-items:flex-start; gap:11px; width:100%; text-align:left; padding:14px 16px;
+    background:none; border:none; cursor:pointer; font-family:'Poppins'; color:inherit;
+  }
+  .item-flecha{color:var(--ambar-d); font-size:15px; line-height:1.6; transition:transform .18s ease; flex:0 0 auto}
+  .item-desplegable.abierto .item-flecha{transform:rotate(90deg)}
+  .item-cab-txt{flex:1; min-width:0}
+  .item-acts{display:flex; flex-wrap:wrap; gap:5px; margin:5px 0 2px}
+  .act-chip{background:var(--bosque); border-color:var(--bosque); color:#fff; font-weight:600}
+  .item-detalle{padding:0 16px 16px; border-top:1px solid var(--line-2); margin-top:2px; padding-top:13px; animation:fade .2s ease}
+
+  /* ------------------------------------------------------------------ resumen */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px}
+  .stat{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:15px 16px 14px;
+    box-shadow:var(--sh-2); position:relative; overflow:hidden;
+  }
+  .stat:before{content:""; position:absolute; inset:0 auto 0 0; width:4px; background:var(--musgo)}
+  .stat .stat-num{font-size:26px; font-weight:700; letter-spacing:.01em; line-height:1.15; color:var(--bosque)}
+  .stat .stat-lbl{font-size:12px; color:var(--tinta-2); margin-top:4px; letter-spacing:.02em}
+  .stat.amber{background:linear-gradient(150deg,#fdf4e2,var(--ambar-l)); border-color:#ecd6a8}
+  .stat.amber:before{background:linear-gradient(var(--ambar),var(--ambar-d))}
+  .stat.amber .stat-num{color:var(--marron); font-size:24px}
+  .stat.amber .stat-lbl{color:var(--marron); opacity:.85}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--r); background:var(--card); box-shadow:var(--sh-2)}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px}
+  th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line-2); white-space:nowrap}
+  th{background:var(--card-2); color:var(--bosque); font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; position:sticky; top:0}
+  td.num,th.num{text-align:right; font-variant-numeric:tabular-nums}
+  tbody tr:nth-child(even){background:rgba(239,234,224,.45)}
+  tbody tr:hover{background:var(--ambar-l)}
+  tfoot td{font-weight:700; background:var(--card-2); border-top:2px solid var(--taupe); border-bottom:none}
+  .marca-reparto{color:var(--ambar-d); font-weight:700; cursor:help}
+
+  .section-title{
+    font-size:19px; color:var(--bosque); font-weight:600; margin:26px 0 12px;
+    display:flex; align-items:center; gap:9px; letter-spacing:.01em;
+  }
+  .section-title:before{content:""; width:5px; height:19px; background:linear-gradient(var(--ambar),var(--ambar-d)); border-radius:3px}
+  .empty{text-align:center; padding:44px 20px; color:var(--tinta-3); background:var(--card); border:1px dashed var(--line); border-radius:var(--r)}
+  .empty .big{font-size:44px; margin-bottom:10px; opacity:.8}
+  .empty b{color:var(--bosque); font-size:16px; display:block; margin-bottom:4px}
+  .empty p{margin:0; font-size:13px}
+  .filter-bar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px}
+  .filter-bar label{margin:0; display:inline}
+  .filter-bar select{width:auto; min-width:190px}
+  .banner{background:var(--ambar-l); border:1px solid #ecd6a8; color:var(--marron); border-radius:var(--r-sm); padding:11px 15px; font-size:13px; margin-bottom:16px}
+  footer{text-align:center; color:var(--tinta-3); font-size:12px; padding:28px 16px; line-height:1.7}
+
+  /* ------------------------------------------------------------------ monitoreo */
+  .opt-row{display:flex; gap:8px; flex-wrap:wrap}
+  .opt{
+    flex:1 1 92px; min-height:46px; padding:9px 11px; border:1px solid var(--line); border-radius:var(--r-sm);
+    background:#fff; color:var(--negro); font-family:'Poppins'; font-size:14px; font-weight:600;
+    cursor:pointer; -webkit-tap-highlight-color:transparent; box-shadow:var(--sh-1);
+  }
+  .opt:active{transform:scale(.96)}
+  .opt.on{background:var(--bosque); border-color:var(--bosque); color:#fff}
+  .opt.on.bueno{background:var(--ok); border-color:var(--ok)}
+  .opt.on.regular{background:var(--ambar); border-color:var(--ambar-d); color:var(--bosque-3)}
+  .opt.on.muerto{background:var(--bad); border-color:var(--bad)}
+  .opt-row.tres .opt{flex:1 1 0; min-width:0}
+  .foto-box{display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap}
+  .foto-prev{width:120px; height:120px; border-radius:var(--r-sm); border:1px solid var(--line); object-fit:cover; background:var(--hueso-2)}
+  .foto-mini{width:64px; height:64px; border-radius:var(--r-xs); border:1px solid var(--line); object-fit:cover; cursor:pointer}
+  .est-pill{display:inline-block; border-radius:var(--pill); padding:3px 11px; font-size:12px; font-weight:600}
+  .est-bueno{background:#e4f0e6; border:1px solid #bfd9c5; color:var(--ok)}
+  .est-regular{background:var(--ambar-l); border:1px solid #ecd6a8; color:var(--marron)}
+  .est-muerto{background:#f4dedb; border:1px solid #e0bcb4; color:var(--bad)}
+
+  /* ------------------------------------------------------------------ sesión */
+  #login{
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    padding:24px; overflow:auto;
+    background:
+      radial-gradient(900px 500px at 20% 0%, #40543f 0%, rgba(64,84,63,0) 60%),
+      linear-gradient(160deg,var(--bosque),var(--bosque-3));
+  }
+  .login-box{background:var(--card); border-radius:22px; padding:30px 28px; max-width:460px; width:100%; box-shadow:0 24px 70px rgba(0,0,0,.42)}
+  .login-box .logo{width:54px; height:54px; font-size:27px; margin-bottom:16px}
+  .login-box h1{font-size:25px; color:var(--bosque); margin:0 0 3px; font-weight:700; font-family:'Josefin Sans'}
+  .login-box .sub{color:var(--tinta-2); font-size:13.5px; margin:0 0 22px; line-height:1.55}
+  .login-users{display:grid; gap:11px}
+  .login-card{
+    display:flex; align-items:center; gap:15px; text-align:left; background:#fff; border:1px solid var(--line);
+    border-radius:14px; padding:14px 15px; cursor:pointer; font-family:'Poppins'; width:100%;
+    box-shadow:var(--sh-1); transition:border-color .15s,box-shadow .15s,transform .08s;
+  }
+  .login-card:hover{border-color:var(--ambar); box-shadow:var(--anillo),var(--sh-2); transform:translateY(-1px)}
+  .login-avatar{
+    width:44px; height:44px; flex:0 0 auto; border-radius:50%;
+    background:linear-gradient(150deg,var(--bosque-2),var(--bosque)); color:var(--ambar);
+    display:grid; place-items:center; font-family:'Josefin Sans'; font-weight:700; font-size:21px;
+  }
+  .login-name{font-weight:700; color:var(--negro); font-size:15.5px; letter-spacing:.04em}
+  .login-rol{font-size:12.5px; color:var(--tinta-2); margin-top:1px}
+  .sesion-chip{
+    display:flex; align-items:center; gap:6px; background:rgba(228,222,210,.12);
+    border:1px solid rgba(228,222,210,.3); color:var(--hueso); border-radius:var(--pill);
+    padding:6px 13px; font-size:13px; white-space:nowrap;
+  }
+  .badge{display:inline-grid; place-items:center; min-width:18px; height:18px; padding:0 5px; background:var(--bad); color:#fff; border-radius:9px; font-size:11px; font-weight:700; font-family:'Poppins'; vertical-align:middle}
+
+  /* ------------------------------------------------------------------ modal */
+  .modal-overlay{position:fixed; inset:0; z-index:90; background:rgba(31,28,25,.58); display:none; align-items:flex-start; justify-content:center; padding:24px 16px; overflow:auto; backdrop-filter:blur(2px)}
+  .modal-box{background:var(--card); border-radius:18px; max-width:580px; width:100%; box-shadow:0 28px 80px rgba(0,0,0,.4); margin:auto}
+  .modal-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:17px 21px; border-bottom:1px solid var(--line-2); background:var(--card-2); border-radius:18px 18px 0 0}
+  .modal-head h3{margin:0; font-size:19px; color:var(--bosque); font-family:'Josefin Sans'; font-weight:600}
+  .modal-x{background:none; border:none; font-size:20px; cursor:pointer; color:var(--tinta-3); line-height:1; padding:4px}
   .modal-x:hover{color:var(--bad)}
-  .modal-body{padding:18px 20px}
-  input[type=file]{padding:8px;font-size:13px;background:var(--hueso-2);cursor:pointer}
+  .modal-body{padding:19px 21px}
+
+  /* ------------------------------------------------------------------ celular */
+  @media (max-width:640px){
+    body{font-size:15px}
+    header{padding:11px 14px; gap:11px}
+    .brand b{font-size:15.5px} .brand span{font-size:11px}
+    .header-actions .btn span{display:none}
+    nav{top:62px; padding:7px 8px}
+    .tab{padding:8px 13px; font-size:14px}
+    main{padding:16px 12px 72px}
+    .view-head h2{font-size:22px}
+    .view-head h2:before{height:21px}
+    .view-head p{margin-left:0}
+    .card{padding:15px; border-radius:14px}
+    .paso>*:not(.paso-head){margin-left:15px; margin-right:15px}
+    .paso>*:last-child{margin-bottom:15px}
+    .paso-head{padding:13px 15px; gap:11px}
+    .paso-head h3{font-size:16.5px}
+    .act{flex:1 1 calc(50% - 8px); justify-content:flex-start; min-height:48px; padding:10px 12px; font-size:13.5px}
+    .nuc-grid{grid-template-columns:repeat(auto-fill,minmax(54px,1fr)); max-height:300px}
+    .nuc-btn{min-height:50px; font-size:17px}
+    .nuc-bar .nuc-info{width:100%; margin-bottom:2px}
+    .nuc-leyenda{font-size:11.5px; gap:5px 11px}
+    .nuc-acciones{margin-left:0; width:100%; justify-content:space-between}
+    .opt{flex:1 1 calc(50% - 8px); min-height:50px}
+    .opt-row.tres .opt{flex:1 1 0; padding:8px 4px; font-size:13px}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); gap:10px}
+    .stat{padding:13px 14px}
+    .stat .stat-num{font-size:22px}
+    .ins-row{grid-template-columns:1fr 1fr; gap:9px; padding:11px; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--hueso-2)}
+    .ins-row .mini-lbl{display:block; font-size:11px; color:var(--oliva); font-weight:600; margin-bottom:3px}
+    .ins-row .ins-rm{grid-column:1/-1}
+    .item-cab{padding:13px 14px}
+    .item-detalle{padding:13px 14px 15px}
+    .login-box{padding:24px 20px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*:before,*:after{animation-duration:.01ms!important; transition-duration:.01ms!important}
+  }
 </style>
 </head>
 <body>
@@ -264,40 +525,63 @@
   <section class="view" id="view-registros">
     <div class="view-head">
       <h2>Registro de campo</h2>
-      <p>Una actividad hecha en un lote sobre un conjunto de núcleos, con los insumos que consumió. El rendimiento se calcula como núcleos ÷ jornales.</p>
+      <p>Toca en el mapa los núcleos que se trabajaron, marca las actividades que se hicieron y anota los insumos que se gastaron. El rendimiento se calcula como núcleos ÷ jornales.</p>
     </div>
-    <div class="card">
-      <form id="formReg" onsubmit="guardarRegistro(event)">
-        <input type="hidden" id="regId">
-        <div class="grid-form">
-          <div><label>Fecha</label><input id="r_fecha" type="date"></div>
-          <div><label>Lote <span class="req">*</span></label><select id="r_lote" required onchange="renderNucPicker()"></select></div>
-          <div><label>Actividad <span class="req">*</span></label><select id="r_act" required></select></div>
-        </div>
-        <div style="margin-top:12px">
-          <label>Núcleos trabajados <span class="req">*</span> <span class="hint">— toca los que se trabajaron</span></label>
-          <div id="r_nucPicker"></div>
-          <input type="hidden" id="r_nucleos">
-          <div class="hint" id="r_nucCount" style="margin-top:5px"></div>
-        </div>
 
-        <div class="section-title" style="font-size:15px;margin:18px 0 8px">Insumos consumidos</div>
+    <form id="formReg" onsubmit="guardarRegistro(event)">
+      <input type="hidden" id="regId">
+      <div id="r_editando"></div>
+
+      <div class="card paso">
+        <div class="paso-head"><span class="paso-n">1</span>
+          <div><h3>¿Dónde se trabajó?</h3><p>Toca los núcleos en el mapa. Vuelve a tocar para quitarlos.</p></div>
+        </div>
+        <div class="grid-form">
+          <div><label for="r_lote">Lote <span class="req">*</span></label><select id="r_lote" required onchange="renderNucPicker()"></select></div>
+          <div><label for="r_fecha">Fecha</label><input id="r_fecha" type="date"></div>
+        </div>
+        <div id="r_nucPicker" style="margin-top:14px"></div>
+        <input type="hidden" id="r_nucleos">
+        <div class="sel-resumen" id="r_nucCount"></div>
+      </div>
+
+      <div class="card paso">
+        <div class="paso-head"><span class="paso-n">2</span>
+          <div><h3>¿Qué se hizo?</h3><p>Marca <b>todas</b> las que se hicieron sobre esos núcleos. Si ese día no sirvió la ahoyadora, no la marques.</p></div>
+        </div>
+        <div id="r_actPicker"></div>
+        <input type="hidden" id="r_acts">
+        <div class="sel-resumen" id="r_actCount"></div>
+      </div>
+
+      <div class="card paso">
+        <div class="paso-head"><span class="paso-n">3</span>
+          <div><h3>¿Qué insumos se gastaron?</h3><p>Puede que ninguno: guadañar o trazar no consume insumos.</p></div>
+        </div>
         <div id="r_insumos"></div>
         <button type="button" class="btn btn-soft btn-sm" onclick="addInsumoRow()">＋ Añadir insumo</button>
+      </div>
 
-        <div class="grid-form" style="margin-top:16px">
-          <div><label>Nº de personas</label><input id="r_personas" type="number" step="1" min="0" placeholder="Ej. 4"></div>
-          <div><label>Jornales (días-persona)</label><input id="r_jornales" type="number" step="0.5" min="0" placeholder="Ej. 8" oninput="calcReg()"></div>
-          <div><label>Valor jornal (COP)</label><input id="r_valor" type="number" step="1000" min="0" oninput="calcReg()"></div>
+      <div class="card paso">
+        <div class="paso-head"><span class="paso-n">4</span>
+          <div><h3>¿Cuánta gente y cuánto trabajo?</h3><p>De aquí sale el rendimiento y el costo de mano de obra.</p></div>
         </div>
-        <div><label style="margin-top:12px">Notas</label><textarea id="r_notas" placeholder="Observaciones del día…"></textarea></div>
+        <div class="grid-form">
+          <div><label for="r_personas">Nº de personas</label><input id="r_personas" type="number" step="1" min="0" placeholder="Ej. 4"></div>
+          <div><label for="r_jornales">Jornales (días-persona)</label><input id="r_jornales" type="number" step="0.5" min="0" placeholder="Ej. 8" oninput="calcReg()"></div>
+          <div><label for="r_valor">Valor jornal (COP)</label><input id="r_valor" type="number" step="1000" min="0" oninput="calcReg()"></div>
+        </div>
+        <div><label for="r_notas" style="margin-top:12px">Notas</label><textarea id="r_notas" placeholder="Observaciones del día…"></textarea></div>
         <div class="derived" id="r_derived" style="margin-top:12px"></div>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Guardar registro</button>
+          <button type="submit" class="btn btn-primary btn-lg" id="r_submit">Guardar actividad</button>
           <button type="button" class="btn btn-soft" id="r_cancel" style="display:none" onclick="resetForm('reg')">Cancelar edición</button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
+
+    <div class="section-title">Lo registrado</div>
+    <p class="hint" style="margin:-4px 0 12px">Toca un registro para desplegarlo y editarlo.</p>
     <div class="filter-bar"><label for="filtroRegLote">Ver de:</label><select id="filtroRegLote" onchange="renderRegistros()"></select></div>
     <div class="list" id="listaRegistros"></div>
   </section>
@@ -511,6 +795,14 @@ const ACTIVIDADES = [
 const ACT_GRUPO = {};
 ACTIVIDADES.forEach(g => g.items.forEach(it => ACT_GRUPO[it] = g.grupo));
 
+/* Un registro lleva VARIAS actividades: trazado, ahoyado y plateo casi siempre se hacen
+   el mismo día sobre los mismos núcleos, pero se marcan una por una porque cualquiera de
+   ellas puede no haberse hecho (la ahoyadora no sirvió, alcanzó el tiempo para una más).
+   Los registros viejos guardaban una sola en `actividad`; estas dos funciones leen ambos
+   formatos, así que nada de lo ya guardado se pierde. */
+const actsDe = r => Array.isArray(r.actividades) ? r.actividades : (r.actividad ? [r.actividad] : []);
+const gruposDe = r => [...new Set(actsDe(r).map(a => ACT_GRUPO[a] || '').filter(Boolean))];
+
 /* Bodegas del piloto (hoja Bodegas del Excel). La bodega con esCampo=true es de donde esta app descuenta el consumo de campo. */
 const BODEGAS_SEED = [
   {id:'b_recepcion', nombre:'Recepción', responsable:'Bodega', verificacion:'Cruza con factura del proveedor', esCampo:false},
@@ -550,6 +842,14 @@ const USUARIOS_VIEJOS = {
   u_monica:  {id:'u_monitoreo', nombre:'MONITOREO', rol:'monitoreo'},
 };
 const RESPONSABLES_VIEJOS = {'Katys Blanquicet':'Bodega','Rodrigo Zuleta':'Siembra','Mónica Sarmiento':'Monitoreo'};
+/* Registros de una sola actividad (formato viejo) a la lista de actividades. */
+function migrarRegistros(s){
+  if(!Array.isArray(s.registros)) return;
+  s.registros.forEach(r=>{
+    if(!Array.isArray(r.actividades)) r.actividades = r.actividad ? [r.actividad] : [];
+    delete r.actividad; delete r.grupo;
+  });
+}
 function migrarUsuarios(s){
   if(Array.isArray(s.bodegas)) s.bodegas.forEach(b=>{ const r=RESPONSABLES_VIEJOS[b.responsable]; if(r) b.responsable=r; });
   if(!Array.isArray(s.usuarios)) return;
@@ -574,7 +874,7 @@ function cargar(){
     s.usuarios ||= USUARIOS_SEED.map(x=>({...x,bodegaIds:[...x.bodegaIds]}));
     s.config ||= {}; s.config.valorJornal ??= 60000; s.config.catalogoInsumos ||= INSUMOS_SEED.map(x=>({...x}));
     s.config.especiesExtra ||= [];
-    migrarUsuarios(s);
+    migrarUsuarios(s); migrarRegistros(s);
     return s;
   }catch(e){ console.warn('Estado corrupto, reinicio', e); return estadoInicial(); }
 }
@@ -707,6 +1007,7 @@ document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   t.classList.add('active'); $('view-'+t.dataset.view).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(autoZoomMapas,0);   // el mapa de esta vista recién ahora tiene ancho
 });
 
 /* ============================================================ Selects ============================================================ */
@@ -716,16 +1017,11 @@ function loteOpts(sel,todos){
   o += state.lotes.map(l=>`<option value="${l.id}" ${l.id===sel?'selected':''}>Lote ${esc(l.numero)}${l.nombre?' · '+esc(l.nombre):''}</option>`).join('');
   return o;
 }
-function actividadOpts(sel){
-  return `<option value="">— Selecciona —</option>` + ACTIVIDADES.map(g=>
-    `<optgroup label="${esc(g.grupo)}">`+g.items.map(it=>`<option value="${esc(it)}" ${it===sel?'selected':''}>${esc(it)}</option>`).join('')+`</optgroup>`).join('');
-}
 function insumoOptsList(sel){
   return `<option value="">— Insumo —</option>`+state.config.catalogoInsumos.map(x=>`<option value="${esc(x.nombre)}" ${x.nombre===sel?'selected':''}>${esc(x.nombre)}</option>`).join('');
 }
 function poblarSelects(){
   $('r_lote').innerHTML = loteOpts($('r_lote').value);
-  $('r_act').innerHTML = actividadOpts($('r_act').value);
   $('cat_unidad').innerHTML = opts(UNIDADES,'Bulto');
   $('filtroLote').innerHTML = loteOpts($('filtroLote').value,true);
   $('filtroRegLote').innerHTML = loteOpts($('filtroRegLote').value,true);
@@ -752,7 +1048,42 @@ function readInsumos(){
   })).filter(i=>i.insumo && i.cantidad>0);
 }
 
-/* ============================================================ Núcleos: botones + mapa ============================================================
+/* ============================================================ Actividades: se marcan varias ============================================================
+   Botones que se marcan y se desmarcan, agrupados como los agrupa la gente en campo. No es un
+   select múltiple: en el celular un select múltiple es de las cosas más incómodas que hay. */
+let actSel = new Set();
+
+function renderActPicker(){
+  const cont=$('r_actPicker'); if(!cont) return;
+  cont.innerHTML = ACTIVIDADES.map(g=>`<div class="act-grupo">
+      <div class="act-grupo-lbl">${esc(g.grupo)}</div>
+      <div class="act-chips">${g.items.map(it=>{
+        const on=actSel.has(it);
+        return `<button type="button" class="act${on?' on':''}" data-a="${esc(it)}" aria-pressed="${on}" onclick="actToggle(this)">${esc(it)}</button>`;
+      }).join('')}</div>
+    </div>`).join('');
+  actAplicar();
+}
+function actToggle(btn){
+  const a=btn.dataset.a;
+  actSel.has(a)?actSel.delete(a):actSel.add(a);
+  btn.classList.toggle('on',actSel.has(a));
+  btn.setAttribute('aria-pressed',actSel.has(a)?'true':'false');
+  actAplicar();
+}
+function actQuitar(a){ actSel.delete(a); renderActPicker(); }
+function actAplicar(){
+  const arr=[...actSel];
+  $('r_acts').value=arr.join(' | ');
+  const c=$('r_actCount');
+  if(c) c.innerHTML = arr.length
+    ? `<span class="sel-n">${arr.length}</span><span class="sel-txt">actividad${arr.length>1?'es':''}:</span>`
+      + arr.map(a=>`<button type="button" class="sel-chip" onclick="actQuitar('${esc(a).replace(/'/g,"\\'")}')" title="Quitar">${esc(a)} <span>✕</span></button>`).join('')
+    : `<span class="sel-vacio">Marca al menos una actividad</span>`;
+  calcReg();
+}
+
+/* ============================================================ Núcleos: mapa + lista ============================================================
    La persona no escribe números: toca los núcleos del lote. El valor sigue viviendo en el input
    oculto #r_nucleos, así que guardar, editar, exportar y los reportes no cambian.
    Si algo del mapa o de la lista falla, se cae al campo de texto de siempre y el registro se guarda igual. */
@@ -778,6 +1109,7 @@ function pintarNucSel(){
     b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false');
   });
   document.querySelectorAll('#r_nucPicker circle.nuc').forEach(c=>c.classList.toggle('on',nucSel.has(+c.dataset.n)));
+  document.querySelectorAll('#r_nucPicker text.nuc-lbl').forEach(t=>t.classList.toggle('on',nucSel.has(+t.textContent)));
 }
 function nucToggle(n){ n=+n; nucSel.has(n)?nucSel.delete(n):nucSel.add(n); nucAplicar(); }
 function nucTodos(){ rosterActual().forEach(n=>nucSel.add(n)); nucAplicar(); }
@@ -785,13 +1117,16 @@ function nucNinguno(){ nucSel.clear(); nucAplicar(); }
 function nucInvertir(){ const antes=new Set(nucSel); nucSel=new Set(rosterActual().filter(n=>!antes.has(n))); nucAplicar(); }
 function nucDesdeTexto(v){ nucSel=new Set(parseNucleos(v)); $('r_nucleos').value=compressRanges([...nucSel]); calcReg(); }
 
+let nucListaAbierta = false;
+function nucListaToggle(){ nucListaAbierta=!nucListaAbierta; renderNucPicker(); }
+
 function renderNucPicker(){
   const cont=$('r_nucPicker'); if(!cont) return;
   try{
     const loteId=$('r_lote').value;
     if(!loteId){
       cont.innerHTML=`<div class="banner" style="margin:0">${state.lotes.length
-        ? 'Selecciona el lote y aquí aparecen sus núcleos.'
+        ? 'Selecciona el lote y aquí aparece su mapa.'
         : 'Todavía no hay lotes. Créalos en la pestaña <b>Lotes y núcleos</b>.'}</div>`;
       nucSel.clear(); $('r_nucleos').value=''; calcReg(); return;
     }
@@ -799,20 +1134,23 @@ function renderNucPicker(){
     if(roster.length) [...nucSel].forEach(n=>{ if(!roster.includes(n)) nucSel.delete(n); });
     if(!roster.length){ cont.innerHTML=nucFallbackHTML(); $('r_nucleos').value=compressRanges([...nucSel]); calcReg(); return; }
     const l=loteById(loteId);
+    /* El mapa va primero: es lo que la persona reconoce parada en el potrero. La lista de
+       números queda debajo, plegada, para cuando el mapa no alcance (dos núcleos pegados). */
     cont.innerHTML=`<div class="nuc-picker">
+      ${mapaSeguro(l,roster,{sel:nucSel})}
       <div class="nuc-bar">
-        <span class="nuc-info">Lote ${esc(l.numero)} · ${roster.length} núcleo(s)</span>
+        <span class="nuc-info">Lote ${esc(l.numero)} · ${roster.length} núcleos</span>
         <button type="button" class="btn btn-soft btn-sm" onclick="nucTodos()">Todos</button>
         <button type="button" class="btn btn-soft btn-sm" onclick="nucInvertir()">Invertir</button>
         <button type="button" class="btn btn-soft btn-sm" onclick="nucNinguno()">Limpiar</button>
+        <button type="button" class="btn btn-soft btn-sm nuc-lista-btn" aria-expanded="${nucListaAbierta}" onclick="nucListaToggle()">${nucListaAbierta?'Ocultar lista ▴':'Ver lista ▾'}</button>
       </div>
-      <div class="nuc-grid">${roster.map(n=>`<button type="button" class="nuc-btn" data-n="${n}" aria-pressed="false" onclick="nucToggle(${n})">${n}</button>`).join('')}</div>
-      ${mapaSeguro(l,roster)}
+      ${nucListaAbierta?`<div class="nuc-grid">${roster.map(n=>`<button type="button" class="nuc-btn" data-n="${n}" aria-pressed="false" onclick="nucToggle(${n})">${n}</button>`).join('')}</div>`:''}
     </div>`;
     $('r_nucleos').value=compressRanges([...nucSel]);
-    pintarNucSel(); calcReg();
+    pintarNucSel(); autoZoomMapas(); calcReg();
   }catch(e){
-    cont.innerHTML=nucFallbackHTML('No se pudo armar la lista de núcleos. Escríbelos aquí: el registro se guarda igual.');
+    cont.innerHTML=nucFallbackHTML('No se pudo armar el mapa de núcleos. Escríbelos aquí: el registro se guarda igual.');
     $('r_nucleos').value=compressRanges([...nucSel]); calcReg();
   }
 }
@@ -861,13 +1199,35 @@ function mapaNucleos(l,roster,cfg){
         + (dentro&&cfg.click?` onclick="${cfg.click}(${n})"`:'') + (dentro?'':` opacity=".3"`)
         + `><title>Núcleo ${n}</title></circle>`;
     }).join('');
+    /* El número va encima del círculo: sin él, el mapa obliga a contar a ojo cuál es cuál.
+       Se calla si el círculo queda tan chico que el número no cabría. */
+    const fs=Math.min(19,Math.max(9,rPx*0.95));
+    const labels = rPx>=8 ? sig.nucleos.map(([n,x,y])=>{
+      const dentro=!roster.length||roster.includes(n);
+      const on=cfg.sel && cfg.sel.has(n);
+      return `<text class="nuc-lbl${on?' on':''}" x="${px(x).toFixed(1)}" y="${py(y).toFixed(1)}" font-size="${fs.toFixed(1)}"`
+        + (dentro?'':` opacity=".3"`) + `>${n}</text>`;
+    }).join('') : '';
     return `<div class="nuc-map">
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa de los núcleos del lote ${esc(l.numero)}">
-        <g>${areas}</g><g>${circs}</g><g id="${cfg.gpsId}"></g>${escalaSVG(s,W,H,PAD)}
-      </svg>
-      <div class="nuc-msg" style="text-align:left;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 12px">
-        <span>Blanco = sin marcar · Ámbar = ${cfg.click==='nucToggle'?'trabajado':'el que estás monitoreando'} · Verde claro = área de restauración</span>
-        <button type="button" class="btn btn-soft btn-sm" style="margin-left:auto" onclick="ubicarme('${cfg.gpsId}')">📍 ¿Dónde estoy?</button>
+      <div class="nuc-scroll">
+        <svg viewBox="0 0 ${W} ${H}" data-r="${rPx.toFixed(2)}" role="img" aria-label="Mapa de los núcleos del lote ${esc(l.numero)}">
+          <g>${areas}</g><g>${circs}</g><g class="nuc-lbls">${labels}</g><g id="${cfg.gpsId}"></g>${escalaSVG(s,W,H,PAD)}
+        </svg>
+      </div>
+      <div class="nuc-msg">
+        <div class="nuc-leyenda">
+          <span><i class="lg lg-off"></i> sin marcar</span>
+          <span><i class="lg lg-on"></i> ${cfg.click==='nucToggle'?'trabajado':'el que monitoreas'}</span>
+          <span><i class="lg lg-area"></i> área de restauración</span>
+        </div>
+        <div class="nuc-acciones">
+          <div class="zoom-ctl" role="group" aria-label="Acercar o alejar el mapa">
+            <button type="button" onclick="zoomMapa(this,-0.35)" aria-label="Alejar">−</button>
+            <span class="zoom-nivel">100%</span>
+            <button type="button" onclick="zoomMapa(this,0.35)" aria-label="Acercar">＋</button>
+          </div>
+          <button type="button" class="btn btn-soft btn-sm" onclick="ubicarme('${cfg.gpsId}')">📍 ¿Dónde estoy?</button>
+        </div>
         ${avisosSIG(enc,sig)}
       </div>
     </div>`;
@@ -876,6 +1236,45 @@ function mapaNucleos(l,roster,cfg){
   }
 }
 const mapaMsg = html => `<div class="nuc-map"><div class="nuc-msg">${html}</div></div>`;
+
+/* Zoom del mapa. En un celular el mapa completo deja los núcleos en 13 px: imposible de
+   acertar con el dedo y con el número ilegible. Así que arranca acercado lo justo para que
+   un núcleo mida ~26 px, y el mapa se arrastra de lado. Los botones ± están para el resto. */
+const NUC_TOQUE_PX = 26, ZOOM_MAX = 4;
+function aplicarZoomMapa(cont, z){
+  try{
+    const w=cont.querySelector('.nuc-scroll'), svg=w&&w.querySelector('svg');
+    if(!w||!svg) return;
+    /* Un mapa de una pestaña que todavía no se ha abierto mide 0: calcular el zoom ahí
+       daba siempre el tope. Se deja como está y se vuelve a calcular cuando se vea. */
+    const cw=w.clientWidth;
+    if(!(cw>40)) return;
+    const rPx=parseFloat(svg.dataset.r)||10;
+    const auto=Math.min(3, Math.max(1, (NUC_TOQUE_PX*720)/(2*rPx*cw)));
+    const nivel = (z==null) ? auto : Math.min(ZOOM_MAX, Math.max(1, z));
+    svg.dataset.z=nivel.toFixed(3);
+    svg.style.width=(nivel*100)+'%';
+    w.scrollLeft=(w.scrollWidth-cw)/2;
+    const et=cont.querySelector('.zoom-nivel'); if(et) et.textContent=Math.round(nivel*100)+'%';
+    cont.classList.toggle('arrastrable', nivel>1.02);
+  }catch(e){ /* el mapa es apoyo: si el zoom falla, el mapa se ve igual */ }
+}
+function zoomMapa(btn,delta){
+  const cont=btn.closest('.nuc-map'); if(!cont) return;
+  const svg=cont.querySelector('svg'); if(!svg) return;
+  svg.dataset.manual='1';   // a partir de aquí manda la persona, no el automático
+  aplicarZoomMapa(cont, (parseFloat(svg.dataset.z)||1)+delta);
+}
+/* Se llama después de meter el mapa en el DOM, al abrir la pestaña y al girar el celular:
+   antes de estar en pantalla no se sabe cuánto mide. Respeta el zoom puesto a mano. */
+function autoZoomMapas(){
+  document.querySelectorAll('.nuc-map').forEach(cont=>{
+    const svg=cont.querySelector('svg');
+    if(svg && !svg.dataset.manual) aplicarZoomMapa(cont,null);
+  });
+}
+let _zoomTimer=null;
+window.addEventListener('resize', ()=>{ clearTimeout(_zoomTimer); _zoomTimer=setTimeout(autoZoomMapas,180); });
 
 /* Encuadre del mapa. Un núcleo mal digitalizado, muy lejos del resto, apretaba a todos los demás
    contra un borde. Se encuadra sobre el grueso de los núcleos; el que quede afuera se sigue
@@ -1056,6 +1455,7 @@ function renderMapaMon(){
     if(!l){ cont.innerHTML=''; calcMon(); return; }
     const n=parseInt($('m_nucleo').value,10);
     cont.innerHTML = mapaSeguro(l, rosterLote(l.id), {sel:new Set(isNaN(n)?[]:[n]), click:'monNucleo', gpsId:'m_gps'});
+    autoZoomMapas();
   }catch(e){ cont.innerHTML=''; }
   calcMon();
 }
@@ -1217,15 +1617,22 @@ function exportarMonitoreoCSV(){
 /* ============================================================ Cálculos en vivo ============================================================ */
 function calcReg(){
   const nuc=parseNucleos($('r_nucleos').value); const n=nuc.length;
-  $('r_nucCount').innerHTML = n?`<span class="nuc-count">${n} núcleo(s):</span> ${esc(compressRanges(nuc))}`:'<span style="color:var(--bad)">Toca al menos un núcleo</span>';
+  const cn=$('r_nucCount');
+  if(cn) cn.innerHTML = n
+    ? `<span class="sel-n">${n}</span><span class="sel-txt">núcleo${n>1?'s':''}:</span>`
+      + (n<=40 ? nuc.map(x=>`<button type="button" class="sel-chip" onclick="nucToggle(${x})" title="Quitar">${x} <span>✕</span></button>`).join('')
+               : `<span class="sel-rangos">${esc(compressRanges(nuc))}</span>`)
+    : `<span class="sel-vacio">Toca en el mapa los núcleos que se trabajaron</span>`;
+  const acts=[...actSel];
   const jor=num($('r_jornales').value), val=num($('r_valor').value);
   const mo=jor*val, ins=readInsumos();
   const costoIns=ins.reduce((s,i)=>s+i.cantidad*i.costoUnitario,0);
   const rend = jor>0? n/jor : 0;
-  let html = `<span>Núcleos: <b>${n}</b></span><span>Mano de obra: <b>${fmtCOP(mo)}</b></span>`;
+  let html = `<span>Núcleos: <b>${n}</b></span><span>Actividades: <b>${acts.length}</b></span><span>Mano de obra: <b>${fmtCOP(mo)}</b></span>`;
   if(costoIns) html += `<span>Insumos: <b>${fmtCOP(costoIns)}</b></span><span>Total: <b>${fmtCOP(mo+costoIns)}</b></span>`;
   if(rend>0) html += `<span>Rendimiento: <b>${fmtNum(rend)} núcleos/jornal</b></span>`;
   if(n>0 && ins.length) html += `<span style="width:100%;color:#6b6459">Consumo/núcleo: ${ins.map(i=>`${esc(i.insumo.split(' ')[0])} ${fmtNum(i.cantidad/n)} ${esc(i.unidad)}`).join(' · ')}</span>`;
+  if(acts.length>1) html += `<span style="width:100%;color:#6b6459">Las ${acts.length} actividades comparten estos núcleos, jornales e insumos. En el resumen por actividad el costo se reparte en partes iguales entre ellas.</span>`;
   $('r_derived').innerHTML = html;
 }
 
@@ -1275,9 +1682,11 @@ function guardarRegistro(e){
   e.preventDefault();
   const id=$('regId').value;
   const nuc=parseNucleos($('r_nucleos').value);
-  if(!$('r_lote').value || !$('r_act').value){ return; }
-  if(!nuc.length){ alert('Indica al menos un núcleo trabajado.'); return; }
-  const data={fecha:$('r_fecha').value, loteId:$('r_lote').value, actividad:$('r_act').value, grupo:ACT_GRUPO[$('r_act').value]||'',
+  const acts=[...actSel];
+  if(!$('r_lote').value){ alert('Elige el lote.'); return; }
+  if(!nuc.length){ alert('Toca en el mapa al menos un núcleo trabajado.'); return; }
+  if(!acts.length){ alert('Marca al menos una actividad.'); return; }
+  const data={fecha:$('r_fecha').value, loteId:$('r_lote').value, actividades:acts,
     nucleos:nuc, insumos:readInsumos(), personas:num($('r_personas').value), jornales:num($('r_jornales').value),
     valorJornal:num($('r_valor').value), notas:$('r_notas').value.trim()};
   if(id) Object.assign(state.registros.find(r=>r.id===id),data); else state.registros.push({id:uid(),...data});
@@ -1286,17 +1695,26 @@ function guardarRegistro(e){
 function editarRegistro(id){
   const r=state.registros.find(x=>x.id===id); if(!r) return;
   $('regId').value=r.id; $('r_fecha').value=r.fecha||''; poblarSelects();
-  $('r_lote').value=r.loteId; $('r_act').value=r.actividad;
+  $('r_lote').value=r.loteId;
+  actSel=new Set(actsDe(r)); renderActPicker();
   nucSel=new Set(r.nucleos||[]); renderNucPicker();
   $('r_personas').value=r.personas||''; $('r_jornales').value=r.jornales||''; $('r_valor').value=r.valorJornal||state.config.valorJornal; $('r_notas').value=r.notas||'';
   $('r_insumos').innerHTML=''; (r.insumos||[]).forEach(addInsumoRow); if(!(r.insumos||[]).length) addInsumoRow();
-  $('r_cancel').style.display=''; calcReg(); irA('registros');
+  $('r_cancel').style.display=''; $('r_submit').textContent='Guardar cambios';
+  $('r_editando').innerHTML=`<div class="editando">✏️ Editando el registro del ${esc(fechaFmt(r.fecha)||'—')} · ${esc(actsDe(r).join(', '))}</div>`;
+  calcReg(); renderRegistros(); irA('registros');
 }
-function borrarRegistro(id){ if(!confirm('¿Borrar este registro?'))return; state.registros=state.registros.filter(r=>r.id!==id); save(); render(); }
+function borrarRegistro(id){ if(!confirm('¿Borrar este registro?'))return; state.registros=state.registros.filter(r=>r.id!==id); if(regAbierto===id) regAbierto=null; save(); render(); }
 
 function resetForm(which){
   if(which==='lote'){ $('formLote').reset(); $('loteId').value=''; $('l_cancel').style.display='none'; $('l_preview').innerHTML=''; }
-  if(which==='reg'){ $('formReg').reset(); $('regId').value=''; $('r_cancel').style.display='none'; $('r_valor').value=state.config.valorJornal; $('r_insumos').innerHTML=''; addInsumoRow(); $('r_derived').innerHTML=''; $('r_nucCount').innerHTML=''; nucSel.clear(); renderNucPicker(); }
+  if(which==='reg'){
+    $('formReg').reset(); $('regId').value=''; $('r_cancel').style.display='none';
+    $('r_submit').textContent='Guardar actividad'; $('r_editando').innerHTML='';
+    $('r_valor').value=state.config.valorJornal; $('r_fecha').value=hoy();
+    $('r_insumos').innerHTML=''; addInsumoRow();
+    $('r_derived').innerHTML=''; actSel.clear(); renderActPicker(); nucSel.clear(); renderNucPicker(); renderRegistros();
+  }
   if(which==='mon'){
     $('formMon').reset(); $('monId').value=''; $('m_cancel').style.display='none';
     monEstado=''; monRango=''; quitarFotoMon();
@@ -1642,7 +2060,7 @@ function renderUsuariosConfig(){
 }
 
 /* ============================================================ Render ============================================================ */
-function render(){ poblarSelects(); renderNucPicker(); poblarMonSelects(); renderOpcionesMon(); renderMonitoreos(); renderResumen(); renderLotes(); renderRegistros(); renderInventario(); renderPorAceptar(); renderBodegasConfig(); renderUsuariosConfig(); renderConfig(); }
+function render(){ poblarSelects(); renderActPicker(); renderNucPicker(); poblarMonSelects(); renderOpcionesMon(); renderMonitoreos(); renderResumen(); renderLotes(); renderRegistros(); renderInventario(); renderPorAceptar(); renderBodegasConfig(); renderUsuariosConfig(); renderConfig(); }
 
 function renderLotes(){
   const cont=$('listaLotes');
@@ -1671,33 +2089,57 @@ function renderLotes(){
   }).join('');
 }
 
+/* Un registro por fila; al tocarlo se despliega el detalle y desde ahí se edita o se borra.
+   Guardar el id abierto (y no una clase en el DOM) es lo que hace que siga abierto
+   después de cualquier re-render. */
+let regAbierto = null;
+function toggleReg(id){ regAbierto = (regAbierto===id) ? null : id; renderRegistros(); }
+
 function renderRegistros(){
   const cont=$('listaRegistros'); const f=$('filtroRegLote').value;
   let arr=[...state.registros].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
   if(f&&f!=='__all') arr=arr.filter(r=>r.loteId===f);
   if(!arr.length){ cont.innerHTML=emptyBox('📝','Sin registros','Registra la primera actividad arriba.'); return; }
   cont.innerHTML = arr.map(r=>{
-    const n=(r.nucleos||[]).length, mo=costoManoObra(r), rend=num(r.jornales)>0?n/num(r.jornales):0;
+    const n=(r.nucleos||[]).length, mo=costoManoObra(r), ci=costoInsumosReg(r);
+    const rend=num(r.jornales)>0?n/num(r.jornales):0;
+    const acts=actsDe(r), grupos=gruposDe(r);
+    const abierto = regAbierto===r.id, editando = $('regId') && $('regId').value===r.id;
     const insChips=(r.insumos||[]).map(i=>`<span class="chip green">${esc(i.insumo)}: ${fmtNum(i.cantidad)} ${esc(i.unidad)}${n?` (${fmtNum(i.cantidad/n)}/núcleo)`:''}</span>`).join('');
-    return `<div class="item">
-      <div class="item-top">
-        <div style="flex:1"><span class="tag-grupo">${esc(r.grupo||'')}</span><h3>${esc(r.actividad)}</h3></div>
-        <button class="btn-icon" title="Editar" onclick="editarRegistro('${r.id}')">✏️</button>
-        <button class="btn-danger" title="Borrar" onclick="borrarRegistro('${r.id}')">🗑</button>
-      </div>
-      <div class="item-meta">
-        <span>📍 <b>${loteNombre(r.loteId)}</b></span>
-        ${r.fecha?`<span>📅 ${fechaFmt(r.fecha)}</span>`:''}
-        <span>Núcleos: <b>${n}</b> (${esc(compressRanges(r.nucleos||[]))})</span>
-        ${r.personas?`<span>👥 ${fmtNum(r.personas)}</span>`:''}
-        ${r.jornales?`<span>Jornales: <b>${fmtNum(r.jornales)}</b></span>`:''}
-      </div>
-      <div class="chips">
-        <span class="chip amber">Mano de obra: ${fmtCOP(mo)}</span>
-        ${rend>0?`<span class="chip">Rendimiento: ${fmtNum(rend)} núcleos/jornal</span>`:''}
-        ${insChips}
-      </div>
-      ${r.notas?`<p class="hint" style="margin:10px 0 0">${esc(r.notas)}</p>`:''}
+    return `<div class="item item-desplegable${abierto?' abierto':''}${editando?' en-edicion':''}">
+      <button type="button" class="item-cab" aria-expanded="${abierto}" onclick="toggleReg('${r.id}')">
+        <span class="item-flecha" aria-hidden="true">▸</span>
+        <span class="item-cab-txt">
+          <span class="tag-grupo">${esc(grupos.join(' · '))}</span>
+          <span class="item-acts">${acts.map(a=>`<span class="chip act-chip">${esc(a)}</span>`).join('')||'<b>Sin actividad</b>'}</span>
+          <span class="item-meta">
+            <span>📍 <b>${loteNombre(r.loteId)}</b></span>
+            ${r.fecha?`<span>📅 ${fechaFmt(r.fecha)}</span>`:''}
+            <span>Núcleos: <b>${n}</b></span>
+            ${r.jornales?`<span>Jornales: <b>${fmtNum(r.jornales)}</b></span>`:''}
+            <span>Gasto: <b>${fmtCOP(mo+ci)}</b></span>
+          </span>
+        </span>
+      </button>
+      ${abierto?`<div class="item-detalle">
+        <div class="item-meta">
+          <span>Núcleos trabajados: <b>${esc(compressRanges(r.nucleos||[]))}</b></span>
+          ${r.personas?`<span>👥 ${fmtNum(r.personas)} persona(s)</span>`:''}
+          ${r.valorJornal?`<span>Jornal: <b>${fmtCOP(r.valorJornal)}</b></span>`:''}
+        </div>
+        <div class="chips">
+          <span class="chip amber">Mano de obra: ${fmtCOP(mo)}</span>
+          ${ci?`<span class="chip amber">Insumos: ${fmtCOP(ci)}</span>`:''}
+          ${rend>0?`<span class="chip">Rendimiento: ${fmtNum(rend)} núcleos/jornal</span>`:''}
+          ${insChips||'<span class="chip">Sin insumos</span>'}
+        </div>
+        ${acts.length>1?`<p class="hint" style="margin:10px 0 0">Las ${acts.length} actividades se hicieron sobre los mismos núcleos; en el resumen por actividad el costo se reparte entre ellas.</p>`:''}
+        ${r.notas?`<p class="hint" style="margin:10px 0 0">${esc(r.notas)}</p>`:''}
+        <div class="form-actions" style="margin-top:12px">
+          <button type="button" class="btn btn-primary btn-sm" onclick="editarRegistro('${r.id}')">✏️ Editar</button>
+          <button type="button" class="btn btn-soft btn-sm" onclick="borrarRegistro('${r.id}')">🗑 Borrar</button>
+        </div>
+      </div>`:''}
     </div>`;
   }).join('');
 }
@@ -1717,7 +2159,9 @@ function renderResumen(){
   const gastoMO=regs.reduce((s,r)=>s+costoManoObra(r),0);
   const gastoIns=regs.reduce((s,r)=>s+costoInsumosReg(r),0);
   const jornales=regs.reduce((s,r)=>s+num(r.jornales),0);
-  const atenciones=regs.reduce((s,r)=>s+(r.nucleos||[]).length,0);
+  // Una atencion = un nucleo tocado por una actividad. Si un registro trae tres actividades,
+  // ese nucleo se atendio tres veces: asi cuadra con la tabla por actividad de mas abajo.
+  const atenciones=regs.reduce((s,r)=>s+(r.nucleos||[]).length*Math.max(1,actsDe(r).length),0);
   const nucDistintos=new Set(); regs.forEach(r=>(r.nucleos||[]).forEach(n=>nucDistintos.add(r.loteId+':'+n)));
 
   $('stats').innerHTML =
@@ -1746,18 +2190,35 @@ function renderResumen(){
       `<tr><td>Total</td><td></td><td class="num">${fmtCOP(tMO)}</td><td class="num">${fmtCOP(tIns)}</td><td class="num">${fmtCOP(tTot)}</td><td></td></tr>`);
   }
 
-  // Por actividad
-  const ga={};
-  regs.forEach(r=>{ const k=r.actividad; (ga[k] ||= {act:r.actividad,nuc:0,jor:0,mo:0}); ga[k].nuc+=(r.nucleos||[]).length; ga[k].jor+=num(r.jornales); ga[k].mo+=costoManoObra(r); });
+  /* Por actividad. Cuando un registro trae varias actividades a la vez (trazado + ahoyado +
+     plateo el mismo día sobre los mismos núcleos) nadie midió cuánto costó cada una por
+     separado: los jornales y el gasto se reparten en partes iguales entre ellas. El total
+     de la tabla sigue cuadrando con el gasto real; lo de cada fila es un estimado, y por
+     eso se avisa debajo y se marca cuáles filas lo llevan. */
+  const ga={}; let compartidos=0;
+  regs.forEach(r=>{
+    const acts=actsDe(r); if(!acts.length) return;
+    const k=acts.length, n=(r.nucleos||[]).length;
+    const jor=num(r.jornales)/k, mo=costoManoObra(r)/k, ins=costoInsumosReg(r)/k;
+    if(k>1) compartidos++;
+    acts.forEach(a=>{
+      (ga[a] ||= {act:a,nuc:0,jor:0,mo:0,ins:0,repartida:false});
+      ga[a].nuc+=n; ga[a].jor+=jor; ga[a].mo+=mo; ga[a].ins+=ins;
+      if(k>1) ga[a].repartida=true;
+    });
+  });
   const gaArr=Object.values(ga).sort((a,b)=>b.nuc-a.nuc);
   if(!gaArr.length){ $('tablaActividades').innerHTML=`<div class="banner">Sin actividades registradas para esta selección.</div>`; }
   else{
-    let tn=0,tj=0,tm=0;
-    const rows=gaArr.map(g=>{ tn+=g.nuc;tj+=g.jor;tm+=g.mo; const rend=g.jor>0?g.nuc/g.jor:0;
-      return `<tr><td>${esc(g.act)}</td><td class="num">${g.nuc}</td><td class="num">${fmtNum(g.jor)}</td>
-        <td class="num">${rend>0?fmtNum(rend)+' núc/jornal':'—'}</td><td class="num">${fmtCOP(g.mo)}</td></tr>`; }).join('');
-    $('tablaActividades').innerHTML=tabla(['Actividad','Núcleos','Jornales','Rendimiento','Mano de obra'],rows,
-      `<tr><td>Total</td><td class="num">${tn}</td><td class="num">${fmtNum(tj)}</td><td></td><td class="num">${fmtCOP(tm)}</td></tr>`);
+    let tn=0,tj=0,tm=0,ti=0;
+    const rows=gaArr.map(g=>{ tn+=g.nuc;tj+=g.jor;tm+=g.mo;ti+=g.ins; const rend=g.jor>0?g.nuc/g.jor:0;
+      return `<tr><td>${esc(g.act)}${g.repartida?' <span class="marca-reparto" title="Parte de sus jornales y gastos vienen repartidos con otras actividades del mismo registro">≈</span>':''}</td>
+        <td class="num">${g.nuc}</td><td class="num">${fmtNum(g.jor)}</td>
+        <td class="num">${rend>0?fmtNum(rend)+' núc/jornal':'—'}</td>
+        <td class="num">${fmtCOP(g.mo)}</td><td class="num">${g.ins?fmtCOP(g.ins):'—'}</td></tr>`; }).join('');
+    $('tablaActividades').innerHTML=tabla(['Actividad','Núcleos','Jornales','Rendimiento','Mano de obra','Insumos'],rows,
+      `<tr><td>Total</td><td class="num">${tn}</td><td class="num">${fmtNum(tj)}</td><td></td><td class="num">${fmtCOP(tm)}</td><td class="num">${fmtCOP(ti)}</td></tr>`)
+      + (compartidos?`<p class="hint" style="margin:8px 0 0">Las filas con <b>≈</b> vienen de registros donde se hicieron varias actividades a la vez: jornales y gasto se repartieron en partes iguales entre ellas (${compartidos} registro(s)). Los totales sí son exactos.</p>`:'');
   }
 
   // Por insumo (agrupado por nombre+unidad)
@@ -1813,14 +2274,17 @@ function cargarEjemplo(){
   const l0 = (state.lotes.find(l=>l.numero==='0')||{}).id;
   const l2 = (state.lotes.find(l=>l.numero==='2')||{}).id;
   const vj=state.config.valorJornal;
-  const R=(fecha,act,nuc,personas,jornales,insumos,notas='')=>({id:uid(),fecha,loteId:l0,actividad:act,grupo:ACT_GRUPO[act]||'',nucleos:parseNucleos(nuc),insumos:insumos||[],personas,jornales,valorJornal:vj,notas});
+  const R=(fecha,acts,nuc,personas,jornales,insumos,notas='')=>({id:uid(),fecha,loteId:l0,actividades:[].concat(acts),nucleos:parseNucleos(nuc),insumos:insumos||[],personas,jornales,valorJornal:vj,notas});
   state.registros=[
     R('2026-07-16','Guadaña','1-13',4,6,[]),
-    R('2026-07-16','Ahoyado','1-10',3,5,[{insumo:'Combustible',cantidad:1,unidad:'Litros',costoUnitario:12000}],'Combustible de la ahoyadora'),
+    // El caso típico: trazado y ahoyado el mismo día sobre los mismos núcleos.
+    R('2026-07-16',['Trazado','Ahoyado'],'1-10',3,5,[{insumo:'Combustible',cantidad:1,unidad:'Litros',costoUnitario:12000}],'Combustible de la ahoyadora'),
     R('2026-07-17','Encalado','1-7',3,4,[{insumo:'Cal Dolomita 70-25',cantidad:0.32,unidad:'Bulto',costoUnitario:45000}]),
     R('2026-07-18','Encalado','8-17',3,6,[{insumo:'Cal Dolomita 70-25',cantidad:1.5,unidad:'Bulto',costoUnitario:45000}]),
     R('2026-07-18','Siembra','1-10',6,8,[]),
-    R('2026-07-21','Fertilización','1-13',4,7,[{insumo:'Fertiorgánico Bosplant',cantidad:1.5,unidad:'Bulto',costoUnitario:80000}]),
+    // Aquí no sirvió la ahoyadora, así que ese día solo se trazó y se plateó.
+    R('2026-07-20',['Trazado','Plateo'],'14-25',4,6,[],'La ahoyadora no encendió; queda pendiente el ahoyado.'),
+    R('2026-07-21',['Fertilización','Plateo'],'1-13',4,7,[{insumo:'Fertiorgánico Bosplant',cantidad:1.5,unidad:'Bulto',costoUnitario:80000}]),
     R('2026-07-21','Fertirriego','1-13',2,3,[{insumo:'Combustible',cantidad:0.5,unidad:'Litros',costoUnitario:12000}]),
   ];
   // Monitoreo de ejemplo: unas cuantas observaciones sobre lo sembrado
@@ -1863,16 +2327,17 @@ function cargarEjemplo(){
 function exportarJSON(){ descargar(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}), `monitoreo-siembra_${hoy()}.json`); }
 function importarJSON(ev){
   const file=ev.target.files[0]; if(!file) return; const r=new FileReader();
-  r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.lotes||!s.registros) throw 0; state=s; state.monitoreos||=[]; state.bodegas||=BODEGAS_SEED.map(x=>({...x})); state.movimientos||=[]; state.usuarios||=USUARIOS_SEED.map(x=>({...x,bodegaIds:[...x.bodegaIds]})); state.config??=estadoInicial().config; state.config.catalogoInsumos||=INSUMOS_SEED.map(x=>({...x})); state.config.valorJornal??=60000; state.config.especiesExtra||=[]; migrarUsuarios(state); save(); poblarSelects(); aplicarSesion(); alert('Datos importados.\n\nOjo: las fotos del monitoreo no viajan en el respaldo, se quedan en el dispositivo donde se tomaron.'); }
+  r.onload=()=>{ try{ const s=JSON.parse(r.result); if(!s.lotes||!s.registros) throw 0; state=s; state.monitoreos||=[]; state.bodegas||=BODEGAS_SEED.map(x=>({...x})); state.movimientos||=[]; state.usuarios||=USUARIOS_SEED.map(x=>({...x,bodegaIds:[...x.bodegaIds]})); state.config??=estadoInicial().config; state.config.catalogoInsumos||=INSUMOS_SEED.map(x=>({...x})); state.config.valorJornal??=60000; state.config.especiesExtra||=[]; migrarUsuarios(state); migrarRegistros(state); save(); poblarSelects(); aplicarSesion(); alert('Datos importados.\n\nOjo: las fotos del monitoreo no viajan en el respaldo, se quedan en el dispositivo donde se tomaron.'); }
     catch(e){ alert('El archivo no es un respaldo válido de esta app.'); } ev.target.value=''; };
   r.readAsText(file);
 }
 function exportarCSV(){
-  const head=['fecha','lote','actividad','grupo','nucleos','num_nucleos','personas','jornales','valor_jornal','mano_obra','insumo','cantidad','unidad','costo_unitario','costo_insumo','consumo_por_nucleo','notas'];
+  const head=['fecha','lote','actividades','num_actividades','grupos','nucleos','num_nucleos','personas','jornales','valor_jornal','mano_obra','insumo','cantidad','unidad','costo_unitario','costo_insumo','consumo_por_nucleo','notas'];
   const rows=[head];
   state.registros.forEach(r=>{
     const l=loteById(r.loteId)||{}; const n=(r.nucleos||[]).length;
-    const base=[r.fecha||'',`Lote ${l.numero||''}${l.nombre?' - '+l.nombre:''}`,r.actividad,r.grupo||'',compressRanges(r.nucleos||[]),n,r.personas||'',r.jornales||'',r.valorJornal||'',costoManoObra(r)];
+    const acts=actsDe(r);
+    const base=[r.fecha||'',`Lote ${l.numero||''}${l.nombre?' - '+l.nombre:''}`,acts.join(' + '),acts.length,gruposDe(r).join(' + '),compressRanges(r.nucleos||[]),n,r.personas||'',r.jornales||'',r.valorJornal||'',costoManoObra(r)];
     if((r.insumos||[]).length) r.insumos.forEach(i=>rows.push([...base,i.insumo,i.cantidad,i.unidad,i.costoUnitario||'',num(i.cantidad)*num(i.costoUnitario),n?num(i.cantidad)/n:'',r.notas||'']));
     else rows.push([...base,'','','','','','',r.notas||'']);
   });
@@ -1889,6 +2354,7 @@ function borrarTodo(){
 
 /* ============================================================ Init ============================================================ */
 $('r_valor').value=state.config.valorJornal;
+$('r_fecha').value=hoy();   // casi siempre se registra el mismo dia
 sembrarLotesSIG();   // si no hay lotes, entran los del SIG antes de pintar nada
 addInsumoRow();
 poblarSelects();

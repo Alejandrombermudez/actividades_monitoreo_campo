@@ -39,10 +39,47 @@ Los títulos se gestionan en **Configuración → Títulos de acceso**. El botó
 > dispositivo con datos en vivo" se necesita la versión conectada (backend). En un mismo
 > equipo (o tablet compartido) el flujo de sesiones y aceptación funciona completo.
 
+## Cómo se registra un día de campo
+
+La pantalla sigue el orden en que pasan las cosas en el potrero, en cuatro pasos:
+
+1. **¿Dónde se trabajó?** — se elige el lote y se **tocan los núcleos en el mapa**. Los que se
+   van marcando aparecen listados debajo, y se quitan tocándolos otra vez (en el mapa o en su
+   ficha). Debajo del mapa hay una lista de números plegada, por si dos núcleos quedan muy
+   pegados para acertarle con el dedo.
+2. **¿Qué se hizo?** — se marcan **una o varias** actividades (ver abajo).
+3. **¿Qué insumos se gastaron?** — puede que ninguno.
+4. **¿Cuánta gente y cuánto trabajo?** — personas, jornales y valor del jornal.
+
+Al guardar, el registro aparece en la lista **Lo registrado**, abajo. Al tocarlo se despliega
+con todo el detalle y desde ahí se edita o se borra.
+
+### El mapa
+
+Es cartografía real del SIG dibujada con SVG puro: **sin mapas de internet, funciona sin
+señal**. Cada núcleo lleva **su número encima**, las áreas de restauración van de fondo y el
+botón **📍 ¿Dónde estoy?** ubica a la persona con el GPS del celular si está dentro del lote.
+
+En el celular el mapa completo dejaría cada núcleo en 13 px —imposible de tocar y con el
+número ilegible—, así que **arranca acercado** lo justo para que un núcleo mida unos 26 px y
+el mapa se **arrastra de lado**. Los botones **− / ＋** cambian el acercamiento a mano.
+
+### Varias actividades en un mismo registro
+
+Trazado, ahoyado y plateo casi siempre se hacen **el mismo día sobre los mismos núcleos**,
+así que un registro admite varias. Pero se marcan **una por una**, no en bloque: cualquiera
+puede no haberse hecho —la ahoyadora no encendió, alcanzó el tiempo para una más— y eso es
+justo lo que el registro tiene que poder decir.
+
+Cuando un registro trae varias, nadie midió cuánto costó cada una por separado. En el resumen
+**Rendimiento y gasto por actividad** los jornales y el gasto se **reparten en partes iguales**
+entre ellas: esas filas quedan marcadas con **≈** y hay una nota debajo. Los totales de la
+tabla siguen cuadrando con el gasto real.
+
 ## Qué registra
 
 - **Lotes y núcleos:** cada lote (número, nombre, rango de núcleos de referencia, ej. `1-25`).
-- **Registro de campo:** fecha · lote · actividad · **núcleos trabajados** (rango o lista) ·
+- **Registro de campo:** fecha · lote · **actividades** · **núcleos trabajados** ·
   **insumos consumidos** (varios por registro, en su unidad real) · personas · jornales.
   **Rendimiento = núcleos ÷ jornales**.
 - **Actividades:** Guadaña · Preparación (trazado, ahoyado, control químico, encalado) ·
@@ -56,6 +93,9 @@ Los títulos se gestionan en **Configuración → Títulos de acceso**. El botó
 - **Resumen:** gasto total y por lote (mano de obra vs. insumos), gasto/núcleo, rendimiento
   y costo por actividad, insumos consumidos, y —al filtrar por un lote— el reparto de
   insumo y costo por núcleo.
+
+Los registros guardados con **una sola** actividad (el formato anterior) se convierten solos
+al abrir la app o al importar un respaldo viejo: nada de lo ya registrado se pierde.
 
 ## Inventario y bodegas (stock en vivo)
 
@@ -89,7 +129,7 @@ icon-512.png
 ## Publicar un cambio
 
 1. Editar `index.html`.
-2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v1` → `ae-actividades-v2`).
+2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v2` → `ae-actividades-v3`).
    Es el único paso fácil de olvidar y el que hace que el cambio llegue: sin eso, los
    celulares siguen abriendo la copia guardada.
 3. Empujar a `main`. Vercel despliega solo.
