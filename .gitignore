@@ -1,5 +1,6 @@
-# Vercel
+# Vercel (y lo que baja `vercel link`/`vercel env pull`)
 .vercel
+.env*
 
 # Sistema
 Thumbs.db
@@ -16,3 +17,7 @@ docs-internos/
 
 # Herramientas locales
 .claude/
+
+# Lo genera generar-config.mjs al desplegar (lleva la key de la base: no va al repositorio)
+config.js
+dist/
