@@ -103,7 +103,7 @@ icon-*.png          íconos
 
 ### Qué ve la gente
 
-Nadie tiene que desinstalar ni reinstalar nada. Al abrir la app, el navegador detecta el
+Nadie tiene que desinstalar ni reinstalar nada. Además, en el menú ⋯ está **Actualizar la app**: busca la versión nueva en ese momento y, si hay, la activa y recarga (lo pendiente por enviar no se pierde). Al cambiar `VERSION` en `sw.js`, cambiar también `APP_VERSION` en `index.html`: es la que se muestra en el menú. Al abrir la app, el navegador detecta el
 `sw.js` nuevo y lo instala en segundo plano, pero **no lo activa por su cuenta**: se queda
 esperando. `actualizar.js` lo detecta y muestra una barra arriba —*"Hay una versión nueva
 de la app"*— con **Actualizar** y **Ahora no**. Solo al tocar Actualizar la app se recarga.
@@ -127,6 +127,10 @@ Sin esas dos variables el despliegue falla a propósito: es mejor que una app pu
 puede hablar con la base.
 
 ## Instalarla en el celular
+
+La app trae su propio botón: **⤓ Instalar** arriba (y en la pantalla de entrada y en el menú ⋯).
+En Android con Chrome abre el instalador; en iPhone, o si el navegador no lo ofrece, explica los
+pasos. Desaparece cuando la app ya está instalada. A mano:
 
 - **Android (Chrome):** abrir el link → menú ⋮ → *Añadir a pantalla de inicio*.
 - **iPhone (Safari, no Chrome):** abrir el link → botón Compartir → *Añadir a pantalla de inicio*.
