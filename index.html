@@ -2,531 +2,385 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>Monitoreo de Siembra — Lotes, Insumos y Rendimientos · Amazonía Emprende</title>
+<title>Registro de campo · Amazonía Emprende</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-180.png">
-<meta name="theme-color" content="#161f18">
+<meta name="theme-color" content="#efe9db">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Siembra">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Campo">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ============================================================================
-     Amazonía Emprende — la app entera sobre verde bosque, con las tarjetas en
-     hueso flotando encima y el ámbar reservado para lo que se toca.
-
-     El fondo oscuro no es decoración: esto se abre a pleno sol en un potrero,
-     y una pantalla clara a brillo alto se lava. Sobre verde profundo, la
-     tarjeta clara es lo único que brilla y el ojo va directo a ella.
-
-     Regla de color: sobre el verde se escribe en crema y salvia; dentro de una
-     tarjeta se escribe en tinta y verde. Las clases que aparecen en los dos
-     sitios (.hint, .section-title, label) llevan la versión clara por defecto
-     y se corrigen dentro de .card / .item / .login-box / .modal-box.
+     Registro de campo — claro, de vidrio y con pocas cosas a la vez.
+     Lo que manda: una sola pregunta por bloque, listas sin bordes (filas
+     separadas por una línea fina que no llega al borde), y el ámbar solo para
+     lo que se toca. Nada por debajo de 44 px: se usa de pie y con las manos sucias.
      ============================================================================ */
   :root{
-    /* el suelo */
-    --noche:#161f18; --noche-2:#1d2820; --noche-3:#26332a;
-    /* superficies claras */
-    --crema:#f7f3ea; --crema-2:#ece6d8; --crema-3:#e0d9c8;
-    /* marca */
-    --verde:#2f3f32; --verde-2:#3c4f3f; --verde-claro:#5a7360;
-    --ambar:#eab259; --ambar-d:#c98f2e; --ambar-l:#fbeed4; --ambar-txt:#7e5f3b;
-    /* tinta */
-    --tinta:#1d1a17; --tinta-2:#565044; --tinta-3:#6e6659;
-    /* sobre el verde */
-    --salvia:#a9bcae; --salvia-2:#8fa495;
-    /* semánticos */
-    --ok:#336d44; --bad:#a2422f; --pizarra:#365468; --oliva:#6a6839;
-    /* velos sobre el verde */
-    --velo:rgba(247,243,234,.07); --velo-2:rgba(247,243,234,.12); --borde-velo:rgba(247,243,234,.15);
-    /* líneas dentro de tarjetas */
-    --linea:#ded7c6; --linea-2:#ece7db;
-    /* relieve: sobre fondo oscuro las sombras tienen que ser francas */
-    --sh:0 2px 4px rgba(0,0,0,.18),0 14px 34px rgba(0,0,0,.30);
-    --sh-alta:0 4px 8px rgba(0,0,0,.22),0 22px 52px rgba(0,0,0,.38);
-    --sh-baja:0 1px 3px rgba(0,0,0,.16);
-    --anillo:0 0 0 3px rgba(234,178,89,.4);
-    --r:20px; --r-md:14px; --r-sm:11px; --pill:999px;
+    --hueso:#efe9db; --papel:#fbf8f1;
+    --bosque:#2f3f32; --bosque-2:#3f5443; --salvia:#dfe7d8;
+    --ambar:#e1a644; --ambar-claro:#fbf0d8; --ambar-txt:#6d4a07;
+    --tinta:#1e1a18; --tenue:#6d675b; --tenue-2:#8a8376;
+    --arcilla:#a4523a; --arcilla-claro:#f6e3dc; --ok:#4f7a55;
+    --vidrio:rgba(255,253,248,.62); --vidrio-fuerte:rgba(255,253,248,.82);
+    --relleno:rgba(47,63,50,.065); --relleno-2:rgba(47,63,50,.11);
+    --hilo:rgba(47,63,50,.10);
+    --sombra:0 1px 2px rgba(47,63,50,.05), 0 12px 32px rgba(47,63,50,.09);
+    --sombra-alta:0 2px 6px rgba(47,63,50,.08), 0 24px 60px rgba(47,63,50,.18);
+    --r:24px; --r-md:18px; --r-sm:14px; --pill:999px;
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  html{background:var(--noche)}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; padding:0}
+  html{background:var(--hueso)}
   body{
-    font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    color:var(--crema); line-height:1.5; font-size:15px; -webkit-font-smoothing:antialiased;
+    font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    color:var(--tinta); font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased;
+    min-height:100vh; min-height:100dvh;
     background:
-      radial-gradient(1200px 700px at 12% -8%, #2c3b2e 0%, rgba(44,59,46,0) 58%),
-      radial-gradient(900px 600px at 92% 4%, #1f2d22 0%, rgba(31,45,34,0) 55%),
-      var(--noche);
+      radial-gradient(620px 460px at -8% -6%, rgba(160,189,160,.55), transparent 70%),
+      radial-gradient(520px 420px at 108% 12%, rgba(241,206,140,.50), transparent 70%),
+      radial-gradient(700px 520px at 50% 118%, rgba(185,205,180,.45), transparent 70%),
+      var(--hueso);
     background-attachment:fixed;
-    min-height:100vh;
   }
-  h1,h2,h3,.brand b,.tab,.stat-num,.section-title,.paso-n,.nuc-btn,.sel-n,.login-name{
-    font-family:'Josefin Sans',system-ui,sans-serif;
-  }
-  ::selection{background:var(--ambar); color:var(--noche)}
-  :focus-visible{outline:2px solid var(--ambar); outline-offset:3px; border-radius:4px}
+  h1,h2,.titulo-grande{font-family:'Fraunces',Georgia,serif; font-weight:600; letter-spacing:-.01em; margin:0; line-height:1.15}
+  button,input,select,textarea{font:inherit; color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:2.5px solid var(--ambar); outline-offset:2px; border-radius:10px}
+  ::selection{background:var(--ambar-claro)}
 
-  /* ============================================================ barra de arriba
-     Antes eran dos franjas apiladas, cada una con su propio `position:sticky` y
-     un `top` en píxeles escrito a mano que se rompía al cambiar la tipografía.
-     Ahora es un solo bloque translúcido: el contenido pasa por debajo y se ve. */
-  .topbar{
+  .vidrio{
+    background:var(--vidrio);
+    backdrop-filter:blur(22px) saturate(160%); -webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:var(--sombra); border:1px solid rgba(255,255,255,.55);
+  }
+
+  /* ============================================================ cabecera */
+  .cabecera{
     position:sticky; top:0; z-index:30;
-    background:linear-gradient(rgba(22,31,24,.94),rgba(22,31,24,.86));
-    backdrop-filter:blur(14px) saturate(120%);
-    -webkit-backdrop-filter:blur(14px) saturate(120%);
-    border-bottom:1px solid rgba(247,243,234,.09);
+    padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background:rgba(239,233,219,.72);
+    backdrop-filter:blur(20px) saturate(160%); -webkit-backdrop-filter:blur(20px) saturate(160%);
   }
-  header{
-    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-    max-width:1120px; margin:0 auto; padding:16px 20px 12px;
+  .cabecera-in{max-width:720px; margin:0 auto; display:flex; align-items:center; gap:12px}
+  .marca{
+    width:40px; height:40px; flex:0 0 auto; border-radius:13px; display:grid; place-items:center;
+    background:var(--bosque); color:var(--ambar); font-family:'Fraunces',serif; font-weight:600; font-size:21px;
   }
-  .logo{
-    width:42px; height:42px; flex:0 0 auto; border-radius:14px;
-    background:linear-gradient(150deg,var(--ambar),var(--ambar-d));
-    display:grid; place-items:center; color:var(--noche); font-weight:700; font-size:22px;
-    font-family:'Josefin Sans'; box-shadow:0 4px 14px rgba(234,178,89,.28);
+  .quien{flex:1; min-width:0; line-height:1.15}
+  .quien small{display:block; font-size:11.5px; color:var(--tenue); letter-spacing:.02em}
+  .quien b{font-weight:600; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block}
+  .pastilla{
+    display:inline-flex; align-items:center; gap:7px; border:0; border-radius:var(--pill);
+    padding:9px 13px; font-size:12.5px; font-weight:500; background:var(--vidrio-fuerte); color:var(--tinta);
+    box-shadow:0 1px 2px rgba(47,63,50,.06); white-space:nowrap; min-height:40px;
   }
-  .brand b{
-    font-weight:700; letter-spacing:.13em; text-transform:uppercase; font-size:15px;
-    display:block; line-height:1.2; color:var(--crema);
-  }
-  .brand span{font-size:11.5px; color:var(--salvia-2); letter-spacing:.05em}
-  .header-actions{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
-
-  /* pestañas: una cápsula flotante, no una franja pegada */
-  nav{
-    display:flex; gap:3px; max-width:1120px; margin:0 auto; padding:0 20px 14px;
-    overflow-x:auto; scrollbar-width:none;
-  }
-  nav::-webkit-scrollbar{display:none}
-  nav:after{content:""; flex:0 0 4px}
-  .tab{
-    background:var(--velo); border:1px solid transparent; color:var(--salvia);
-    padding:10px 18px; cursor:pointer; font-size:14.5px; font-weight:600; white-space:nowrap;
-    border-radius:var(--pill); letter-spacing:.03em;
-    transition:background .16s, color .16s, box-shadow .16s;
-  }
-  .tab:hover{background:var(--velo-2); color:var(--crema)}
-  .tab.active{
-    background:var(--crema); color:var(--verde); border-color:var(--crema);
-    box-shadow:0 4px 14px rgba(0,0,0,.35);
+  .pastilla i{width:8px; height:8px; border-radius:50%; background:var(--tenue-2); flex:0 0 auto}
+  .pastilla.ok i{background:var(--ok)}
+  .pastilla.pend i{background:var(--ambar)}
+  .pastilla.mal i{background:var(--arcilla)}
+  .pastilla.mal{color:var(--arcilla)}
+  .boton-redondo{
+    width:42px; height:42px; border-radius:50%; border:0; background:var(--vidrio-fuerte);
+    display:grid; place-items:center; font-size:20px; line-height:1; color:var(--bosque);
+    box-shadow:0 1px 2px rgba(47,63,50,.06); flex:0 0 auto;
   }
 
-  main{max-width:1120px; margin:0 auto; padding:26px 20px 90px}
-  .view{display:none; animation:entra .3s cubic-bezier(.2,.7,.3,1)}
-  .view.active{display:block}
-  @keyframes entra{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
-
-  /* ============================================================ títulos sobre el verde */
-  .view-head{margin:0 0 22px}
-  .view-head h2{
-    margin:0; font-size:32px; font-weight:600; letter-spacing:.005em; color:var(--crema); line-height:1.12;
+  /* pestañas: un control segmentado, no una fila de botones */
+  .segmentos{
+    max-width:720px; margin:10px auto 0; display:flex; padding:4px; gap:4px;
+    border-radius:var(--pill); background:var(--relleno);
   }
-  .view-head p{margin:9px 0 0; color:var(--salvia); font-size:14px; max-width:72ch; line-height:1.6}
-  .section-title{
-    font-size:13px; font-weight:600; margin:32px 0 14px; color:var(--salvia);
-    text-transform:uppercase; letter-spacing:.14em;
-    display:flex; align-items:center; gap:11px;
+  .segmentos[hidden]{display:none}
+  .seg{
+    flex:1; border:0; background:transparent; border-radius:var(--pill); padding:9px 6px; white-space:nowrap;
+    font-size:14px; font-weight:500; color:var(--tenue); min-height:40px; transition:background .18s,color .18s,box-shadow .18s;
   }
-  .section-title:after{content:""; flex:1; height:1px; background:rgba(247,243,234,.13)}
-  .card .section-title, .item .section-title{color:var(--verde-claro)}
-  .card .section-title:after, .item .section-title:after{background:var(--linea)}
+  .seg.activo{background:var(--papel); color:var(--bosque); font-weight:600; box-shadow:0 2px 8px rgba(47,63,50,.12)}
+  .seg .cuenta{display:inline-grid; place-items:center; min-width:18px; height:18px; padding:0 5px; margin-left:5px; border-radius:9px; background:var(--ambar); color:var(--tinta); font-size:11px; font-weight:600}
 
-  .hint{font-size:12.5px; color:var(--salvia-2); line-height:1.6}
-  .card .hint, .item .hint, .login-box .hint, .modal-box .hint, .empty .hint, .table-wrap .hint{color:var(--tinta-3)}
-  .req{color:var(--ambar)}
-  .card .req, .item .req{color:var(--bad)}
+  main{max-width:720px; margin:0 auto; padding:14px 16px 140px}
+  .vista{display:none; animation:entra .28s cubic-bezier(.2,.7,.3,1)}
+  .vista.activa{display:block}
+  @keyframes entra{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+  /* ============================================================ bloques del registro */
+  .bloque{border-radius:var(--r); padding:18px; margin-bottom:14px}
+  .bloque-cab{display:flex; align-items:baseline; gap:10px; margin:0 0 12px}
+  .bloque-cab h2{font-size:21px; color:var(--bosque)}
+  .bloque-cab .paso{font-size:12px; font-weight:600; color:var(--tenue-2); letter-spacing:.06em}
+  .bloque-cab .derecha{margin-left:auto}
+  .nota{font-size:13px; color:var(--tenue); line-height:1.5; margin:0}
+  .nota b{color:var(--tinta); font-weight:600}
+
+  /* campos: rellenos suaves en vez de bordes */
+  .campo{display:block; margin-bottom:12px}
+  .campo:last-child{margin-bottom:0}
+  .campo > span{display:block; font-size:12.5px; font-weight:500; color:var(--tenue); margin:0 0 6px 4px}
+  input,select,textarea{
+    width:100%; border:0; border-radius:var(--r-sm); background:var(--relleno);
+    padding:13px 15px; font-size:16px; color:var(--tinta); min-height:50px; transition:background .15s, box-shadow .15s;
+  }
+  select{appearance:none; -webkit-appearance:none; padding-right:42px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%232f3f32' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 16px center}
+  input:focus,select:focus,textarea:focus{outline:none; background-color:var(--papel); box-shadow:0 0 0 2.5px var(--ambar)}
+  textarea{resize:vertical; min-height:80px}
+  input[type=file]{font-size:13px; padding:12px}
+  .dos{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .dos .campo{margin-bottom:0}
 
   /* ============================================================ botones */
-  button.btn, a.btn{
-    font-family:'Poppins'; font-size:14px; font-weight:600; border-radius:var(--r-sm);
-    padding:11px 17px; cursor:pointer; border:1px solid transparent;
-    display:inline-flex; align-items:center; gap:8px; text-decoration:none; line-height:1;
-    transition:background .16s, border-color .16s, box-shadow .16s, transform .07s, color .16s;
+  .btn{
+    border:0; border-radius:var(--r-sm); padding:13px 18px; font-size:15px; font-weight:600;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px;
+    background:var(--bosque); color:#fff; text-decoration:none; transition:transform .08s, background .15s, opacity .15s;
   }
-  button.btn:active, a.btn:active{transform:translateY(1px)}
-  .btn-primary{
-    background:var(--ambar); color:var(--noche); border-color:var(--ambar);
-    box-shadow:0 3px 12px rgba(234,178,89,.3);
-  }
-  .btn-primary:hover{background:#f2c073; border-color:#f2c073; box-shadow:0 6px 20px rgba(234,178,89,.4)}
-  .btn-lg{padding:15px 28px; font-size:16px; border-radius:var(--r-md); letter-spacing:.01em}
-  .btn-ghost{background:var(--velo); color:var(--crema); border-color:var(--borde-velo)}
-  .btn-ghost:hover{background:var(--velo-2); border-color:rgba(247,243,234,.28)}
-  .btn-soft{background:#fff; color:var(--verde); border-color:var(--linea); box-shadow:var(--sh-baja)}
-  .btn-soft:hover{border-color:var(--verde-claro); background:#fff}
-  main > .form-actions .btn-soft, .filter-bar .btn-soft{box-shadow:var(--sh)}
-  .btn-sm{padding:8px 13px; font-size:13px}
-  .btn-danger{
-    background:transparent; border:1px solid transparent; color:var(--bad);
-    padding:8px; cursor:pointer; border-radius:var(--r-sm); font-size:16px; line-height:1;
-  }
-  .btn-danger:hover{background:rgba(176,74,53,.12)}
-  .btn-icon{background:transparent; border:none; color:var(--verde-claro); cursor:pointer; padding:8px; border-radius:var(--r-sm); font-size:15px}
-  .btn-icon:hover{background:var(--crema-2)}
+  .btn:active{transform:scale(.98)}
+  .btn:disabled{opacity:.4; cursor:not-allowed}
+  .btn-ambar{background:var(--ambar); color:var(--tinta)}
+  .btn-suave{background:var(--relleno); color:var(--bosque)}
+  .btn-suave:hover{background:var(--relleno-2)}
+  .btn-peligro{background:var(--arcilla-claro); color:var(--arcilla)}
+  .btn-texto{background:transparent; color:var(--bosque); padding:10px 6px; min-height:44px; font-weight:600}
+  .btn-chico{padding:9px 14px; font-size:13.5px; min-height:40px; border-radius:12px}
+  .btn-ancho{width:100%}
 
-  /* ============================================================ tarjetas: islas claras */
-  .card, .item, .table-wrap, .empty, .login-box, .modal-box{
-    background:var(--crema); color:var(--tinta);
+  /* ============================================================ listas sin bordes */
+  .lista-filas{border-radius:var(--r-md); background:var(--vidrio-fuerte); overflow:hidden}
+  .fila{
+    position:relative; display:flex; align-items:center; gap:12px; width:100%;
+    padding:13px 16px; min-height:54px; border:0; background:transparent; text-align:left;
   }
-  .card{border:none; border-radius:var(--r); padding:22px; box-shadow:var(--sh); margin-bottom:18px}
-  .list{display:grid; gap:13px}
-  .item{border:none; border-radius:var(--r-md); padding:16px 18px; box-shadow:var(--sh)}
-  .item-top{display:flex; align-items:flex-start; gap:10px}
-  .item-top h3{margin:0; font-size:17px; color:var(--verde); font-weight:600; flex:1}
-  .item-meta{display:flex; flex-wrap:wrap; gap:5px 16px; margin-top:9px; font-size:13px; color:var(--tinta-2)}
-  .item-meta b{color:var(--tinta); font-weight:600}
-  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:11px}
-  .chip{
-    background:var(--crema-2); border:1px solid var(--crema-3); border-radius:var(--pill);
-    padding:4px 12px; font-size:12px; color:var(--verde); font-weight:500;
+  .fila + .fila::before{content:""; position:absolute; top:0; left:16px; right:0; height:1px; background:var(--hilo)}
+  .fila-txt{flex:1; min-width:0}
+  .fila-txt b{display:block; font-weight:500; font-size:15px}
+  .fila-txt small{display:block; color:var(--tenue); font-size:12.5px; margin-top:1px}
+  button.fila:active{background:var(--relleno)}
+  .marca-check{
+    width:24px; height:24px; border-radius:50%; flex:0 0 auto; display:grid; place-items:center;
+    background:var(--relleno-2); color:transparent; font-size:14px; font-weight:700; transition:background .15s,color .15s;
   }
-  .chip.amber{background:var(--ambar-l); border-color:#e6cd9c; color:var(--ambar-txt)}
-  .chip.slate{background:#e3ecf1; border-color:#c6d8e0; color:var(--pizarra)}
-  .chip.green{background:#e2efe5; border-color:#bdd8c4; color:var(--ok)}
-  .tag-grupo{
-    font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:var(--oliva);
-    font-weight:700; display:block;
+  .fila.on .marca-check{background:var(--bosque); color:var(--ambar)}
+  .grupo-lbl{font-size:12px; font-weight:600; color:var(--tenue-2); letter-spacing:.05em; margin:14px 0 6px 6px}
+  .grupo-lbl:first-child{margin-top:0}
+
+  /* ============================================================ actividades */
+  .elegidas{display:flex; flex-wrap:wrap; gap:8px}
+  .ficha{
+    display:inline-flex; align-items:center; gap:8px; border:0; border-radius:var(--pill);
+    background:var(--bosque); color:#fff; padding:10px 14px; font-size:14px; font-weight:500; min-height:42px;
+  }
+  .ficha span{opacity:.6; font-size:12px}
+  .plegar{display:flex; justify-content:center; margin-top:10px}
+
+  /* ============================================================ insumos */
+  .ins-fila{display:flex; align-items:center; gap:12px; padding:10px 16px; min-height:60px; position:relative}
+  .ins-fila + .ins-fila::before{content:""; position:absolute; top:0; left:16px; right:0; height:1px; background:var(--hilo)}
+  .ins-fila .fila-txt b{font-size:14.5px}
+  .ins-cant{display:flex; align-items:center; gap:6px; flex:0 0 auto}
+  .ins-cant input{width:84px; min-height:44px; padding:10px; text-align:center; font-size:16px; border-radius:12px}
+  .ins-cant input:not(:placeholder-shown){background:var(--ambar-claro); font-weight:600}
+  .ins-cant em{font-style:normal; font-size:12px; color:var(--tenue); width:46px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .ins-otro{padding:12px 16px; display:grid; gap:8px; position:relative}
+  .ins-otro + .ins-otro::before, .ins-fila + .ins-otro::before, .ins-otro + .ins-fila::before{content:""; position:absolute; top:0; left:16px; right:0; height:1px; background:var(--hilo)}
+  .ins-otro .fila-sup{display:flex; gap:8px; align-items:center}
+  .ins-otro .fila-sup select{flex:1}
+  .quitar{width:44px; height:44px; border-radius:50%; border:0; background:transparent; color:var(--arcilla); font-size:18px; flex:0 0 auto}
+  .vacio-suave{padding:16px; color:var(--tenue); font-size:13.5px; text-align:center}
+
+  /* ============================================================ aviso de núcleos */
+  .aviso-nuc{
+    margin-top:10px; border-radius:var(--r-sm); padding:11px 14px; font-size:13.5px; line-height:1.45;
+    background:var(--ambar-claro); color:var(--ambar-txt); display:flex; gap:10px; align-items:flex-start;
+  }
+  .aviso-nuc b{font-weight:600}
+  .aviso-nuc[hidden]{display:none}
+  .aviso-nuc .ico{font-size:16px; line-height:1.3}
+
+  /* ============================================================ barra de guardar */
+  .barra-guardar{
+    position:fixed; left:0; right:0; bottom:0; z-index:25;
+    padding:10px 16px calc(12px + env(safe-area-inset-bottom));
+    background:rgba(239,233,219,.78);
+    backdrop-filter:blur(22px) saturate(160%); -webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:0 -10px 30px rgba(47,63,50,.08);
+  }
+  .barra-guardar[hidden]{display:none}
+  .barra-in{max-width:720px; margin:0 auto; display:flex; align-items:center; gap:12px}
+  .barra-in .resumen{flex:1; min-width:0; font-size:13px; color:var(--tenue); line-height:1.35}
+  .barra-in .resumen b{color:var(--tinta); font-weight:600; display:block; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .barra-in .btn{min-width:132px}
+
+  /* ============================================================ lo registrado */
+  .dia{font-size:12.5px; font-weight:600; color:var(--tenue-2); letter-spacing:.04em; margin:18px 0 7px 6px; text-transform:capitalize}
+  .dia:first-child{margin-top:4px}
+  .reg-cab{align-items:flex-start}
+  .reg-cab .punto{width:9px; height:9px; border-radius:50%; background:var(--ok); margin-top:7px; flex:0 0 auto}
+  .reg-cab .punto.pend{background:var(--ambar)}
+  .reg-cab .punto.mal{background:var(--arcilla)}
+  .reg-det{padding:0 16px 16px 37px; font-size:13.5px; color:var(--tenue); display:grid; gap:6px}
+  .reg-det b{color:var(--tinta); font-weight:500}
+  .reg-det .botones{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap}
+  .flecha{color:var(--tenue-2); transition:transform .2s; font-size:14px; margin-top:3px}
+  .abierto .flecha{transform:rotate(90deg)}
+
+  /* ============================================================ hojas (menú, confirmaciones) */
+  .velo{
+    position:fixed; inset:0; z-index:90; display:none; align-items:flex-end; justify-content:center;
+    background:rgba(30,26,24,.28); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .velo.abierta{display:flex; animation:aparece .2s ease}
+  @keyframes aparece{from{opacity:0}to{opacity:1}}
+  .hoja{
+    width:100%; max-width:560px; max-height:88vh; overflow:auto;
+    border-radius:28px 28px 0 0; padding:10px 18px calc(20px + env(safe-area-inset-bottom));
+    background:rgba(251,248,241,.9);
+    backdrop-filter:blur(26px) saturate(170%); -webkit-backdrop-filter:blur(26px) saturate(170%);
+    box-shadow:var(--sombra-alta); animation:sube .26s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes sube{from{transform:translateY(40px)}to{transform:none}}
+  .hoja::before{content:""; display:block; width:40px; height:5px; border-radius:3px; background:var(--relleno-2); margin:0 auto 14px}
+  .hoja h2{font-size:22px; color:var(--bosque); margin-bottom:6px}
+  .hoja .acciones{display:grid; gap:8px; margin-top:16px}
+  @media (min-width:700px){
+    .velo{align-items:center}
+    .hoja{border-radius:28px; margin:16px}
   }
 
-  /* ============================================================ pasos del formulario */
-  .paso{padding:22px}
-  .paso-head{display:flex; align-items:flex-start; gap:14px; margin:0 0 20px; padding-bottom:16px; border-bottom:1px solid var(--linea)}
-  .paso-n{
-    flex:0 0 auto; width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
-    background:var(--verde); color:var(--ambar); font-weight:700; font-size:17px; line-height:1;
+  .toast{
+    position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom)); z-index:95;
+    transform:translate(-50%,20px); opacity:0; pointer-events:none;
+    background:var(--bosque); color:#fff; border-radius:var(--pill); padding:12px 20px; font-size:14px; font-weight:500;
+    box-shadow:var(--sombra-alta); transition:opacity .22s, transform .22s; max-width:calc(100% - 32px); text-align:center;
   }
-  .paso-head h3{margin:0; font-size:20px; color:var(--verde); font-weight:600; letter-spacing:.005em; line-height:1.25}
-  .paso-head p{margin:5px 0 0; font-size:13px; color:var(--tinta-2); line-height:1.55}
-  .editando{
-    background:var(--ambar); color:var(--noche); border-radius:var(--r-sm);
-    padding:13px 17px; font-size:13.5px; font-weight:600; margin-bottom:16px; box-shadow:var(--sh);
-  }
+  .toast.ver{opacity:1; transform:translate(-50%,0)}
 
-  /* ============================================================ formularios */
-  .grid-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px}
-  label{display:block; font-size:12px; font-weight:600; color:var(--verde-claro); margin-bottom:7px; letter-spacing:.06em; text-transform:uppercase}
-  .filter-bar label{color:var(--salvia); text-transform:none; letter-spacing:.02em; font-size:13px}
-  .card .filter-bar label, .item .filter-bar label{color:var(--verde-claro)}
-  input,select,textarea{
-    width:100%; font-family:'Poppins'; font-size:15px; padding:12px 14px;
-    border:1.5px solid var(--linea); border-radius:var(--r-sm); background:#fff; color:var(--tinta);
-    transition:border-color .16s, box-shadow .16s;
-  }
-  input:hover,select:hover,textarea:hover{border-color:var(--crema-3)}
-  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--ambar-d); box-shadow:var(--anillo)}
-  textarea{resize:vertical; min-height:48px}
-  input[type=file]{padding:10px; font-size:13px; background:var(--crema-2); cursor:pointer; border-style:dashed}
-  .form-actions{display:flex; gap:11px; margin-top:18px; flex-wrap:wrap; align-items:center}
-  .derived{
-    background:var(--verde); color:var(--crema); border-radius:var(--r-sm);
-    padding:14px 16px; font-size:13px; display:flex; flex-wrap:wrap; gap:8px 22px; line-height:1.6;
-  }
-  .derived b{font-family:'Josefin Sans'; font-size:17px; color:var(--ambar); font-weight:700}
-  .derived span{color:var(--salvia)}
+  .banda{border-radius:var(--r-md); padding:14px 16px; margin-bottom:14px; font-size:14px; line-height:1.5}
+  .banda.ambar{background:var(--ambar-claro); color:var(--ambar-txt)}
+  .banda.roja{background:var(--arcilla-claro); color:var(--arcilla)}
+  .banda.verde{background:var(--salvia); color:var(--bosque)}
+  .banda form{display:flex; gap:8px; margin-top:10px}
+  .banda form input{background:rgba(255,255,255,.7)}
 
-  /* --------------------------------------- lo que se lleva seleccionado */
-  .sel-resumen{
-    display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-top:14px; padding:13px 15px;
-    background:var(--crema-2); border-radius:var(--r-sm); min-height:50px;
+  /* ============================================================ entrada */
+  #login{
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    padding:24px 18px; overflow:auto;
+    background:
+      radial-gradient(620px 460px at -8% -6%, rgba(160,189,160,.55), transparent 70%),
+      radial-gradient(520px 420px at 108% 12%, rgba(241,206,140,.50), transparent 70%),
+      radial-gradient(700px 520px at 50% 118%, rgba(185,205,180,.45), transparent 70%),
+      var(--hueso);
   }
-  .sel-n{
-    background:var(--verde); color:var(--ambar); border-radius:var(--pill); padding:3px 13px;
-    font-weight:700; font-size:16px; line-height:1.4;
-  }
-  .sel-txt{font-size:12px; color:var(--tinta-2); font-weight:600; margin-right:4px; text-transform:uppercase; letter-spacing:.06em}
-  .sel-rangos{font-size:14px; color:var(--verde); font-weight:600}
-  .sel-chip{
-    background:var(--verde); color:var(--crema); border:none; border-radius:var(--pill);
-    padding:6px 12px; font-family:'Poppins'; font-size:13px; font-weight:600; cursor:pointer;
-    line-height:1; display:inline-flex; align-items:center; gap:7px; transition:background .14s;
-  }
-  .sel-chip span{color:var(--salvia-2); font-size:11px}
-  .sel-chip:hover{background:var(--bad)}
-  .sel-chip:hover span{color:#fff}
-  .sel-vacio{font-size:13px; color:var(--bad); font-weight:600}
+  .login-caja{width:100%; max-width:420px; border-radius:30px; padding:30px 22px 24px}
+  .login-caja .marca{width:54px; height:54px; font-size:28px; border-radius:17px; margin-bottom:18px}
+  .login-caja h1{font-size:28px; color:var(--bosque)}
+  .login-caja .sub{color:var(--tenue); font-size:14px; margin:8px 0 20px; line-height:1.55}
+  .login-caja form{display:grid; gap:10px; margin-top:14px}
+  .login-msg{font-size:13.5px; color:var(--arcilla); min-height:1.2em}
 
-  /* --------------------------------------- actividades */
-  .act-grupo{margin-bottom:18px}
-  .act-grupo:last-child{margin-bottom:0}
-  .act-grupo-lbl{font-size:10px; text-transform:uppercase; letter-spacing:.15em; color:var(--oliva); font-weight:700; margin-bottom:9px}
-  .act-chips{display:flex; flex-wrap:wrap; gap:9px}
-  .act{
-    min-height:48px; padding:11px 17px; border:1.5px solid var(--linea); border-radius:var(--r-sm);
-    background:#fff; color:var(--tinta); font-family:'Poppins'; font-size:14px; font-weight:600;
-    cursor:pointer; -webkit-tap-highlight-color:transparent;
-    transition:background .15s, color .15s, border-color .15s, box-shadow .15s;
-    display:inline-flex; align-items:center; gap:10px; text-align:left;
-  }
-  .act:before{
-    content:""; width:18px; height:18px; border-radius:6px; border:2px solid var(--crema-3);
-    flex:0 0 auto; transition:background .15s, border-color .15s, box-shadow .15s;
-  }
-  .act:hover{border-color:var(--verde-claro)}
-  .act:active{transform:scale(.975)}
-  .act.on{background:var(--verde); border-color:var(--verde); color:var(--crema); box-shadow:0 4px 14px rgba(47,63,50,.3)}
-  .act.on:before{background:var(--ambar); border-color:var(--ambar); box-shadow:inset 0 0 0 2px var(--verde)}
-
-  /* ============================================================ mapa */
-  .nuc-picker{border-radius:var(--r-md); background:var(--crema-2); padding:12px}
-  .nuc-bar{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:12px}
-  .nuc-bar .nuc-info{font-size:12px; color:var(--tinta-2); font-weight:600; margin-right:auto; text-transform:uppercase; letter-spacing:.06em}
-  .nuc-grid{
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(52px,1fr)); gap:8px;
-    max-height:270px; overflow-y:auto; padding:13px 3px 3px; margin-top:5px; border-top:1px solid var(--crema-3);
-  }
-  .nuc-btn{
-    min-height:48px; padding:4px 2px; border:1.5px solid var(--linea); border-radius:var(--r-sm);
-    background:#fff; color:var(--tinta); font-weight:700; font-size:16px; line-height:1;
-    cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background .12s, color .12s;
-  }
-  .nuc-btn:active{transform:scale(.93)}
-  .nuc-btn.on{background:var(--verde); border-color:var(--verde); color:var(--ambar)}
-
-  .nuc-map{border-radius:var(--r-sm); overflow:hidden; background:#dfe0d4}
+  /* ============================================================ mapa (dibujado con SVG, sin internet) */
+  .nuc-picker{margin-top:12px}
+  .nuc-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:10px}
+  .nuc-bar .nuc-info{font-size:12.5px; color:var(--tenue); margin-right:auto}
+  .nuc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(54px,1fr)); gap:8px; max-height:290px; overflow-y:auto; padding:12px 2px 2px}
+  .nuc-btn{min-height:50px; border:0; border-radius:12px; background:var(--relleno); font-weight:600; font-size:17px}
+  .nuc-btn.on{background:var(--bosque); color:var(--ambar)}
+  .nuc-map{border-radius:var(--r-md); overflow:hidden; background:#e4e6da}
   .nuc-scroll{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y pinch-zoom; scrollbar-width:thin}
   .nuc-map svg{display:block; width:100%; height:auto}
   .nuc-map.arrastrable .nuc-scroll{cursor:grab}
-  .nuc-map.arrastrable .nuc-scroll:active{cursor:grabbing}
-  .nuc-map .area{fill:#b9c6bb; fill-opacity:.55; stroke:#7d907f; stroke-width:1.3; stroke-dasharray:6 4}
-  .nuc-map .nuc{fill:#fdfcf7; fill-opacity:.97; stroke:var(--verde); stroke-width:1.6; cursor:pointer; transition:fill .12s}
-  .nuc-map .nuc:hover{fill:var(--ambar-l)}
-  .nuc-map .nuc.on{fill:var(--ambar); fill-opacity:1; stroke:var(--verde); stroke-width:2.6}
-  .nuc-map .nuc-lbl{
-    font-family:'Josefin Sans',sans-serif; font-weight:700; text-anchor:middle;
-    dominant-baseline:central; fill:var(--verde); pointer-events:none; letter-spacing:-.02em;
-  }
-  .nuc-map .nuc-lbl.on{fill:var(--noche)}
-  .nuc-map .yo{fill:var(--pizarra); stroke:#fff; stroke-width:2.5}
-  .nuc-map .cap{font-family:'Josefin Sans'; font-size:11px; fill:#5c6a5e}
-  .nuc-msg{
-    padding:11px 13px; font-size:12px; color:var(--tinta-2); line-height:1.55;
-    background:var(--crema); border-top:1px solid var(--crema-3);
-    display:flex; align-items:center; gap:11px; flex-wrap:wrap;
-  }
-  .nuc-msg:only-child{display:block; text-align:center; padding:16px; border-top:none}
-  .nuc-leyenda{display:flex; flex-wrap:wrap; gap:6px 15px; align-items:center}
-  .nuc-leyenda span{display:inline-flex; align-items:center; gap:7px}
-  .nuc-leyenda .lg{width:13px; height:13px; border-radius:50%; display:inline-block; flex:0 0 auto}
-  .lg-off{background:#fdfcf7; border:1.5px solid var(--verde)}
-  .lg-on{background:var(--ambar); border:1.5px solid var(--verde)}
-  .lg-area{background:#b9c6bb; border:1.5px dashed #7d907f; border-radius:3px}
-  .nuc-acciones{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto}
-  .zoom-ctl{display:inline-flex; align-items:center; background:#fff; border:1.5px solid var(--linea); border-radius:var(--pill); overflow:hidden}
-  .zoom-ctl button{
-    width:40px; height:38px; border:none; background:none; cursor:pointer; color:var(--verde);
-    font-size:19px; font-weight:700; line-height:1; font-family:'Poppins';
-  }
-  .zoom-ctl button:hover{background:var(--ambar-l)}
-  .zoom-nivel{font-size:11.5px; color:var(--tinta-2); min-width:42px; text-align:center; font-variant-numeric:tabular-nums}
+  .nuc-map .area{fill:#c3d0c2; fill-opacity:.6; stroke:#87998a; stroke-width:1.3; stroke-dasharray:6 4}
+  .nuc-map .nuc{fill:#fdfcf7; stroke:var(--bosque); stroke-width:1.6; cursor:pointer; transition:fill .12s}
+  .nuc-map .nuc.on{fill:var(--ambar); stroke:var(--bosque); stroke-width:2.6}
+  .nuc-map .nuc-lbl{font-family:'Poppins',sans-serif; font-weight:600; text-anchor:middle; dominant-baseline:central; fill:var(--bosque); pointer-events:none}
+  .nuc-map .nuc-lbl.on{fill:var(--tinta)}
+  .nuc-map .yo{fill:#365468; stroke:#fff; stroke-width:2.5}
+  .nuc-map .cap{font-family:'Poppins',sans-serif; font-size:11px; fill:#5c6a5e}
+  .nuc-msg{padding:10px 12px; font-size:12px; color:var(--tenue); background:rgba(255,253,248,.7); display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .nuc-msg:only-child{display:block; text-align:center; padding:16px}
+  .nuc-leyenda{display:flex; flex-wrap:wrap; gap:5px 14px; align-items:center}
+  .nuc-leyenda span{display:inline-flex; align-items:center; gap:6px}
+  .nuc-leyenda .lg{width:12px; height:12px; border-radius:50%; display:inline-block}
+  .lg-off{background:#fdfcf7; border:1.5px solid var(--bosque)}
+  .lg-on{background:var(--ambar); border:1.5px solid var(--bosque)}
+  .lg-area{background:#c3d0c2; border:1.5px dashed #87998a; border-radius:3px!important}
+  .nuc-acciones{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-left:auto}
+  .zoom-ctl{display:inline-flex; align-items:center; background:var(--papel); border-radius:var(--pill); overflow:hidden}
+  .zoom-ctl button{width:40px; height:38px; border:0; background:none; color:var(--bosque); font-size:19px; font-weight:600}
+  .zoom-nivel{font-size:11.5px; color:var(--tenue); min-width:40px; text-align:center; font-variant-numeric:tabular-nums}
 
-  /* ============================================================ insumos del registro */
-  .ins-row{display:grid; grid-template-columns:1.6fr .8fr .9fr 1fr auto; gap:10px; margin-bottom:10px; align-items:end}
-  .ins-row .mini-lbl{display:none}
-
-  /* ============================================================ lista desplegable */
-  .item-desplegable{padding:0; overflow:hidden; transition:box-shadow .18s, transform .1s}
-  .item-desplegable:hover{box-shadow:var(--sh-alta); transform:translateY(-1px)}
-  .item-desplegable.abierto{box-shadow:var(--sh-alta)}
-  .item-desplegable.en-edicion{box-shadow:0 0 0 2.5px var(--ambar), var(--sh-alta)}
-  .item-cab{
-    display:flex; align-items:flex-start; gap:12px; width:100%; text-align:left; padding:16px 18px;
-    background:none; border:none; cursor:pointer; font-family:'Poppins'; color:inherit;
-  }
-  .item-flecha{color:var(--verde-claro); font-size:16px; line-height:1.5; transition:transform .2s ease; flex:0 0 auto}
-  .item-desplegable.abierto .item-flecha{transform:rotate(90deg)}
-  .item-cab-txt{flex:1; min-width:0}
-  .item-acts{display:flex; flex-wrap:wrap; gap:6px; margin:7px 0 3px}
-  .act-chip{background:var(--verde); border-color:var(--verde); color:var(--crema); font-weight:600}
-  .item-detalle{padding:15px 18px 18px; border-top:1px solid var(--linea); animation:entra .22s ease}
-
-  /* ============================================================ resumen: paneles sobre el verde */
-  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr)); gap:13px; margin-bottom:8px}
-  .stat{
-    background:var(--velo); border:1px solid var(--borde-velo); border-radius:var(--r-md);
-    padding:17px 18px 16px;
-  }
-  .stat .stat-num{font-size:29px; font-weight:700; line-height:1.1; color:var(--crema); letter-spacing:.005em}
-  .stat .stat-lbl{font-size:11.5px; color:var(--salvia-2); margin-top:6px; text-transform:uppercase; letter-spacing:.09em}
-  .stat.amber{background:linear-gradient(155deg,rgba(234,178,89,.22),rgba(234,178,89,.08)); border-color:rgba(234,178,89,.42)}
-  .stat.amber .stat-num{color:var(--ambar); font-size:26px}
-  .stat.amber .stat-lbl{color:#d6bd8d}
-
-  .table-wrap{overflow-x:auto; border-radius:var(--r-md); box-shadow:var(--sh)}
-  table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px}
-  th,td{padding:12px 15px; text-align:left; border-bottom:1px solid var(--linea-2); white-space:nowrap; color:var(--tinta)}
-  th{
-    background:var(--verde); color:var(--crema); font-weight:600; font-size:11px;
-    text-transform:uppercase; letter-spacing:.1em; position:sticky; top:0; border-bottom:none;
-  }
-  td.num,th.num{text-align:right; font-variant-numeric:tabular-nums}
-  tbody tr:nth-child(even){background:rgba(236,230,216,.45)}
-  tbody tr:hover{background:var(--ambar-l)}
-  tfoot td{font-weight:700; background:var(--crema-2); border-top:2px solid var(--verde-claro); border-bottom:none}
-  .marca-reparto{color:var(--ambar-txt); font-weight:700; cursor:help}
-
-  .empty{
-    text-align:center; padding:48px 22px; color:var(--tinta-3);
-    border-radius:var(--r-md); box-shadow:var(--sh);
-  }
-  .empty .big{font-size:46px; margin-bottom:12px; opacity:.75}
-  .empty b{color:var(--verde); font-size:17px; display:block; margin-bottom:5px; font-family:'Josefin Sans'}
-  .empty p{margin:0; font-size:13px}
-  .filter-bar{display:flex; gap:11px; align-items:center; flex-wrap:wrap; margin-bottom:16px}
-  .filter-bar label{margin:0; display:inline}
-  .filter-bar select{width:auto; min-width:200px; box-shadow:var(--sh)}
-  .card .filter-bar select, .item .filter-bar select{box-shadow:none}
-  .banner{
-    background:var(--ambar-l); border:1px solid #e6cd9c; color:var(--ambar-txt);
-    border-radius:var(--r-sm); padding:13px 16px; font-size:13px; margin-bottom:16px; line-height:1.55;
-  }
-  footer{text-align:center; color:var(--salvia-2); font-size:12px; padding:34px 20px; line-height:1.8}
-
-  /* ============================================================ monitoreo */
-  .opt-row{display:flex; gap:9px; flex-wrap:wrap}
-  .opt{
-    flex:1 1 96px; min-height:48px; padding:10px 12px; border:1.5px solid var(--linea);
-    border-radius:var(--r-sm); background:#fff; color:var(--tinta); font-family:'Poppins';
-    font-size:14px; font-weight:600; cursor:pointer; -webkit-tap-highlight-color:transparent;
-  }
-  .opt:active{transform:scale(.96)}
-  .opt.on{background:var(--verde); border-color:var(--verde); color:var(--crema)}
-  .opt.on.bueno{background:var(--ok); border-color:var(--ok)}
-  .opt.on.regular{background:var(--ambar); border-color:var(--ambar-d); color:var(--noche)}
-  .opt.on.muerto{background:var(--bad); border-color:var(--bad)}
+  /* ============================================================ monitoreo (reusa estas clases) */
+  .card{border-radius:var(--r); padding:18px; margin-bottom:14px}
+  .grid-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px}
+  label{display:block; font-size:12.5px; font-weight:500; color:var(--tenue); margin:0 0 6px 4px}
+  .hint{font-size:12.5px; color:var(--tenue)}
+  .req{color:var(--arcilla)}
+  .opt-row{display:flex; gap:8px; flex-wrap:wrap}
+  .opt{flex:1 1 90px; min-height:48px; border:0; border-radius:var(--r-sm); background:var(--relleno); font-size:14px; font-weight:500}
+  .opt.on{background:var(--bosque); color:#fff}
+  .opt.on.bueno{background:var(--ok)}
+  .opt.on.regular{background:var(--ambar); color:var(--tinta)}
+  .opt.on.muerto{background:var(--arcilla)}
   .opt-row.tres .opt{flex:1 1 0; min-width:0}
-  .foto-box{display:flex; gap:13px; align-items:flex-start; flex-wrap:wrap}
-  .foto-prev{width:120px; height:120px; border-radius:var(--r-sm); border:1px solid var(--linea); object-fit:cover; background:var(--crema-2)}
-  .foto-mini{width:64px; height:64px; border-radius:var(--r-sm); border:1px solid var(--linea); object-fit:cover; cursor:pointer}
-  .est-pill{display:inline-block; border-radius:var(--pill); padding:4px 12px; font-size:12px; font-weight:600}
-  .est-bueno{background:#e2efe5; border:1px solid #bdd8c4; color:var(--ok)}
-  .est-regular{background:var(--ambar-l); border:1px solid #e6cd9c; color:var(--ambar-txt)}
-  .est-muerto{background:#f6e0dc; border:1px solid #e2bcb2; color:var(--bad)}
+  .foto-box{display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap}
+  .foto-prev{width:110px; height:110px; border-radius:var(--r-sm); object-fit:cover}
+  .derived{border-radius:var(--r-sm); background:var(--relleno); padding:12px 14px; font-size:13px; display:flex; flex-wrap:wrap; gap:6px 18px; color:var(--tenue)}
+  .derived b{color:var(--tinta); font-weight:600}
+  .form-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+  .btn-primary{background:var(--bosque); color:#fff}
+  .btn-soft{background:var(--relleno); color:var(--bosque)}
+  .btn-sm{padding:9px 14px; font-size:13.5px; min-height:40px; border-radius:12px}
+  .btn-icon,.btn-danger{width:40px; height:40px; border-radius:50%; border:0; background:transparent; font-size:16px; color:var(--bosque)}
+  .btn-danger{color:var(--arcilla)}
+  .section-title{font-size:12.5px; font-weight:600; color:var(--tenue-2); letter-spacing:.05em; margin:22px 0 8px 6px}
+  .filter-bar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:16px 0 4px}
+  .filter-bar label{margin:0}
+  .filter-bar select{width:auto; min-width:150px; flex:1}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin-top:6px}
+  .stat{border-radius:var(--r-sm); background:var(--vidrio-fuerte); padding:12px 14px}
+  .stat-num{font-family:'Fraunces',serif; font-size:24px; font-weight:600; color:var(--bosque)}
+  .stat-lbl{font-size:12px; color:var(--tenue)}
+  .list{display:grid; gap:8px}
+  .item{border-radius:var(--r-md); background:var(--vidrio-fuerte); padding:14px 16px}
+  .item-top{display:flex; align-items:flex-start; gap:8px}
+  .item-top h3{margin:0; font-size:16px; font-weight:600; flex:1}
+  .item-meta{display:flex; flex-wrap:wrap; gap:4px 14px; margin-top:6px; font-size:13px; color:var(--tenue)}
+  .tag-grupo{font-size:11.5px; color:var(--tenue-2); font-weight:500; display:block}
+  .est-pill{border-radius:var(--pill); padding:4px 11px; font-size:12px; font-weight:600}
+  .est-bueno{background:#e2efe5; color:var(--ok)}
+  .est-regular{background:var(--ambar-claro); color:var(--ambar-txt)}
+  .est-muerto{background:var(--arcilla-claro); color:var(--arcilla)}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+  .banner{border-radius:var(--r-sm); background:var(--ambar-claro); color:var(--ambar-txt); padding:12px 14px; font-size:13.5px; margin-bottom:12px}
+  .table-wrap{overflow-x:auto; border-radius:var(--r-md); background:var(--vidrio-fuerte)}
+  table{width:100%; border-collapse:collapse; font-size:13.5px}
+  th,td{padding:11px 14px; text-align:left; white-space:nowrap}
+  th{font-size:11.5px; font-weight:600; color:var(--tenue)}
+  td{border-top:1px solid var(--hilo)}
+  td.num,th.num{text-align:right; font-variant-numeric:tabular-nums}
+  .empty{border-radius:var(--r-md); background:var(--vidrio-fuerte); text-align:center; padding:30px 18px; color:var(--tenue)}
+  .empty .big{font-size:34px; margin-bottom:6px}
+  .empty b{display:block; color:var(--bosque); font-size:16px; margin-bottom:3px}
+  .empty p{margin:0; font-size:13px}
 
-  /* ============================================================ entrada por título */
-  #login{
-    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
-    padding:24px; overflow:auto;
-    background:
-      radial-gradient(900px 520px at 22% 0%, #33452f 0%, rgba(51,69,47,0) 62%),
-      linear-gradient(165deg,var(--noche-2),var(--noche));
-  }
-  .login-box{border-radius:24px; padding:34px 30px; max-width:470px; width:100%; box-shadow:0 30px 80px rgba(0,0,0,.55)}
-  .login-box .logo{width:56px; height:56px; font-size:29px; margin-bottom:20px; border-radius:18px}
-  .login-box h1{font-size:27px; color:var(--verde); margin:0 0 5px; font-weight:600; font-family:'Josefin Sans'}
-  .login-box .sub{color:var(--tinta-2); font-size:13.5px; margin:0 0 24px; line-height:1.6}
-  .login-users{display:grid; gap:11px}
-  .login-card{
-    display:flex; align-items:center; gap:16px; text-align:left; background:#fff;
-    border:1.5px solid var(--linea); border-radius:var(--r-md); padding:15px 16px; cursor:pointer;
-    font-family:'Poppins'; width:100%; transition:border-color .16s, box-shadow .16s, transform .1s;
-  }
-  .login-card:hover{border-color:var(--ambar-d); box-shadow:var(--anillo); transform:translateY(-2px)}
-  .login-avatar{
-    width:46px; height:46px; flex:0 0 auto; border-radius:15px;
-    background:var(--verde); color:var(--ambar);
-    display:grid; place-items:center; font-family:'Josefin Sans'; font-weight:700; font-size:22px;
-  }
-  .login-name{font-weight:700; color:var(--verde); font-size:17px; letter-spacing:.09em}
-  .login-rol{font-size:12.5px; color:var(--tinta-2); margin-top:2px}
-  .sesion-chip{
-    display:flex; align-items:center; gap:7px; background:var(--velo);
-    border:1px solid var(--borde-velo); color:var(--crema); border-radius:var(--pill);
-    padding:7px 15px; font-size:13px; white-space:nowrap;
-  }
-  .sesion-chip b{color:var(--ambar); letter-spacing:.06em}
-  /* Estado de la conexión con la base: un punto de color y la palabra. */
-  .sync-chip i{width:9px; height:9px; border-radius:50%; background:var(--salvia); display:inline-block; flex:0 0 auto}
-  .sync-chip.ok i{background:#7fc28f}
-  .sync-chip.pend i{background:var(--ambar)}
-  .sync-chip.mal i{background:#e07a62}
-  .sync-chip.mal{border-color:#e07a62}
-  .login-card.on{border-color:var(--ambar-d); box-shadow:var(--anillo)}
-  .login-form{display:grid; gap:10px; margin-top:20px}
-  .login-form label{margin:0}
-  .ins-dato{padding:12px 2px; font-size:14px; color:var(--tinta); min-height:46px}
-  .header-actions .btn.sync-chip span{display:inline; font-size:12px}
-  .badge{
-    display:inline-grid; place-items:center; min-width:19px; height:19px; padding:0 6px;
-    background:var(--ambar); color:var(--noche); border-radius:10px; font-size:11px;
-    font-weight:700; font-family:'Poppins'; vertical-align:middle;
-  }
-  .tab.active .badge{background:var(--bad); color:#fff}
+  [hidden]{display:none!important}
+  .reg{position:relative}
+  .reg + .reg::before{content:""; position:absolute; top:0; left:16px; right:0; height:1px; background:var(--hilo); z-index:1}
+  .reg .fila::before{display:none}
 
-  /* ============================================================ modal */
-  .modal-overlay{
-    position:fixed; inset:0; z-index:90; background:rgba(12,17,13,.72); display:none;
-    align-items:flex-start; justify-content:center; padding:26px 16px; overflow:auto;
-    backdrop-filter:blur(3px);
-  }
-  .modal-box{border-radius:20px; max-width:580px; width:100%; box-shadow:0 32px 90px rgba(0,0,0,.6); margin:auto; overflow:hidden}
-  .modal-head{
-    display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px 22px;
-    background:var(--verde); color:var(--crema);
-  }
-  .modal-head h3{margin:0; font-size:19px; color:var(--crema); font-family:'Josefin Sans'; font-weight:600}
-  .modal-x{background:none; border:none; font-size:21px; cursor:pointer; color:var(--salvia); line-height:1; padding:4px}
-  .modal-x:hover{color:var(--ambar)}
-  .modal-body{padding:22px}
-
-  /* ============================================================ celular */
-  @media (max-width:680px){
-    /* En el celular la cabecera completa se comia un tercio de la pantalla antes de
-       empezar el contenido. Con un `top` negativo del alto exacto de la cabecera, esta
-       se va con el scroll y quedan pegadas solo las pestanas. El alto lo mide
-       ajustarTopbar() y lo deja en --h-cabecera: escribirlo a mano aqui es justo el
-       error que habia antes. */
-    .topbar{top:calc(-1 * var(--h-cabecera, 118px))}
-    nav{padding:0 15px 11px}
-    header{padding:13px 15px 10px; gap:12px}
-    .logo{width:38px; height:38px; font-size:20px; border-radius:12px}
-    .brand b{font-size:13.5px; letter-spacing:.11em}
-    .brand span{font-size:10.5px}
-    .header-actions{gap:6px}
-    .header-actions .btn span{display:none}
-    .header-actions .btn{padding:10px 12px}
-    .sesion-chip{padding:7px 12px; font-size:12px}
-    .tab{padding:10px 15px; font-size:14px}
-    main{padding:20px 15px 80px}
-    .view-head h2{font-size:25px}
-    .view-head p{font-size:13.5px}
-    .card{padding:17px; border-radius:var(--r-md)}
-    .paso{padding:17px}
-    .paso-head{gap:12px; margin-bottom:17px; padding-bottom:14px}
-    .paso-n{width:31px; height:31px; font-size:16px}
-    .paso-head h3{font-size:18px}
-    .act{flex:1 1 calc(50% - 9px); min-height:50px; padding:11px 13px; font-size:13.5px}
-    .nuc-grid{grid-template-columns:repeat(auto-fill,minmax(56px,1fr)); max-height:310px}
-    .nuc-btn{min-height:52px; font-size:17px}
-    .nuc-bar .nuc-info{width:100%; margin-bottom:2px}
-    .nuc-leyenda{font-size:11.5px; gap:5px 12px}
-    .nuc-acciones{margin-left:0; width:100%; justify-content:space-between}
-    .opt{flex:1 1 calc(50% - 9px); min-height:52px}
-    .opt-row.tres .opt{flex:1 1 0; padding:9px 4px; font-size:13px}
-    .stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:11px}
-    .stat{padding:14px 15px}
-    .stat .stat-num{font-size:24px}
-    .stat.amber .stat-num{font-size:21px}
-    .ins-row{
-      grid-template-columns:1fr 1fr; gap:10px; padding:13px; border-radius:var(--r-sm);
-      background:var(--crema-2);
-    }
-    .ins-row .mini-lbl{display:block; font-size:10px; color:var(--oliva); font-weight:700; margin-bottom:4px; text-transform:uppercase; letter-spacing:.08em}
-    .ins-row .ins-rm{grid-column:1/-1}
-    .item-cab{padding:14px 15px}
-    .item-detalle{padding:14px 15px 16px}
-    .login-box{padding:26px 21px; border-radius:20px}
-    .btn-lg{width:100%; justify-content:center}
-    .section-title{margin:26px 0 12px}
+  @media (max-width:380px){
+    .bloque{padding:16px 14px}
+    .ins-cant input{width:70px}
+    .barra-in .btn{min-width:112px; padding:13px 14px}
   }
   @media (prefers-reduced-motion:reduce){
     *,*:before,*:after{animation-duration:.01ms!important; transition-duration:.01ms!important}
@@ -535,147 +389,81 @@
 </head>
 <body>
 <div id="login">
-  <div class="login-box">
-    <div class="logo">G</div>
-    <h1>Monitoreo de Siembra</h1>
-    <p class="sub">Entra con el título del trabajo que vas a hacer hoy y su clave, que la da la oficina. La primera vez se necesita señal; después la app funciona sin ella y envía lo registrado cuando vuelve.</p>
-    <div class="login-users" id="loginUsers"></div>
+  <div class="login-caja vidrio">
+    <div class="marca">G</div>
+    <h1>Registro de campo</h1>
+    <p class="sub">Elige tu título y escribe la clave que te dio la oficina. Entras una sola vez: la app te recuerda y funciona sin señal hasta que cierres sesión.</p>
+    <div class="lista-filas" id="loginUsers"></div>
     <div id="loginClave"></div>
   </div>
 </div>
-<!-- Cabecera y pestañas van en un mismo bloque pegajoso: antes eran dos franjas,
-     cada una con su `top` en píxeles escrito a mano, y bastaba cambiar el tamaño de
-     la letra para que se solaparan. -->
-<div class="topbar">
-  <header>
-    <div class="logo">G</div>
-    <div class="brand"><b>Monitoreo de Siembra</b><span>Amazonía Emprende · Caquetá</span></div>
-    <div class="header-actions">
-      <div id="sesionChip" class="sesion-chip"></div>
-      <button class="btn btn-ghost btn-sm" onclick="logout()" title="Entrar con otro título">⇄ <span>Cambiar</span></button>
-      <button class="btn btn-ghost btn-sm" onclick="exportarJSON()" title="Descargar respaldo">⬇ <span>Respaldo</span></button>
-      <button class="btn btn-ghost btn-sm sync-chip" id="syncChip" onclick="sincronizar(true)" title="Enviar lo pendiente y traer lo último de la base"><i></i><span>…</span></button>
-    </div>
-  </header>
 
-  <nav id="nav">
-    <button class="tab active" data-view="resumen">Resumen</button>
-    <button class="tab" data-view="lotes">Lotes y núcleos</button>
-    <button class="tab" data-view="registros">Registro de campo</button>
-    <button class="tab" data-view="monitoreo">Monitoreo</button>
-    <button class="tab" data-view="inventario">Inventario</button>
-    <button class="tab" data-view="config">Configuración</button>
+<div class="cabecera">
+  <div class="cabecera-in">
+    <div class="marca">G</div>
+    <div class="quien"><small>Entraste como</small><b id="quienTitulo">—</b></div>
+    <button class="pastilla" id="syncChip" onclick="abrirMenu()" title="Estado del envío"><i></i><span>…</span></button>
+    <button class="boton-redondo" onclick="abrirMenu()" aria-label="Menú">⋯</button>
+  </div>
+  <nav class="segmentos" id="nav">
+    <button class="seg activo" data-view="registrar">Registrar</button>
+    <button class="seg" data-view="registrado">Lo registrado</button>
+    <button class="seg" data-view="monitoreo">Monitoreo</button>
   </nav>
 </div>
 
 <main>
-  <!-- ============ RESUMEN ============ -->
-  <section class="view active" id="view-resumen">
-    <div class="view-head">
-      <h2>Resumen</h2>
-      <p>Gastos y rendimientos consolidados. Filtra por lote para ver el detalle por núcleo (insumo y costo repartidos entre los núcleos atendidos).</p>
-    </div>
-    <div class="filter-bar">
-      <label for="filtroLote">Lote:</label>
-      <select id="filtroLote" onchange="render()"></select>
-    </div>
-    <div class="stats" id="stats"></div>
+  <div id="avisoSesion"></div>
 
-    <div class="section-title">Gasto por lote</div>
-    <div id="tablaLotes"></div>
-
-    <div class="section-title">Rendimiento y gasto por actividad</div>
-    <div id="tablaActividades"></div>
-
-    <div class="section-title">Insumos consumidos</div>
-    <div id="tablaInsumos"></div>
-
-    <div id="seccionNucleos"></div>
-  </section>
-
-  <!-- ============ LOTES ============ -->
-  <section class="view" id="view-lotes">
-    <div class="view-head">
-      <h2>Lotes y núcleos</h2>
-      <p>Los lotes de siembra vienen del SIG: las zonas que la oficina confirmó después de campo, con la nucleación que cargó en la intranet. Aquí no se crean ni se editan.</p>
-    </div>
-    <div class="list" id="listaLotes"></div>
-  </section>
-
-  <!-- ============ REGISTRO DE CAMPO ============ -->
-  <section class="view" id="view-registros">
-    <div class="view-head">
-      <h2>Registro de campo</h2>
-      <p>Toca en el mapa los núcleos que se trabajaron, marca las actividades que se hicieron y anota los insumos que se gastaron. El rendimiento se calcula como núcleos ÷ jornales.</p>
-    </div>
-
+  <!-- ============ REGISTRAR ============ -->
+  <section class="vista activa" id="view-registrar">
     <form id="formReg" onsubmit="guardarRegistro(event)">
       <input type="hidden" id="regId">
       <div id="r_editando"></div>
 
-      <div class="card paso">
-        <div class="paso-head"><span class="paso-n">1</span>
-          <div><h3>¿Dónde se trabajó?</h3><p>Toca los núcleos en el mapa. Vuelve a tocar para quitarlos.</p></div>
-        </div>
-        <div class="grid-form">
-          <div><label for="r_lote">Lote <span class="req">*</span></label><select id="r_lote" required onchange="onLoteReg()"></select></div>
-          <div><label for="r_fecha">Fecha</label><input id="r_fecha" type="date"></div>
-        </div>
-        <div id="r_nucPicker" style="margin-top:14px"></div>
+      <div class="bloque vidrio">
+        <div class="bloque-cab"><span class="paso">1</span><h2>¿Dónde?</h2></div>
+        <label class="campo"><span>Fecha</span><input id="r_fecha" type="date"></label>
+        <label class="campo"><span>Predio</span><select id="r_predio" onchange="onPredioReg()"></select></label>
+        <label class="campo" id="r_loteCampo"><span>Lote</span><select id="r_lote" onchange="onLoteReg()"></select></label>
+        <div id="r_nucPicker"></div>
         <input type="hidden" id="r_nucleos">
-        <div class="sel-resumen" id="r_nucCount"></div>
+        <div class="aviso-nuc" id="r_avisoNuc" hidden></div>
       </div>
 
-      <div class="card paso">
-        <div class="paso-head"><span class="paso-n">2</span>
-          <div><h3>¿Qué se hizo?</h3><p>Marca <b>todas</b> las que se hicieron sobre esos núcleos. Si ese día no sirvió la ahoyadora, no la marques.</p></div>
-        </div>
+      <div class="bloque vidrio">
+        <div class="bloque-cab"><span class="paso">2</span><h2>¿Qué se hizo?</h2></div>
         <div id="r_actPicker"></div>
-        <input type="hidden" id="r_acts">
-        <div class="sel-resumen" id="r_actCount"></div>
       </div>
 
-      <div class="card paso">
-        <div class="paso-head"><span class="paso-n">3</span>
-          <div><h3>¿Qué insumos se gastaron?</h3><p>Puede que ninguno: guadañar o trazar no consume insumos. Se descuentan de la bodega que elijas.</p></div>
-        </div>
-        <div class="grid-form" style="margin-bottom:14px"><div><label for="r_bodega">Salen de la bodega</label><select id="r_bodega" onchange="bodegaTocada=true; refrescarFilasInsumo()"></select></div></div>
-        <div id="r_insumos"></div>
-        <button type="button" class="btn btn-soft btn-sm" onclick="addInsumoRow()">＋ Añadir insumo</button>
+      <div class="bloque vidrio">
+        <div class="bloque-cab"><span class="paso">3</span><h2>Insumos</h2></div>
+        <p class="nota" id="r_insNota" style="margin-bottom:10px"></p>
+        <div class="lista-filas" id="r_insumos"></div>
+        <div style="margin-top:10px"><button type="button" class="btn btn-suave btn-chico" onclick="agregarOtroInsumo()">＋ Otro insumo</button></div>
       </div>
 
-      <div class="card paso">
-        <div class="paso-head"><span class="paso-n">4</span>
-          <div><h3>¿Cuánta gente y cuánto trabajo?</h3><p>De aquí sale el rendimiento y el costo de mano de obra.</p></div>
-        </div>
-        <div class="grid-form">
-          <div><label for="r_personas">Nº de personas</label><input id="r_personas" type="number" step="1" min="0" placeholder="Ej. 4"></div>
-          <div><label for="r_jornales">Jornales (días-persona)</label><input id="r_jornales" type="number" step="0.5" min="0" placeholder="Ej. 8" oninput="calcReg()"></div>
-          <div><label for="r_valor">Valor jornal (COP)</label><input id="r_valor" type="number" step="1000" min="0" oninput="calcReg()"></div>
-        </div>
-        <div><label for="r_notas" style="margin-top:12px">Notas</label><textarea id="r_notas" placeholder="Observaciones del día…"></textarea></div>
-        <div class="derived" id="r_derived" style="margin-top:12px"></div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary btn-lg" id="r_submit">Guardar actividad</button>
-          <button type="button" class="btn btn-soft" id="r_cancel" style="display:none" onclick="resetForm('reg')">Cancelar edición</button>
-        </div>
+      <div class="bloque vidrio">
+        <div class="bloque-cab"><span class="paso">4</span><h2>¿Quiénes?</h2><span class="derecha nota" id="r_perCuenta"></span></div>
+        <div id="r_personas"></div>
+      </div>
+
+      <div class="bloque vidrio">
+        <div id="r_notasCaja"></div>
       </div>
     </form>
+  </section>
 
-    <div class="section-title">Lo registrado</div>
-    <p class="hint" style="margin:-4px 0 12px">Toca un registro para desplegarlo y editarlo.</p>
-    <div class="filter-bar"><label for="filtroRegLote">Ver de:</label><select id="filtroRegLote" onchange="renderRegistros()"></select></div>
-    <div class="list" id="listaRegistros"></div>
+  <!-- ============ LO REGISTRADO ============ -->
+  <section class="vista" id="view-registrado">
+    <div class="filter-bar" style="margin-top:2px"><select id="filtroRegPredio" onchange="renderRegistros()" aria-label="Ver registros de"></select></div>
+    <div id="listaRegistros"></div>
   </section>
 
   <!-- ============ MONITOREO ============ -->
-  <section class="view" id="view-monitoreo">
-    <div class="view-head">
-      <h2>Monitoreo de siembra</h2>
-      <p>Estado de lo sembrado, árbol por árbol. Un registro por especie observada en un núcleo. La foto y la altura exacta son opcionales.</p>
-    </div>
+  <section class="vista" id="view-monitoreo">
     <div id="m_aviso"></div>
-    <div class="card">
+    <div class="card vidrio">
       <form id="formMon" onsubmit="guardarMonitoreo(event)">
         <input type="hidden" id="monId">
         <div class="grid-form">
@@ -730,9 +518,9 @@
 
     <div class="stats" id="statsMon"></div>
     <div class="filter-bar">
-      <label for="filtroMonLote">Ver de:</label><select id="filtroMonLote" onchange="renderMonitoreos()"></select>
-      <label for="filtroMonEstado">Estado:</label><select id="filtroMonEstado" onchange="renderMonitoreos()">
-        <option value="__all">Todos</option><option value="Bueno">Bueno</option><option value="Regular">Regular</option><option value="Muerto">Muerto</option>
+      <select id="filtroMonLote" onchange="renderMonitoreos()" aria-label="Lote"></select>
+      <select id="filtroMonEstado" onchange="renderMonitoreos()" aria-label="Estado">
+        <option value="__all">Todos los estados</option><option value="Bueno">Bueno</option><option value="Regular">Regular</option><option value="Muerto">Muerto</option>
       </select>
     </div>
     <div class="section-title">Supervivencia por especie</div>
@@ -741,76 +529,28 @@
     <div class="list" id="listaMonitoreos"></div>
   </section>
 
-  <!-- ============ INVENTARIO ============ -->
-  <section class="view" id="view-inventario">
-    <div class="view-head">
-      <h2 id="invTitulo">Inventario</h2>
-      <p>Lo que hay en tus bodegas, lo que te están enviando y lo que envías. Las compras entran en la oficina con la factura electrónica; la oficina las reparte a las bodegas de cada proyecto.</p>
-    </div>
-
-    <div id="porAceptar"></div>
-
-    <div class="form-actions" id="invAcciones" style="margin:0 0 18px"></div>
-
-    <div id="secExistencias">
-      <div class="section-title" id="tituloExistencias">Existencias</div>
-      <div id="tablaExistencias"></div>
-    </div>
-
-    <div id="secCampo">
-      <div class="section-title">Bodega de campo — recibido vs. consumido</div>
-      <div id="tablaCampoStock"></div>
-    </div>
-
-    <div class="section-title">Movimientos</div>
-    <div class="filter-bar" id="filtroMovWrap"><label for="filtroMovBodega">Bodega:</label><select id="filtroMovBodega" onchange="renderMovimientos()"></select></div>
-    <div class="list" id="listaMovimientos"></div>
-  </section>
-
-  <!-- ============ CONFIG ============ -->
-  <section class="view" id="view-config">
-    <div class="view-head">
-      <h2>Configuración</h2>
-      <p>Lo que se ajusta en este celular. El catálogo de insumos, las bodegas y los títulos se administran en la intranet (Administrativa → App de campo).</p>
-    </div>
-    <div class="card">
-      <div class="section-title" style="margin-top:0">Conexión con la base</div>
-      <div id="cfgSync"></div>
-    </div>
-    <div class="card">
-      <div class="section-title" style="margin-top:0">Valor del jornal por defecto</div>
-      <div class="grid-form"><div><label>COP por jornal</label><input id="cfg_valor" type="number" step="1000" min="0" onchange="setValorJornal()"></div></div>
-      <p class="hint" style="margin-bottom:0">Se usa para prellenar el costo de mano de obra en registros nuevos. Puedes cambiarlo en cada registro.</p>
-    </div>
-    <div class="card">
-      <div class="section-title" style="margin-top:0">Insumos</div>
-      <div class="chips" id="catInsumos"></div>
-      <div class="section-title">Bodegas</div>
-      <div class="list" id="listaBodegas"></div>
-    </div>
-    <div class="card">
-      <div class="section-title" style="margin-top:0">Exportar</div>
-      <div class="form-actions" style="margin-top:0">
-        <button class="btn btn-soft" onclick="exportarCSV()">Exportar registros (CSV)</button>
-        <button class="btn btn-soft" onclick="exportarJSON()">Descargar respaldo (JSON)</button>
-      </div>
-      <p class="hint">El monitoreo de lo sembrado todavía se guarda solo en este celular: el respaldo lo incluye, sus fotos no.</p>
-      <div id="cfgDemo"></div>
+  <!-- ============ TÍTULO SIN REGISTRO (bodega) ============ -->
+  <section class="vista" id="view-sinregistro">
+    <div class="bloque vidrio">
+      <h2 style="color:var(--bosque);font-size:22px;margin-bottom:8px">Esta app ya no maneja el inventario</h2>
+      <p class="nota">El inventario y los traslados entre bodegas se llevan ahora desde la intranet. Si vas a registrar trabajo en campo, cierra sesión y entra con el título de siembra o de monitoreo.</p>
+      <div style="margin-top:14px"><button class="btn btn-suave" onclick="pedirCerrarSesion()">Cerrar sesión</button></div>
     </div>
   </section>
 </main>
 
-<footer>
-  Amazonía Emprende — Restauramos la biodiversidad de los ecosistemas con especies forestales nativas.<br>
-  Control por lote y núcleo (etapa Ejecución). Lotes y núcleos del SIG; insumos de las bodegas de la oficina.
-</footer>
-
-<div class="modal-overlay" id="modal">
-  <div class="modal-box">
-    <div class="modal-head"><h3 id="modalTitulo"></h3><button class="modal-x" onclick="cerrarModal()" title="Cerrar">✕</button></div>
-    <div class="modal-body" id="modalBody"></div>
+<div class="barra-guardar" id="barraGuardar">
+  <div class="barra-in">
+    <div class="resumen" id="r_resumen"></div>
+    <button type="button" class="btn btn-suave btn-chico" id="r_cancel" style="display:none" onclick="resetForm('reg')">Cancelar</button>
+    <button type="submit" form="formReg" class="btn btn-ambar" id="r_submit">Guardar</button>
   </div>
 </div>
+
+<div class="velo" id="velo" onclick="if(event.target===this) cerrarHoja()">
+  <div class="hoja" id="hoja" role="dialog" aria-modal="true"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- Dirección y key pública de la base. Se genera al desplegar (generar-config.mjs); no está en el repositorio. -->
 <script src="/config.js"></script>
@@ -821,7 +561,9 @@
      · lo último que se bajó de la base queda guardado en el celular (K_DATOS) y la app trabaja sobre eso;
      · lo que se registra sin señal entra a una COLA (una por título) y se envía solo al volver la señal;
      · lo que se ve = lo de la base + lo de la cola encima (reconstruir()).
-   Lo único que sigue viviendo solo en el celular es el monitoreo de lo sembrado y el valor del jornal. */
+   Lo único que sigue viviendo solo en el celular es el monitoreo de lo sembrado.
+   Desde 2026-11-24 la app es solo el registro de campo: el inventario, los traslados, los resúmenes de
+   gasto y los jornales salieron (se llevan en la intranet). */
 
 /* Actividades (hoja Campo + lista del usuario). Trabajo medido en NÚCLEOS. */
 const ACTIVIDADES = [
@@ -846,10 +588,9 @@ const gruposDe = r => [...new Set(actsDe(r).map(a => ACT_GRUPO[a] || '').filter(
 /* Se entra por TÍTULO (el cargo o la actividad de ese día), no por persona. Los títulos, sus
    claves y sus bodegas se administran en la intranet (Administrativa → App de campo). */
 const ROLES = {
-  siembra:{label:'Siembra', tabs:['resumen','lotes','registros','inventario','config']},
-  // Monitoreo: lo mismo que siembra, más el monitoreo de lo sembrado.
-  monitoreo:{label:'Monitoreo', tabs:['resumen','lotes','registros','monitoreo','inventario','config']},
-  bodega:{label:'Bodega', tabs:['inventario','config']},
+  siembra:{label:'Siembra'},
+  monitoreo:{label:'Monitoreo · siembra y monitoreo de lo sembrado'},
+  bodega:{label:'Bodega'},
 };
 
 /* Lo que se guarda en el celular */
@@ -886,7 +627,7 @@ let sesionId = '';
 
 /* state: lo que pintan las pantallas, con la misma forma que tenía el demo. Lo arma reconstruir(). */
 let state = {lotes:[], registros:[], monitoreos:local.monitoreos, bodegas:[], movimientos:[], usuarios:[],
-             existencias:{}, config:local.config};
+             existencias:{}, trabajadores:[], config:local.config};
 state.config.catalogoInsumos = [];
 
 /* save() guarda solo lo que vive en el celular (monitoreo y ajustes). Lo demás va por la cola. */
@@ -1000,7 +741,7 @@ async function vaciarCola(){
     if(op.error) continue;     // la base ya lo rechazó una vez: espera a que la persona decida
     let r;
     try{
-      if(op.tipo==='registro')      r = await rpc('campo_guardar_registro', {p_token:sesion.token, p_reg:op.datos});
+      if(op.tipo==='registro')      r = await guardarEnBase(op.datos);
       else if(op.tipo==='anular')   r = await rpc('campo_anular_registro', {p_token:sesion.token, p_id:op.id});
       else if(op.tipo==='traslado') r = await rpc('campo_trasladar', {p_token:sesion.token, p_mov:op.datos});
       else if(op.tipo==='recibir')  r = await rpc('campo_recibir', {p_token:sesion.token, p_id:op.id, p_aceptar:op.aceptar});
@@ -1014,17 +755,49 @@ async function vaciarCola(){
   }
 }
 
+/* ---- Funciones v2 (personas, insumos «otro» y bodega que pone la base) ----
+   Viven en Intranet-AE/docs/sql/migration_campo_registro_v2.sql. Mientras esa migración no se
+   corra, la base no las tiene: la app se da cuenta (PGRST202) y sigue con las de siempre, con los
+   nombres de quienes trabajaron y los insumos «otro» escritos en la nota para que no se pierdan. */
+let servidorV2 = null;   // null = no se sabe todavía
+const faltaFuncion = e => e && (e.codigo==='PGRST202' || /Could not find the function/i.test(e.message||''));
+async function datosDeBase(){
+  if(servidorV2!==false){
+    try{ const d = await rpc('campo_datos_v2', {p_token:sesion.token}); servidorV2 = true; return d; }
+    catch(e){ if(!faltaFuncion(e)) throw e; servidorV2 = false; }
+  }
+  return rpc('campo_datos', {p_token:sesion.token});
+}
+async function guardarEnBase(d){
+  if(servidorV2!==false){
+    try{ const r = await rpc('campo_guardar_registro_v2', {p_token:sesion.token, p_reg:d}); servidorV2 = true; return r; }
+    catch(e){ if(!faltaFuncion(e)) throw e; servidorV2 = false; }
+  }
+  return rpc('campo_guardar_registro', {p_token:sesion.token, p_reg:datosV1(d)});
+}
+function datosV1(d){
+  const extra = [];
+  if((d.insumos_otros||[]).length) extra.push('Otros insumos: '+d.insumos_otros.map(o=>`${o.nombre} ${fmtNum(o.cantidad)} ${o.unidad||''}`.trim()).join('; '));
+  const nombres = (d.trabajador_ids||[]).map(id=>(state.trabajadores.find(p=>p.id===id)||{}).nombre).filter(Boolean);
+  if(nombres.length) extra.push('Trabajaron: '+nombres.join(', '));
+  else if(d.trabajadores_txt) extra.push('Trabajaron: '+d.trabajadores_txt);
+  const {insumos_otros, trabajador_ids, trabajadores_txt, ...resto} = d;
+  return {...resto, notas: [d.notas, ...extra].filter(Boolean).join('\n') || null};
+}
+
 /* ---- Sincronizar: enviar la cola y bajar lo último ---- */
 let sync = {enCurso:false, error:null, sinRed:false, firma:''};
 
 async function sincronizar(manual){
   if(!sesion || sync.enCurso) return;
+  // Con la clave cambiada no hay cómo enviar: la app sigue trabajando y espera la clave nueva.
+  if(sesion.vencida){ pintarSync(); if(manual) toast('Escribe la clave nueva arriba para poder enviar.'); return; }
   sync.enCurso = true; pintarSync();
   let vencida = null;
   const colaAntes = cola.length;
   try{
     await vaciarCola();
-    const d = await rpc('campo_datos', {p_token:sesion.token});
+    const d = await datosDeBase();
     d.recibido = new Date().toISOString();
     datos = d;
     if(!guardarJSON(K_DATOS, d)) console.warn('No cupo la copia de la base en el celular; se usa solo mientras la app esté abierta.');
@@ -1033,13 +806,13 @@ async function sincronizar(manual){
     if(e.codigo==='SESION') vencida = e.message;
     else if(e.codigo==='RED' || e.reintentable) sync.sinRed = true;
     else sync.error = e.message;
-    if(manual && !vencida) alert(e.codigo==='RED'
-      ? 'No hay señal. Lo registrado queda guardado en el celular y se envía cuando vuelva.'
+    if(manual && !vencida) toast(e.codigo==='RED'
+      ? 'No hay señal. Lo registrado queda guardado y se envía cuando vuelva.'
       : e.message);
   }finally{
     sync.enCurso = false;
     // Repintar todo solo si algo cambió: repintar a mitad de un registro mueve el mapa.
-    const firma = datos ? [huella(JSON.stringify([datos.lotes, datos.registros, datos.movimientos, datos.existencias, datos.insumos, datos.bodegas, datos.titulo])), cola.length, cola.filter(o=>o.error).length].join('|') : '';
+    const firma = datos ? [huella(JSON.stringify([datos.lotes, datos.registros, datos.registros_extra, datos.trabajadores, datos.insumos, datos.bodegas, datos.titulo])), cola.length, cola.filter(o=>o.error).length].join('|') : '';
     if(manual || firma!==sync.firma || cola.length!==colaAntes){ sync.firma = firma; reconstruir(); render(); }
     pintarSync();
   }
@@ -1053,13 +826,15 @@ function pintarSync(){
   const b=$('syncChip'); if(!b) return;
   const pend=cola.length, errores=cola.filter(o=>o.error).length;
   let txt, cls;
-  if(sync.enCurso){ txt='Sincronizando…'; cls='pend'; }
+  if(sesion && sesion.vencida){ txt='Falta la clave'; cls='mal'; }
+  else if(sync.enCurso){ txt='Enviando…'; cls='pend'; }
   else if(errores){ txt=`${errores} con problema`; cls='mal'; }
   else if(pend){ txt=`${pend} sin enviar`; cls='pend'; }
   else if(sync.sinRed){ txt='Sin señal'; cls='pend'; }
-  else if(datos && datos.recibido){ txt='Al día · '+haceCuanto(datos.recibido); cls='ok'; }
+  else if(datos && datos.recibido){ txt='Al día'; cls='ok'; }
   else { txt='Sin datos'; cls='pend'; }
-  b.className = 'btn btn-ghost btn-sm sync-chip '+cls;
+  b.className = 'pastilla '+cls;
+  b.title = datos && datos.recibido ? 'Última vez con la base: hace '+haceCuanto(datos.recibido) : 'Estado del envío';
   b.innerHTML = `<i></i><span>${esc(txt)}</span>`;
 }
 function haceCuanto(iso){
@@ -1107,8 +882,12 @@ function reconstruir(){
   const d = datos || {};
   const ins = new Map((d.insumos||[]).map(i=>[i.id,i]));
   state.bodegas = (d.bodegas||[]).map(b=>({id:b.id, nombre:b.nombre, responsable:b.responsable||'', tipo:b.tipo, proyecto:b.proyecto}));
-  state.config.catalogoInsumos = (d.insumos||[]).map(i=>({id:i.id, nombre:i.nombre, unidad:i.unidad, presentacion:i.presentacion||'', costo:Number(i.costo_promedio)||0}));
+  state.config.catalogoInsumos = (d.insumos||[]).map(i=>({id:i.id, nombre:i.nombre, unidad:i.unidad, presentacion:i.presentacion||'',
+    categoria:i.categoria||null, clase:i.clase||null, costo:Number(i.costo_promedio)||0}));
   state.lotes = (d.lotes||[]).map(loteDesdeBase);
+  // Quiénes trabajan en campo (solo nombre y cargo). Llegan con campo_datos_v2.
+  state.trabajadores = (d.trabajadores||[]).map(p=>({id:p.id, nombre:p.nombre||'', cargo:p.cargo||''}));
+  const extra = d.registros_extra || {};
 
   const numDe = new Map();
   state.lotes.forEach(l=>Object.entries(l.sig.ids).forEach(([n,id])=>numDe.set(id, +n)));
@@ -1123,6 +902,8 @@ function reconstruir(){
     insumos:(r.insumos||[]).map(i=>insumoDe(i.insumo_id, i.cantidad)),
     personas:r.personas, jornales:Number(r.jornales)||0, valorJornal:Number(r.valor_jornal)||0,
     notas:r.notas||'', bodegaId:r.bodega_id, titulo:r.titulo||'',
+    trabajadorIds:(extra[r.id]||{}).trabajador_ids||[], trabajadoresTxt:(extra[r.id]||{}).trabajadores_txt||'',
+    insumosOtros:(extra[r.id]||{}).insumos_otros||[],
   }));
   const movs = (d.movimientos||[]).map(m=>{ const x=ins.get(m.insumo_id)||{}; return {
     id:m.id, fecha:m.fecha, tipo:m.tipo==='entrada'?'compra':m.tipo, insumoId:m.insumo_id, insumo:x.nombre||'(insumo)',
@@ -1206,78 +987,231 @@ const costoManoObra = r => num(r.jornales)*num(r.valorJornal);
 const costoInsumosReg = r => (r.insumos||[]).reduce((s,i)=>s+num(i.cantidad)*num(i.costoUnitario),0);
 const costoTotalReg = r => costoManoObra(r)+costoInsumosReg(r);
 
+
 /* ============================================================ Navegación ============================================================ */
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active'); $('view-'+t.dataset.view).classList.add('active');
+function irVista(v){
+  document.querySelectorAll('.seg').forEach(x=>x.classList.toggle('activo', x.dataset.view===v));
+  document.querySelectorAll('.vista').forEach(x=>x.classList.toggle('activa', x.id==='view-'+v));
+  $('barraGuardar').hidden = v!=='registrar';
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(autoZoomMapas,0);   // el mapa de esta vista recién ahora tiene ancho
-});
+}
+document.querySelectorAll('.seg').forEach(t => t.onclick = () => irVista(t.dataset.view));
+function irA(view){ irVista(view==='registros' ? 'registrar' : view); }
 
-/* ============================================================ Selects ============================================================ */
-function opts(arr,sel){ return arr.map(v=>`<option value="${esc(v)}" ${v===sel?'selected':''}>${esc(v)}</option>`).join(''); }
+/* ============================================================ Ayudas ============================================================ */
+const usuarioActual = () => state.usuarios[0] || null;
+const bodegasDeUsuario = u => (u&&u.bodegaIds)||[];
+const catInsumo = id => state.config.catalogoInsumos.find(x=>x.id===id) || {};
 function loteOpts(sel,todos){
   let o = todos?`<option value="__all">Todos los lotes</option>`:`<option value="">— Selecciona —</option>`;
   o += state.lotes.map(l=>`<option value="${l.id}" ${l.id===sel?'selected':''}>${esc(etiquetaLote(l))}</option>`).join('');
   return o;
 }
-function poblarSelects(){
-  $('r_lote').innerHTML = loteOpts($('r_lote').value);
-  $('filtroLote').innerHTML = loteOpts($('filtroLote').value,true);
-  $('filtroRegLote').innerHTML = loteOpts($('filtroRegLote').value,true);
+function stat(n,lbl){ return `<div class="stat"><div class="stat-num">${n}</div><div class="stat-lbl">${lbl}</div></div>`; }
+function tabla(headers,rows,foot){ return `<div class="table-wrap"><table><thead><tr>${headers.map((h,i)=>`<th class="${i>0?'num':''}">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody>${foot?`<tfoot>${foot}</tfoot>`:''}</table></div>`; }
+function emptyBox(icon,t,x){ return `<div class="empty"><div class="big">${icon}</div><b>${t}</b><p>${x}</p></div>`; }
+function fechaHora(iso){ return iso ? new Date(iso).toLocaleString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : 'nunca'; }
+function diaFmt(f){
+  if(!f) return 'Sin fecha';
+  if(f===hoy()) return 'Hoy';
+  const d=new Date(f+'T00:00'), ay=new Date(hoy()+'T00:00'); ay.setDate(ay.getDate()-1);
+  if(d.getTime()===ay.getTime()) return 'Ayer';
+  return d.toLocaleDateString('es-CO',{weekday:'long', day:'numeric', month:'long'});
 }
 
-/* ============================================================ Insumo rows (registro) ============================================================
-   Los insumos no se escriben: se eligen del catálogo que mantiene la oficina, y se descuentan de
-   la bodega que se elige en el paso 3. Unidad y costo vienen del catálogo (costo promedio de compra). */
-const catInsumo = id => state.config.catalogoInsumos.find(x=>x.id===id) || {};
-function saldoEn(bodegaId, insumoId){ const c=((state.existencias||{})[bodegaId]||{})[insumoId]; return c ? c.saldo : 0; }
-function saldoTxt(insumoId){
-  const b=$('r_bodega') && $('r_bodega').value;
-  if(!insumoId || !b) return '—';
-  const s=saldoEn(b, insumoId);
-  return `<span${s<-0.0001?' style="color:var(--bad);font-weight:700"':''}>${fmtNum(s)}</span>`;
+/* Hojas que suben desde abajo (menú y confirmaciones) y avisos cortos. */
+function abrirHoja(html){ $('hoja').innerHTML=html; $('velo').classList.add('abierta'); }
+function cerrarHoja(){ $('velo').classList.remove('abierta'); $('hoja').innerHTML=''; }
+function hojaConfirmar(o){
+  abrirHoja(`<h2>${esc(o.titulo)}</h2><p class="nota">${esc(o.texto)}</p>
+    <div class="acciones"><button class="btn ${o.peligro?'btn-peligro':''}" id="hojaSi">${esc(o.si)}</button><button class="btn btn-suave" onclick="cerrarHoja()">Cancelar</button></div>`);
+  $('hojaSi').onclick=()=>{ cerrarHoja(); o.alSi(); };
 }
-function opcionesInsumoReg(sel){
-  return `<option value="">— Insumo —</option>`+state.config.catalogoInsumos.map(x=>`<option value="${x.id}" ${x.id===sel?'selected':''}>${esc(x.nombre)}</option>`).join('');
+let _toastT=null;
+function toast(t){ const e=$('toast'); e.textContent=t; e.classList.add('ver'); clearTimeout(_toastT); _toastT=setTimeout(()=>e.classList.remove('ver'),2800); }
+
+/* ============================================================ Lo que la app recuerda entre un día y otro ============================================================
+   Un ingeniero pasa semanas en el mismo predio, el mismo lote y las mismas actividades con la
+   misma cuadrilla. Eso se queda elegido: al abrir la app, solo hay que tocar los núcleos. */
+const K_RECORDAR='ae_campo_recordar_v1';
+let recordar = leerJSON(K_RECORDAR) || {};
+function editando(){ return !!($('regId') && $('regId').value); }
+function recordarSeleccion(){
+  if(editando()) return;
+  recordar = {predio:$('r_predio').value, lote:$('r_lote').value, acts:[...actSel], personas:[...perSel]};
+  guardarJSON(K_RECORDAR, recordar);
 }
-function insRowHTML(row={}){
-  const sel=row.insumoId||'';
-  return `<div class="ins-row">
-    <div><span class="mini-lbl">Insumo</span><select class="ins-nombre" onchange="onInsNombre(this)">${opcionesInsumoReg(sel)}</select></div>
-    <div><span class="mini-lbl">Cantidad</span><input class="ins-cant" type="number" step="0.01" min="0" placeholder="0" value="${row.cantidad??''}" oninput="calcReg()"></div>
-    <div><span class="mini-lbl">Unidad</span><div class="ins-dato ins-unidad">${esc(catInsumo(sel).unidad||'—')}</div></div>
-    <div><span class="mini-lbl">Hay en la bodega</span><div class="ins-dato ins-saldo">${saldoTxt(sel)}</div></div>
-    <button type="button" class="btn-danger ins-rm" title="Quitar" onclick="this.closest('.ins-row').remove();calcReg()">🗑</button>
+function cargarRecordado(){
+  actSel = new Set((recordar.acts||[]).filter(a=>ACT_GRUPO[a]));
+  actAbierta = !actSel.size; actReabierta = false;
+  perSel = new Set(recordar.personas||[]);
+}
+
+/* ============================================================ 1. Predio, lote y núcleos ============================================================ */
+function prediosLista(){
+  const m=new Map();
+  state.lotes.forEach(l=>{ if(!m.has(l.predioId)) m.set(l.predioId,{id:l.predioId, nombre:l.predio||'Predio', vereda:l.vereda}); });
+  return [...m.values()].sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+}
+const lotesDePredio = pid => state.lotes.filter(l=>l.predioId===pid);
+
+function poblarSelects(){
+  const ps=prediosLista(), sp=$('r_predio');
+  const vp = sp.value || recordar.predio || '';
+  sp.innerHTML = `<option value="">${ps.length ? 'Elige el predio' : (datos ? 'Todavía no hay predios con núcleos' : 'Se bajan cuando haya señal')}</option>`
+    + ps.map(p=>`<option value="${p.id}">${esc(p.nombre)}${p.vereda?' · '+esc(p.vereda):''}</option>`).join('');
+  sp.value = ps.some(p=>p.id===vp) ? vp : '';
+  poblarLotes();
+  const f=$('filtroRegPredio'), vf=f.value;
+  f.innerHTML = `<option value="__all">Todos los predios</option>`+ps.map(p=>`<option value="${p.id}">${esc(p.nombre)}</option>`).join('');
+  f.value = ps.some(p=>p.id===vf) ? vf : '__all';
+}
+function poblarLotes(){
+  const pid=$('r_predio').value, ls=lotesDePredio(pid), s=$('r_lote');
+  const v = s.value || recordar.lote || '';
+  s.innerHTML = !pid ? `<option value="">Primero el predio</option>`
+    : (ls.length>1 ? `<option value="">Elige el lote</option>` : '')
+      + ls.map(l=>`<option value="${l.id}">${esc(l.lote)}${l.areaHa?' · '+fmtNum(l.areaHa)+' ha':''}</option>`).join('');
+  if(ls.some(l=>l.id===v)) s.value=v; else if(ls.length===1) s.value=ls[0].id; else s.value='';
+  s.disabled = !pid;
+}
+function onPredioReg(){ poblarLotes(); onLoteReg(); }
+function onLoteReg(){ nucSel.clear(); renderNucPicker(); recordarSeleccion(); }
+
+/* Aviso al marcar núcleos: el error típico es tocar uno de más o el vecino. */
+function pintarAvisoNuc(nuc){
+  const a=$('r_avisoNuc'); if(!a) return;
+  if(!nuc.length){ a.hidden=true; a.innerHTML=''; return; }
+  a.hidden=false;
+  a.innerHTML = nuc.length===1
+    ? `<span class="ico">⚠</span><span>Marcaste el núcleo <b>${nuc[0]}</b>. Confirma en el terreno que es ese antes de guardar.</span>`
+    : `<span class="ico">⚠</span><span>Marcaste <b>${nuc.length} núcleos</b> (${esc(compressRanges(nuc))}). Revisa que se trabajaron todos; toca uno en el mapa para quitarlo.</span>`;
+}
+
+/* ============================================================ 2. Actividades ============================================================
+   Al elegir una, la lista se recoge y quedan solo las elegidas. Si la persona la vuelve a abrir
+   para sumar otra, ya no se recoge sola: aparece el botón para recogerla. */
+const ACT_VISTA = [
+  {grupo:'Preparación', items:['Guadaña','Trazado','Plateo','Ahoyado','Control químico','Encalado']},
+  {grupo:'Siembra', items:['Siembra','Resiembra','Fertilización','Fertirriego']},
+  {grupo:'Otras', items:['Cerramiento (instalación de postes)','Transporte de insumos','Transporte de plántulas (vivero → siembra)','Control sanitario']},
+];
+let actSel = new Set(), actAbierta = true, actReabierta = false;
+
+function fichaAct(a){ return `<button type="button" class="ficha" data-a="${esc(a)}" onclick="actQuitar(this.dataset.a)" aria-label="Quitar ${esc(a)}">${esc(a)} <span>✕</span></button>`; }
+function renderActPicker(){
+  const c=$('r_actPicker'); if(!c) return;
+  const arr=[...actSel];
+  if(arr.length && !actAbierta){
+    c.innerHTML = `<div class="elegidas">${arr.map(fichaAct).join('')}</div>
+      <div class="plegar"><button type="button" class="btn btn-texto" onclick="abrirActs()">＋ Otra actividad ▾</button></div>`;
+    return;
+  }
+  c.innerHTML = ACT_VISTA.map(g=>`<div class="grupo-lbl">${esc(g.grupo)}</div><div class="lista-filas">${g.items.map(it=>{
+      const on=actSel.has(it);
+      return `<button type="button" class="fila${on?' on':''}" aria-pressed="${on}" data-a="${esc(it)}" onclick="actToggle(this.dataset.a)"><span class="marca-check">✓</span><span class="fila-txt"><b>${esc(it)}</b></span></button>`;
+    }).join('')}</div>`).join('')
+    + (arr.length ? `<div class="plegar"><button type="button" class="btn btn-texto" onclick="cerrarActs()">▴ Recoger la lista</button></div>` : '');
+}
+function actCambio(){ renderActPicker(); renderInsumos(); recordarSeleccion(); calcReg(); }
+function actToggle(a){
+  actSel.has(a) ? actSel.delete(a) : actSel.add(a);
+  if(!actSel.size) actAbierta = true;
+  else if(!actReabierta) actAbierta = false;
+  actCambio();
+}
+function actQuitar(a){ actSel.delete(a); if(!actSel.size) actAbierta=true; actCambio(); }
+function abrirActs(){ actAbierta=true; actReabierta=true; renderActPicker(); }
+function cerrarActs(){ actAbierta=false; renderActPicker(); }
+
+/* ============================================================ 3. Insumos según la actividad ============================================================
+   Cada actividad trae los insumos que suele gastar (por categoría del catálogo de la oficina, o
+   por el comienzo del nombre si va con @). Solo consumibles: herramientas y EPP no se gastan.
+   «Otro insumo» abre la lista completa y, si no está, se escribe cuál. Ya no se descuenta de
+   ninguna bodega a la vista ni se mira el saldo: la oficina concilia después. */
+const INSUMOS_DE = {
+  'Guadaña':['combustible'],
+  'Trazado':['@Lazo','@Pintura','@Cinta','@Puntillas'],
+  'Plateo':['combustible','herbicida'],
+  'Ahoyado':['combustible'],
+  'Control químico':['herbicida'],
+  'Encalado':['enmienda'],
+  'Siembra':['fertilizante','enmienda','hormiguicida'],
+  'Resiembra':['fertilizante','enmienda','hormiguicida'],
+  'Fertilización':['fertilizante','enmienda'],
+  'Fertirriego':['fertilizante'],
+  'Cerramiento (instalación de postes)':['cerramiento','@Puntillas'],
+  'Transporte de insumos':['combustible'],
+  'Transporte de plántulas (vivero → siembra)':['combustible'],
+  'Control sanitario':['hormiguicida','sin_categoria'],
+};
+const esConsumible = i => i.clase ? i.clase==='consumible' : !['epp','herramienta','equipo'].includes(i.categoria||'');
+function insumosSugeridos(){
+  const claves=new Set(); actSel.forEach(a=>(INSUMOS_DE[a]||[]).forEach(k=>claves.add(k)));
+  const ks=[...claves];
+  return state.config.catalogoInsumos.filter(i=>esConsumible(i) && ks.some(k=>
+    k.startsWith('@') ? i.nombre.toLowerCase().startsWith(k.slice(1).toLowerCase())
+    : k==='sin_categoria' ? !i.categoria : i.categoria===k));
+}
+let insCant = {};    // id del insumo → lo que se escribió en cantidad
+let insOtros = [];   // filas de «Otro insumo»: {k, insumoId ('' | id | '__otro'), nombre, unidad, cantidad}
+
+function renderInsumos(){
+  const cont=$('r_insumos'); if(!cont) return;
+  const sug=insumosSugeridos(), idsSug=new Set(sug.map(i=>i.id));
+  // Lo que ya tiene cantidad sigue a la vista aunque se cambie de actividad: no se pierde lo escrito.
+  const conCant=state.config.catalogoInsumos.filter(i=>!idsSug.has(i.id) && num(insCant[i.id])>0);
+  const filas=[...sug,...conCant].map(filaInsumoHTML).join('') + insOtros.map(o=>filaOtroHTML(o,idsSug)).join('');
+  const nota=$('r_insNota');
+  if(!state.config.catalogoInsumos.length) nota.textContent='La lista de insumos se baja la primera vez que haya señal.';
+  else if(!actSel.size) nota.textContent='Elige la actividad y aquí salen los insumos que suele llevar.';
+  else if(!sug.length) nota.textContent='Esta actividad normalmente no gasta insumos. Si usaron alguno, agrégalo abajo.';
+  else nota.textContent='Escribe la cantidad solo en lo que se usó. Lo que quede vacío no se registra.';
+  cont.innerHTML=filas;
+  cont.style.display = filas ? '' : 'none';
+}
+function filaInsumoHTML(i){
+  return `<div class="ins-fila"><span class="fila-txt"><b>${esc(i.nombre)}</b>${i.presentacion?`<small>${esc(i.presentacion)}</small>`:''}</span>
+    <span class="ins-cant"><input type="number" inputmode="decimal" step="any" min="0" placeholder="0" value="${esc(insCant[i.id]??'')}"
+      data-id="${i.id}" oninput="insCant[this.dataset.id]=this.value; calcReg()" aria-label="Cantidad de ${esc(i.nombre)}"><em>${esc(i.unidad||'')}</em></span></div>`;
+}
+function filaOtroHTML(o,idsSug){
+  const cat=state.config.catalogoInsumos.filter(i=>esConsumible(i) && (!idsSug.has(i.id) || i.id===o.insumoId));
+  const opciones=`<option value="">Elige el insumo</option>`
+    + cat.map(i=>`<option value="${i.id}" ${o.insumoId===i.id?'selected':''}>${esc(i.nombre)}</option>`).join('')
+    + `<option value="__otro" ${o.insumoId==='__otro'?'selected':''}>Otro: no está en la lista</option>`;
+  const c = o.insumoId && o.insumoId!=='__otro' ? catInsumo(o.insumoId) : null;
+  return `<div class="ins-otro">
+    <div class="fila-sup"><select onchange="otroElegir('${o.k}',this.value)" aria-label="Insumo">${opciones}</select><button type="button" class="quitar" onclick="otroQuitar('${o.k}')" aria-label="Quitar">✕</button></div>
+    ${o.insumoId==='__otro'?`<input placeholder="¿Cuál? Escribe el nombre" value="${esc(o.nombre)}" oninput="otroCampo('${o.k}','nombre',this.value)">`:''}
+    ${o.insumoId?`<div class="dos"><input type="number" inputmode="decimal" step="any" min="0" placeholder="Cantidad" value="${esc(o.cantidad)}" oninput="otroCampo('${o.k}','cantidad',this.value)">${
+      o.insumoId==='__otro' ? `<input placeholder="Unidad: kg, litro…" value="${esc(o.unidad)}" oninput="otroCampo('${o.k}','unidad',this.value)">`
+                            : `<div class="nota" style="align-self:center">${esc((c&&c.unidad)||'')}</div>`}</div>`:''}
   </div>`;
 }
-function addInsumoRow(row){ $('r_insumos').insertAdjacentHTML('beforeend', insRowHTML(row||{})); }
-function onInsNombre(sel){
-  const row=sel.closest('.ins-row');
-  row.querySelector('.ins-unidad').textContent = catInsumo(sel.value).unidad||'—';
-  row.querySelector('.ins-saldo').innerHTML = saldoTxt(sel.value);
-  calcReg();
-}
-/* Al cambiar de bodega o llegar datos nuevos: opciones y saldos al día, sin perder lo elegido. */
-function refrescarFilasInsumo(){
-  document.querySelectorAll('#r_insumos .ins-row').forEach(row=>{
-    const s=row.querySelector('.ins-nombre'), v=s.value;
-    s.innerHTML=opcionesInsumoReg(v);
-    row.querySelector('.ins-unidad').textContent = catInsumo(v).unidad||'—';
-    row.querySelector('.ins-saldo').innerHTML = saldoTxt(v);
+function agregarOtroInsumo(){ insOtros.push({k:uid(), insumoId:'', nombre:'', unidad:'', cantidad:''}); renderInsumos(); }
+function otroElegir(k,v){ const o=insOtros.find(x=>x.k===k); if(!o) return; o.insumoId=v; renderInsumos(); calcReg(); }
+function otroQuitar(k){ insOtros=insOtros.filter(x=>x.k!==k); renderInsumos(); calcReg(); }
+function otroCampo(k,campo,v){ const o=insOtros.find(x=>x.k===k); if(o){ o[campo]=v; calcReg(); } }
+
+function leerInsumos(){
+  const porId={};
+  Object.entries(insCant).forEach(([id,v])=>{ if(num(v)>0) porId[id]=num(v); });
+  const otros=[];
+  insOtros.forEach(o=>{
+    const c=num(o.cantidad); if(!(c>0) || !o.insumoId) return;
+    if(o.insumoId==='__otro'){ if(o.nombre.trim()) otros.push({nombre:o.nombre.trim(), unidad:o.unidad.trim(), cantidad:c}); }
+    else porId[o.insumoId]=(porId[o.insumoId]||0)+c;
   });
-}
-function readInsumos(){
-  return [...document.querySelectorAll('#r_insumos .ins-row')].map(row=>{
-    const id=row.querySelector('.ins-nombre').value, c=catInsumo(id);
-    return {insumoId:id, insumo:c.nombre||'', cantidad:num(row.querySelector('.ins-cant').value), unidad:c.unidad||'', costoUnitario:c.costo||0};
-  }).filter(i=>i.insumoId && i.cantidad>0);
+  const insumos=Object.entries(porId).filter(([id])=>catInsumo(id).id).map(([id,c])=>{ const x=catInsumo(id);
+    return {insumoId:id, insumo:x.nombre, cantidad:c, unidad:x.unidad||'', costoUnitario:x.costo||0}; });
+  return {insumos, otros};
 }
 
-/* ---- De qué bodega salen los insumos de un registro ----
-   Las del título; si el título no tiene, todas. Por defecto, la del proyecto del predio. */
-let bodegaTocada = false;
+/* La base sigue pidiendo una bodega para anotar el consumo. El ingeniero ya no la elige: va la
+   del proyecto del predio (o la primera del título). En el kardex queda como consumo y la
+   oficina lo concilia cuando cargue lo que se entregó. */
 function misBodegas(){
   const ids=bodegasDeUsuario(usuarioActual());
   return ids.length ? state.bodegas.filter(b=>ids.includes(b.id)) : state.bodegas;
@@ -1286,51 +1220,346 @@ function bodegaSugerida(loteId){
   const l=loteById(loteId), mias=misBodegas();
   return (l && mias.find(b=>b.proyecto && b.proyecto===l.proyecto)) || mias[0] || null;
 }
-function poblarBodegaReg(){
-  const s=$('r_bodega'); if(!s) return;
-  const v=s.value, mias=misBodegas();
-  s.innerHTML = mias.length ? mias.map(b=>`<option value="${b.id}">${esc(b.nombre)}</option>`).join('') : `<option value="">— Sin bodegas —</option>`;
-  if(v && mias.some(b=>b.id===v)) s.value=v;
-  else { const b=bodegaSugerida($('r_lote').value); if(b) s.value=b.id; }
+
+/* ============================================================ 4. Quiénes trabajaron ============================================================
+   Nada de jornales ni valores: solo quiénes. El rendimiento se calcula después en la oficina.
+   La lista la carga la oficina (trabajadores de campo); mientras no esté, se escriben los nombres. */
+let perSel = new Set(), perTxt = '', perBusca = '';
+function renderPersonas(){
+  const c=$('r_personas'); if(!c) return;
+  const lista=state.trabajadores||[];
+  if(!lista.length){
+    c.innerHTML=`<p class="nota" style="margin-bottom:10px">La lista del equipo todavía no está cargada. Mientras tanto, escribe quiénes trabajaron.</p>
+      <textarea id="r_perTxt" placeholder="Ej.: Juan Pérez, María Gómez" oninput="perTxt=this.value; calcReg()">${esc(perTxt)}</textarea>`;
+    $('r_perCuenta').textContent=''; return;
+  }
+  [...perSel].forEach(id=>{ if(!lista.some(p=>p.id===id)) perSel.delete(id); });
+  c.innerHTML = (lista.length>10 ? `<input type="search" placeholder="Buscar por nombre" value="${esc(perBusca)}" oninput="perBusca=this.value; renderPersonasLista()" style="margin-bottom:10px">` : '')
+    + `<div class="lista-filas" id="r_perLista"></div>`;
+  renderPersonasLista();
 }
-function onLoteReg(){
-  if(!bodegaTocada){ const b=bodegaSugerida($('r_lote').value); if(b) $('r_bodega').value=b.id; refrescarFilasInsumo(); }
-  renderNucPicker();
+function renderPersonasLista(){
+  const l=$('r_perLista'); if(!l) return;
+  const lista=state.trabajadores||[], q=perBusca.trim().toLowerCase();
+  const vis=lista.filter(p=>!q || p.nombre.toLowerCase().includes(q) || perSel.has(p.id));
+  l.innerHTML = vis.map(p=>{ const on=perSel.has(p.id);
+    return `<button type="button" class="fila${on?' on':''}" aria-pressed="${on}" data-id="${p.id}" onclick="perToggle(this.dataset.id)"><span class="marca-check">✓</span><span class="fila-txt"><b>${esc(p.nombre)}</b>${p.cargo?`<small>${esc(p.cargo)}</small>`:''}</span></button>`;
+  }).join('') || `<div class="vacio-suave">Nadie con ese nombre.</div>`;
+  $('r_perCuenta').textContent = perSel.size ? `${perSel.size} persona${perSel.size>1?'s':''}` : '';
+}
+function perToggle(id){ perSel.has(id)?perSel.delete(id):perSel.add(id); renderPersonasLista(); recordarSeleccion(); calcReg(); }
+
+/* ============================================================ Resumen de abajo y guardar ============================================================ */
+function calcReg(){
+  const nuc=parseNucleos($('r_nucleos').value), l=loteById($('r_lote').value), acts=[...actSel];
+  pintarAvisoNuc(nuc);
+  const r=$('r_resumen'); if(!r) return;
+  const {insumos,otros}=leerInsumos(), nIns=insumos.length+otros.length;
+  let titulo;
+  if(!l) titulo='Elige el predio y el lote';
+  else if(!nuc.length) titulo='Toca los núcleos en el mapa';
+  else if(!acts.length) titulo='Elige la actividad';
+  else titulo=acts.join(' · ');
+  const partes=[];
+  if(l) partes.push(`${l.predio} · ${l.lote}`);
+  if(nuc.length) partes.push(`${nuc.length} núcleo${nuc.length>1?'s':''}`);
+  if(nIns) partes.push(`${nIns} insumo${nIns>1?'s':''}`);
+  r.innerHTML=`<b>${esc(titulo)}</b>${esc(partes.join(' · '))}`;
+  $('r_submit').disabled = !(l && nuc.length && acts.length);
 }
 
-/* ============================================================ Actividades: se marcan varias ============================================================
-   Botones que se marcan y se desmarcan, agrupados como los agrupa la gente en campo. No es un
-   select múltiple: en el celular un select múltiple es de las cosas más incómodas que hay. */
-let actSel = new Set();
+function guardarRegistro(e){
+  e.preventDefault();
+  if(!sesion) return;
+  const editId=$('regId').value, nuc=parseNucleos($('r_nucleos').value), acts=[...actSel];
+  const loteId=$('r_lote').value, l=loteById(loteId);
+  if(!l){ toast('Elige el predio y el lote.'); return; }
+  if(!nuc.length){ toast('Toca en el mapa al menos un núcleo.'); return; }
+  if(!acts.length){ toast('Elige la actividad.'); return; }
+  if(insOtros.some(o=>o.insumoId==='__otro' && num(o.cantidad)>0 && !o.nombre.trim())){ toast('Escribe el nombre del insumo que no está en la lista.'); return; }
+  const {insumos,otros}=leerInsumos();
+  const hayLista=(state.trabajadores||[]).length>0;
+  const trab=hayLista?[...perSel]:[], trabTxt=hayLista?'':perTxt.trim();
+  const bodegaId = insumos.length ? ((bodegaSugerida(loteId)||{}).id||null) : null;
+  const id=editId||nuevoId();
+  const reg={id, fecha:$('r_fecha').value||hoy(), loteId, actividades:acts, nucleos:nuc,
+    nucleoIds:nuc.map(n=>l.sig.ids[n]).filter(Boolean), nucleosTxt:compressRanges(nuc), insumos, insumosOtros:otros,
+    trabajadorIds:trab, trabajadoresTxt:trabTxt, personas:trab.length||null,
+    notas:$('r_notas').value.trim(), bodegaId, titulo:(usuarioActual()||{}).nombre||''};
+  encolar({tipo:'registro', id, local:reg, datos:{
+    id, zona_id:loteId, fecha:reg.fecha, actividades:acts, nucleo_ids:reg.nucleoIds, nucleos_txt:reg.nucleosTxt,
+    personas:reg.personas, bodega_id:bodegaId, notas:reg.notas||null,
+    insumos:insumos.map(i=>({insumo_id:i.insumoId, cantidad:i.cantidad})),
+    insumos_otros:otros, trabajador_ids:trab, trabajadores_txt:trabTxt||null,
+  }});
+  const eraEdicion=!!editId;
+  if(eraEdicion) cargarRecordado();
+  reconstruir(); limpiarTrasGuardar(); render(); pintarSync();
+  toast(eraEdicion ? 'Cambios guardados'
+    : sesion.vencida ? 'Guardado. Se envía cuando escribas la clave nueva.'
+    : navigator.onLine ? 'Guardado. Enviando…' : 'Guardado. Se envía cuando haya señal.');
+  sincronizar();
+}
+/* Después de guardar quedan el predio, el lote, la actividad y la cuadrilla: lo normal es que
+   el siguiente registro sea igual en otros núcleos. Se limpian núcleos, cantidades y nota. */
+function limpiarTrasGuardar(){
+  $('regId').value=''; $('r_editando').innerHTML='';
+  $('r_submit').textContent='Guardar'; $('r_cancel').style.display='none';
+  nucSel.clear(); insCant={}; insOtros=[];
+  if($('r_notas')) $('r_notas').value='';
+  if(!$('r_fecha').value) $('r_fecha').value=hoy();
+}
+function editarRegistro(id){
+  const r=state.registros.find(x=>x.id===id); if(!r) return;
+  const l=loteById(r.loteId);
+  $('regId').value=r.id; $('r_fecha').value=r.fecha||hoy();
+  if(l){ $('r_predio').value=l.predioId; poblarLotes(); $('r_lote').value=l.id; }
+  actSel=new Set(actsDe(r)); actAbierta=false; actReabierta=false;
+  nucSel=new Set(r.nucleos||[]);
+  insCant={}; (r.insumos||[]).forEach(i=>insCant[i.insumoId]=String(i.cantidad));
+  insOtros=(r.insumosOtros||[]).map(o=>({k:uid(), insumoId:'__otro', nombre:o.nombre||'', unidad:o.unidad||'', cantidad:String(o.cantidad??'')}));
+  perSel=new Set(r.trabajadorIds||[]); perTxt=r.trabajadoresTxt||'';
+  $('r_notas').value=r.notas||'';
+  $('r_editando').innerHTML=`<div class="banda ambar">Estás editando el registro del ${esc(fechaFmt(r.fecha))}. <button type="button" class="btn btn-texto" onclick="resetForm('reg')">Cancelar</button></div>`;
+  $('r_submit').textContent='Guardar cambios'; $('r_cancel').style.display='';
+  renderActPicker(); renderNucPicker(); renderInsumos(); renderPersonas(); calcReg();
+  irVista('registrar');
+}
+function borrarRegistro(id){
+  hojaConfirmar({titulo:'¿Borrar este registro?', si:'Borrar', peligro:true,
+    texto:'Se quita de la lista y, cuando haya señal, también de la base.',
+    alSi:()=>{ encolar({tipo:'anular', id}); if(regAbierto===id) regAbierto=null;
+               reconstruir(); render(); pintarSync(); sincronizar(); toast('Registro borrado'); }});
+}
+function resetForm(which){
+  if(which==='reg'){
+    limpiarTrasGuardar(); cargarRecordado();
+    poblarSelects(); renderActPicker(); renderNucPicker(); renderInsumos(); renderPersonas(); calcReg();
+  }
+  if(which==='mon'){
+    $('formMon').reset(); $('monId').value=''; $('m_cancel').style.display='none';
+    monEstado=''; monRango=''; quitarFotoMon();
+    $('m_otraBox').style.display='none'; $('m_espInfo').textContent=''; $('m_derived').innerHTML=''; $('m_mapa').innerHTML='';
+    $('m_fecha').value=hoy();
+    renderOpcionesMon(); poblarMonSelects();
+  }
+}
 
-function renderActPicker(){
-  const cont=$('r_actPicker'); if(!cont) return;
-  cont.innerHTML = ACTIVIDADES.map(g=>`<div class="act-grupo">
-      <div class="act-grupo-lbl">${esc(g.grupo)}</div>
-      <div class="act-chips">${g.items.map(it=>{
-        const on=actSel.has(it);
-        return `<button type="button" class="act${on?' on':''}" data-a="${esc(it)}" aria-pressed="${on}" onclick="actToggle(this)">${esc(it)}</button>`;
-      }).join('')}</div>
-    </div>`).join('');
-  actAplicar();
+/* ============================================================ Lo registrado ============================================================ */
+let regAbierto = null;
+function toggleReg(id){ regAbierto = (regAbierto===id) ? null : id; renderRegistros(); }
+function renderRegistros(){
+  const cont=$('listaRegistros'); if(!cont) return;
+  const f=$('filtroRegPredio').value;
+  let arr=[...state.registros];
+  if(f && f!=='__all') arr=arr.filter(r=>(loteById(r.loteId)||{}).predioId===f);
+  arr.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
+  if(!arr.length){ cont.innerHTML=emptyBox('🌱','Todavía no hay registros','Lo que guardes en «Registrar» aparece aquí.'); return; }
+  const porDia={}; arr.forEach(r=>(porDia[r.fecha||''] ||= []).push(r));
+  cont.innerHTML = Object.entries(porDia).map(([fecha,rs])=>`<div class="dia">${esc(diaFmt(fecha))}</div><div class="lista-filas">${rs.map(filaReg).join('')}</div>`).join('');
 }
-function actToggle(btn){
-  const a=btn.dataset.a;
-  actSel.has(a)?actSel.delete(a):actSel.add(a);
-  btn.classList.toggle('on',actSel.has(a));
-  btn.setAttribute('aria-pressed',actSel.has(a)?'true':'false');
-  actAplicar();
+function filaReg(r){
+  const l=loteById(r.loteId), n=(r.nucleos||[]).length, abierto=regAbierto===r.id;
+  const estado = r.pendiente ? (r.errorSync?'mal':'pend') : '';
+  const sub=[l?`${l.predio} · ${l.lote}`:'Lote retirado del SIG', n?`${n} núcleo${n>1?'s':''}`:(r.nucleosTxt||'')].filter(Boolean).join(' · ')
+    + (r.pendiente ? (r.errorSync?' · no se pudo enviar':' · sin enviar') : '');
+  let det='';
+  if(abierto){
+    const k = r.pendiente ? cola.findIndex(o=>o.id===r.id) : -1;
+    const ins=(r.insumos||[]).map(i=>`${esc(i.insumo)}: ${fmtNum(i.cantidad)} ${esc(i.unidad)}`)
+      .concat((r.insumosOtros||[]).map(o=>`${esc(o.nombre)} (otro): ${fmtNum(o.cantidad)} ${esc(o.unidad||'')}`));
+    const quienes=(r.trabajadorIds||[]).map(id=>(state.trabajadores.find(p=>p.id===id)||{}).nombre||'(ya no está en la lista)');
+    det=`<div class="reg-det">
+      <span>Núcleos: <b>${esc(n?compressRanges(r.nucleos):(r.nucleosTxt||'—'))}</b></span>
+      <span>Insumos: <b>${ins.length?ins.join(' · '):'ninguno'}</b></span>
+      ${quienes.length||r.trabajadoresTxt?`<span>Quiénes: <b>${esc(quienes.length?quienes.join(', '):r.trabajadoresTxt)}</b></span>`:''}
+      ${r.notas?`<span>Nota: <b>${esc(r.notas)}</b></span>`:''}
+      ${n<(r.nucleoIds||[]).length?`<span>Algunos núcleos ya no están en el mapa: el SIG volvió a subir la nucleación.</span>`:''}
+      ${r.errorSync?`<span style="color:var(--arcilla)">La base no lo aceptó: ${esc(r.errorSync)}</span>`:''}
+      <div class="botones">
+        <button type="button" class="btn btn-chico" onclick="editarRegistro('${r.id}')">Editar</button>
+        <button type="button" class="btn btn-suave btn-chico" onclick="borrarRegistro('${r.id}')">Borrar</button>
+        ${r.errorSync&&k>=0?`<button type="button" class="btn btn-suave btn-chico" onclick="reintentarOp(${k})">Reintentar</button>`:''}
+      </div>
+    </div>`;
+  }
+  return `<div class="reg${abierto?' abierto':''}">
+    <button type="button" class="fila reg-cab" onclick="toggleReg('${r.id}')" aria-expanded="${abierto}">
+      <span class="punto ${estado}"></span>
+      <span class="fila-txt"><b>${esc(actsDe(r).join(' · '))}</b><small>${esc(sub)}</small></span>
+      <span class="flecha">›</span>
+    </button>${det}
+  </div>`;
 }
-function actQuitar(a){ actSel.delete(a); renderActPicker(); }
-function actAplicar(){
-  const arr=[...actSel];
-  $('r_acts').value=arr.join(' | ');
-  const c=$('r_actCount');
-  if(c) c.innerHTML = arr.length
-    ? `<span class="sel-n">${arr.length}</span><span class="sel-txt">actividad${arr.length>1?'es':''}:</span>`
-      + arr.map(a=>`<button type="button" class="sel-chip" onclick="actQuitar('${esc(a).replace(/'/g,"\\'")}')" title="Quitar">${esc(a)} <span>✕</span></button>`).join('')
-    : `<span class="sel-vacio">Marca al menos una actividad</span>`;
-  calcReg();
+function actualizarCuenta(){
+  const s=document.querySelector('.seg[data-view="registrado"]'); if(!s) return;
+  const p=cola.filter(o=>o.tipo==='registro').length;
+  s.innerHTML='Lo registrado'+(p?`<span class="cuenta">${p}</span>`:'');
+}
+
+/* ============================================================ Menú ============================================================ */
+function describirOp(op){
+  if(op.tipo==='registro') return `${esc(actsDe(op.local).join(' · '))} · ${loteNombre(op.local.loteId)}`;
+  if(op.tipo==='anular') return 'Borrar un registro';
+  return esc(op.tipo);
+}
+function abrirMenu(){
+  if(!sesion) return;
+  const pend=cola.length;
+  const estado = sesion.vencida ? 'Falta escribir la clave nueva para enviar.'
+    : sync.sinRed ? 'Sin señal en este momento.'
+    : pend ? `${pend} cambio${pend>1?'s':''} por enviar.` : 'Todo está enviado.';
+  const lista=cola.map((op,i)=>`<div class="fila"><span class="fila-txt"><b>${describirOp(op)}</b><small>${esc(fechaHora(op.creado))}${op.error?' · '+esc(op.error):''}</small></span>${
+      op.error?`<button class="btn btn-suave btn-chico" onclick="cerrarHoja(); reintentarOp(${i})">Reintentar</button><button class="quitar" onclick="cerrarHoja(); descartarOp(${i})" aria-label="Descartar">✕</button>`:''}</div>`).join('');
+  abrirHoja(`<h2>${esc(sesion.titulo)}</h2>
+    <p class="nota">${estado} Última vez con la base: <b>${esc(fechaHora(datos&&datos.recibido))}</b>.</p>
+    ${lista?`<div class="lista-filas" style="margin-top:12px">${lista}</div>`:''}
+    <div class="acciones">
+      <button class="btn" onclick="cerrarHoja(); sincronizar(true)">Enviar y actualizar ahora</button>
+      <button class="btn btn-suave" onclick="exportarCSV()">Descargar mis registros (Excel)</button>
+      <button class="btn btn-suave" onclick="exportarJSON()">Descargar respaldo completo</button>
+      <button class="btn btn-peligro" onclick="pedirCerrarSesion()">Cerrar sesión</button>
+    </div>`);
+}
+
+/* ============================================================ Sesión ============================================================
+   Se entra UNA vez con el título y su clave, y la app no vuelve a sacar a nadie: solo sale con
+   «Cerrar sesión». Si la oficina cambia la clave del título, la base deja de aceptar el token
+   viejo; aun así la app NO cierra la sesión: sigue registrando sin problema y pide la clave nueva
+   solo para poder enviar. Lo que no se ha enviado vive en el celular, en una cola por título. */
+const ROLES_REGISTRO=['siembra','monitoreo'];
+let tituloElegido=null;
+async function renderLogin(){
+  const guardados=leerJSON(K_TITULOS)||[];
+  pintarTitulos(guardados);
+  try{
+    const t=await rpc('campo_titulos');
+    guardarJSON(K_TITULOS, t||[]);
+    pintarTitulos(t||[]);
+  }catch(e){
+    if(!guardados.length) $('loginUsers').innerHTML=`<div class="vacio-suave">${e.codigo==='CONFIG' ? esc(e.message)
+      : 'Para entrar la primera vez se necesita señal. Busca un sitio con internet y vuelve a abrir la app.'}</div>`;
+  }
+}
+function pintarTitulos(lista){
+  lista=(lista||[]).filter(t=>ROLES_REGISTRO.includes(t.rol));
+  $('loginUsers').innerHTML = lista.map(t=>`<button type="button" class="fila${tituloElegido===t.nombre?' on':''}" data-t="${esc(t.nombre)}" onclick="elegirTitulo(this.dataset.t)">
+      <span class="marca-check">✓</span><span class="fila-txt"><b>${esc(t.nombre)}</b><small>${esc(ROLES[t.rol]?.label||t.rol)}${t.tiene_clave===false?' · todavía sin clave':''}</small></span></button>`).join('')
+    || `<div class="vacio-suave">Todavía no hay títulos para registrar.</div>`;
+}
+function elegirTitulo(nombre){
+  tituloElegido=nombre;
+  pintarTitulos(leerJSON(K_TITULOS)||[]);
+  $('loginClave').innerHTML=`<form onsubmit="entrar(event)">
+      <input id="l_clave" type="password" placeholder="Clave de ${esc(nombre)}" autocomplete="current-password" required>
+      <div id="l_msg" class="login-msg"></div>
+      <button class="btn btn-ambar btn-ancho" type="submit">Entrar</button>
+    </form>`;
+  setTimeout(()=>{ const c=$('l_clave'); if(c) c.focus(); },30);
+}
+async function entrar(ev){
+  ev.preventDefault();
+  const msg=$('l_msg'); msg.style.color='var(--tenue)'; msg.textContent='Entrando…';
+  try{
+    const r=await rpc('campo_ingresar',{p_titulo:tituloElegido, p_clave:$('l_clave').value, p_dispositivo:navigator.userAgent.slice(0,180)});
+    if(!r || !r.ok){ msg.style.color=''; msg.textContent=(r&&r.error)||'No se pudo entrar.'; return; }
+    // Otro título en el mismo celular: lo bajado del anterior no le sirve.
+    if(datos && datos.titulo && datos.titulo.nombre!==r.titulo){ datos=null; localStorage.removeItem(K_DATOS); }
+    sesion={token:r.token, titulo:r.titulo, rol:r.rol, expira:r.expira};
+    guardarJSON(K_SESION, sesion);
+    cola=leerJSON(kCola(sesion.titulo))||[];
+    tituloElegido=null; $('loginClave').innerHTML='';
+    reconstruir(); aplicarSesion();
+    sincronizar();
+  }catch(e){
+    msg.style.color='';
+    msg.textContent = e.codigo==='RED' ? 'Sin señal. Para entrar la primera vez se necesita internet.' : e.message;
+  }
+}
+/* La base dijo que el token ya no sirve (cambiaron la clave). No se saca a nadie. */
+function sesionVencida(){
+  if(!sesion) return;
+  sesion.vencida=true; guardarJSON(K_SESION, sesion);
+  pintarAvisoSesion(); pintarSync();
+}
+function pintarAvisoSesion(){
+  const c=$('avisoSesion'); if(!c) return;
+  c.innerHTML = sesion && sesion.vencida
+    ? `<div class="banda ambar"><b>Falta la clave para enviar.</b> La oficina cambió la clave de ${esc(sesion.titulo)}. Puedes seguir registrando: todo queda guardado en el celular y se envía cuando la escribas.
+        <form onsubmit="reingresar(event)"><input id="re_clave" type="password" placeholder="Clave nueva" autocomplete="current-password" required><button class="btn btn-chico" type="submit">Enviar</button></form>
+        <div class="login-msg" id="re_msg"></div></div>`
+    : '';
+}
+async function reingresar(ev){
+  ev.preventDefault();
+  const m=$('re_msg'); m.textContent='Entrando…';
+  try{
+    const r=await rpc('campo_ingresar',{p_titulo:sesion.titulo, p_clave:$('re_clave').value, p_dispositivo:navigator.userAgent.slice(0,180)});
+    if(!r || !r.ok){ m.textContent=(r&&r.error)||'No se pudo entrar.'; return; }
+    sesion={token:r.token, titulo:r.titulo, rol:r.rol, expira:r.expira};
+    guardarJSON(K_SESION, sesion);
+    pintarAvisoSesion(); toast('Listo. Enviando lo pendiente…'); sincronizar(true);
+  }catch(e){
+    m.textContent = e.codigo==='RED' ? 'Sin señal. Inténtalo cuando haya internet; lo registrado sigue guardado.' : e.message;
+  }
+}
+/* Cerrar sesión no borra lo pendiente, pero sí tiene riesgos: se dicen antes, con lo que aplica hoy. */
+function pedirCerrarSesion(){
+  if(!sesion) return;
+  const pend=cola.length, sinRed=!navigator.onLine, t=esc(sesion.titulo);
+  const p=[];
+  if(pend) p.push(`<b>Tienes ${pend} cambio${pend>1?'s':''} sin enviar.</b> No se borran: quedan guardados en este celular y se envían solos cuando vuelvas a entrar <b>como ${t}</b> y haya señal. Si entras con otro título, esperan.`);
+  if(sinRed) p.push(`<b>No hay señal.</b> Para volver a entrar se necesita internet: hasta entonces no podrás registrar nada.`);
+  if(!p.length) p.push('Todo está enviado. Para volver a entrar vas a necesitar la clave y señal.');
+  abrirHoja(`<h2>¿Cerrar sesión?</h2>${p.map(x=>`<p class="nota" style="margin-top:8px">${x}</p>`).join('')}
+    ${pend?`<p class="nota" style="margin-top:8px">Lo que sí pierde lo pendiente es borrar los datos del navegador o desinstalar la app antes de enviarlo.</p>`:''}
+    <div class="acciones"><button class="btn btn-peligro" onclick="logout()">Cerrar sesión</button><button class="btn btn-suave" onclick="cerrarHoja()">Seguir en la app</button></div>`);
+}
+function logout(){
+  cerrarHoja();
+  sesion=null; localStorage.removeItem(K_SESION); cola=[];
+  aplicarSesion();
+}
+function aplicarSesion(){
+  const cab=document.querySelector('.cabecera');
+  if(!sesion){ $('login').style.display='flex'; cab.style.display='none'; $('barraGuardar').hidden=true; renderLogin(); return; }
+  $('login').style.display='none'; cab.style.display='';
+  const u=usuarioActual() || {nombre:sesion.titulo, rol:sesion.rol};
+  $('quienTitulo').textContent=u.nombre;
+  const registra=ROLES_REGISTRO.includes(u.rol);
+  document.querySelectorAll('.seg').forEach(s=>{ s.hidden = s.dataset.view==='monitoreo' && u.rol!=='monitoreo'; });
+  $('nav').hidden=!registra;
+  if(!registra) irVista('sinregistro');
+  else { const a=document.querySelector('.seg.activo'); irVista(a && !a.hidden ? a.dataset.view : 'registrar'); }
+  pintarAvisoSesion(); render(); pintarSync();
+}
+
+/* ============================================================ Render ============================================================ */
+function render(){
+  poblarSelects(); renderActPicker(); renderNucPicker(); renderInsumos(); renderPersonas(); calcReg();
+  renderRegistros(); actualizarCuenta();
+  poblarMonSelects(); renderOpcionesMon(); renderMonitoreos();
+}
+
+/* ============================================================ Exportar ============================================================ */
+function exportarJSON(){
+  const respaldo={app:'actividades_monitoreo_campo', exportado:new Date().toISOString(), titulo:sesion?sesion.titulo:null,
+    sinEnviar:cola, base:datos, monitoreos:state.monitoreos, config:{especiesExtra:state.config.especiesExtra}};
+  descargar(new Blob([JSON.stringify(respaldo,null,2)],{type:'application/json'}), `actividades-campo_${hoy()}.json`);
+}
+function exportarCSV(){
+  const head=['fecha','predio','lote','actividades','nucleos','num_nucleos','insumo','cantidad','unidad','quienes','titulo','nota','enviado'];
+  const rows=[head];
+  state.registros.forEach(r=>{
+    const l=loteById(r.loteId), n=(r.nucleos||[]).length;
+    const quienes=(r.trabajadorIds||[]).map(id=>(state.trabajadores.find(p=>p.id===id)||{}).nombre).filter(Boolean).join(', ') || r.trabajadoresTxt || '';
+    const base=[r.fecha||'', l?l.predio:'', l?l.lote:'', actsDe(r).join(' + '), n?compressRanges(r.nucleos):(r.nucleosTxt||''), n];
+    const fin=[quienes, r.titulo||'', r.notas||'', r.pendiente?'no':'sí'];
+    const ins=(r.insumos||[]).map(i=>[i.insumo,i.cantidad,i.unidad]).concat((r.insumosOtros||[]).map(o=>[o.nombre+' (otro)',o.cantidad,o.unidad||'']));
+    if(ins.length) ins.forEach(i=>rows.push([...base,...i,...fin])); else rows.push([...base,'','','',...fin]);
+  });
+  const csv=rows.map(r=>r.map(c=>{ const s=String(c??''); return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(';')).join('\n');
+  descargar(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}), `registros-campo_${hoy()}.csv`);
 }
 
 /* ============================================================ Núcleos: mapa + lista ============================================================
@@ -1390,8 +1619,6 @@ function renderNucPicker(){
       ${mapaSeguro(l,roster,{sel:nucSel})}
       <div class="nuc-bar">
         <span class="nuc-info">${esc(etiquetaLote(l))} · ${roster.length} núcleos</span>
-        <button type="button" class="btn btn-soft btn-sm" onclick="nucTodos()">Todos</button>
-        <button type="button" class="btn btn-soft btn-sm" onclick="nucInvertir()">Invertir</button>
         <button type="button" class="btn btn-soft btn-sm" onclick="nucNinguno()">Limpiar</button>
         <button type="button" class="btn btn-soft btn-sm nuc-lista-btn" aria-expanded="${nucListaAbierta}" onclick="nucListaToggle()">${nucListaAbierta?'Ocultar lista ▴':'Ver lista ▾'}</button>
       </div>
@@ -1414,7 +1641,7 @@ function nucFallbackHTML(msg){
 /* El mapa es apoyo: si se cae, se cae solo él y los botones siguen sirviendo. */
 function mapaSeguro(l,roster,cfg){
   try{ return mapaNucleos(l,roster,cfg); }
-  catch(e){ return mapaMsg('No se pudo dibujar el mapa.<br>Los núcleos se registran igual con los botones de arriba.'); }
+  catch(e){ return mapaMsg('No se pudo dibujar el mapa.<br>Los núcleos se marcan igual con «Ver lista».'); }
 }
 
 /* Mapa dibujado con SVG puro: sin mapas de internet, sin librerías. Funciona sin señal. */
@@ -1423,7 +1650,7 @@ function mapaNucleos(l,roster,cfg){
   _proy=null;
   try{
     const sig=sigDeLote(l);
-    if(!sig||!sig.nucleos.length) return mapaMsg('Este lote todavía no tiene cartografía cargada.<br>Los núcleos se registran igual con los botones de arriba.');
+    if(!sig||!sig.nucleos.length) return mapaMsg('Este lote todavía no tiene cartografía cargada.<br>Los núcleos se marcan igual con «Ver lista».');
     const W=720, PAD=16;
     const enc=encuadre(sig.nucleos);
     let {minX,maxX,minY,maxY}=enc;
@@ -1482,7 +1709,7 @@ function mapaNucleos(l,roster,cfg){
       </div>
     </div>`;
   }catch(e){
-    return mapaMsg('No se pudo dibujar el mapa.<br>Los núcleos se registran igual con los botones de arriba.');
+    return mapaMsg('No se pudo dibujar el mapa.<br>Los núcleos se marcan igual con «Ver lista».');
   }
 }
 const mapaMsg = html => `<div class="nuc-map"><div class="nuc-msg">${html}</div></div>`;
@@ -1864,654 +2091,17 @@ function exportarMonitoreoCSV(){
   descargar(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}), `monitoreo-siembra-arboles_${hoy()}.csv`);
 }
 
-/* ============================================================ Cálculos en vivo ============================================================ */
-function calcReg(){
-  const nuc=parseNucleos($('r_nucleos').value); const n=nuc.length;
-  const cn=$('r_nucCount');
-  if(cn) cn.innerHTML = n
-    ? `<span class="sel-n">${n}</span><span class="sel-txt">núcleo${n>1?'s':''}:</span>`
-      + (n<=40 ? nuc.map(x=>`<button type="button" class="sel-chip" onclick="nucToggle(${x})" title="Quitar">${x} <span>✕</span></button>`).join('')
-               : `<span class="sel-rangos">${esc(compressRanges(nuc))}</span>`)
-    : `<span class="sel-vacio">Toca en el mapa los núcleos que se trabajaron</span>`;
-  const acts=[...actSel];
-  const jor=num($('r_jornales').value), val=num($('r_valor').value);
-  const mo=jor*val, ins=readInsumos();
-  const costoIns=ins.reduce((s,i)=>s+i.cantidad*i.costoUnitario,0);
-  const rend = jor>0? n/jor : 0;
-  let html = `<span>Núcleos: <b>${n}</b></span><span>Actividades: <b>${acts.length}</b></span><span>Mano de obra: <b>${fmtCOP(mo)}</b></span>`;
-  if(costoIns) html += `<span>Insumos: <b>${fmtCOP(costoIns)}</b></span><span>Total: <b>${fmtCOP(mo+costoIns)}</b></span>`;
-  if(rend>0) html += `<span>Rendimiento: <b>${fmtNum(rend)} núcleos/jornal</b></span>`;
-  if(n>0 && ins.length) html += `<span style="width:100%;color:var(--salvia)">Consumo/núcleo: ${ins.map(i=>`${esc(i.insumo.split(' ')[0])} ${fmtNum(i.cantidad/n)} ${esc(i.unidad)}`).join(' · ')}</span>`;
-  if(acts.length>1) html += `<span style="width:100%;color:var(--salvia)">Las ${acts.length} actividades comparten estos núcleos, jornales e insumos. En el resumen por actividad el costo se reparte en partes iguales entre ellas.</span>`;
-  $('r_derived').innerHTML = html;
-}
-
-/* ============================================================ CRUD Registros ============================================================
-   Guardar no espera a la base: el registro entra a la cola, se ve de una vez en la lista (marcado
-   «sin enviar») y descuenta del saldo de la bodega. La cola se envía sola cuando hay señal. */
-function guardarRegistro(e){
-  e.preventDefault();
-  const editId=$('regId').value;
-  const nuc=parseNucleos($('r_nucleos').value);
-  const acts=[...actSel];
-  const loteId=$('r_lote').value, l=loteById(loteId);
-  if(!l){ alert('Elige el lote.'); return; }
-  if(!nuc.length){ alert('Toca en el mapa al menos un núcleo trabajado.'); return; }
-  if(!acts.length){ alert('Marca al menos una actividad.'); return; }
-  const insumos=readInsumos();
-  const bodegaId=$('r_bodega').value||null;
-  if(insumos.length && !bodegaId){ alert('Elige la bodega de donde salieron los insumos.'); return; }
-
-  const id=editId||nuevoId();
-  const reg={id, fecha:$('r_fecha').value||hoy(), loteId, actividades:acts, nucleos:nuc,
-    nucleoIds:nuc.map(n=>l.sig.ids[n]).filter(Boolean), nucleosTxt:compressRanges(nuc), insumos,
-    personas:num($('r_personas').value), jornales:num($('r_jornales').value), valorJornal:num($('r_valor').value),
-    notas:$('r_notas').value.trim(), bodegaId, titulo:(usuarioActual()||{}).nombre||''};
-  encolar({tipo:'registro', id, local:reg, datos:{
-    id, zona_id:loteId, fecha:reg.fecha, actividades:acts, nucleo_ids:reg.nucleoIds, nucleos_txt:reg.nucleosTxt,
-    personas:reg.personas||null, jornales:reg.jornales||null, valor_jornal:reg.valorJornal||null,
-    bodega_id:bodegaId, notas:reg.notas||null,
-    insumos:insumos.map(i=>({insumo_id:i.insumoId, cantidad:i.cantidad})),
-  }});
-  reconstruir(); resetForm('reg'); render(); pintarSync();
-  sincronizar();
-}
-function editarRegistro(id){
-  const r=state.registros.find(x=>x.id===id); if(!r) return;
-  $('regId').value=r.id; $('r_fecha').value=r.fecha||''; poblarSelects();
-  $('r_lote').value=r.loteId;
-  if(r.bodegaId){ bodegaTocada=true; poblarBodegaReg(); $('r_bodega').value=r.bodegaId; }
-  actSel=new Set(actsDe(r)); renderActPicker();
-  nucSel=new Set(r.nucleos||[]); renderNucPicker();
-  $('r_personas').value=r.personas||''; $('r_jornales').value=r.jornales||''; $('r_valor').value=r.valorJornal||state.config.valorJornal; $('r_notas').value=r.notas||'';
-  $('r_insumos').innerHTML=''; (r.insumos||[]).forEach(addInsumoRow); if(!(r.insumos||[]).length) addInsumoRow();
-  $('r_cancel').style.display=''; $('r_submit').textContent='Guardar cambios';
-  $('r_editando').innerHTML=`<div class="editando">✏️ Editando el registro del ${esc(fechaFmt(r.fecha)||'—')} · ${esc(actsDe(r).join(', '))}</div>`;
-  calcReg(); renderRegistros(); irA('registros');
-}
-function borrarRegistro(id){
-  if(!confirm('¿Borrar este registro? Los insumos que descontó vuelven al saldo de la bodega.')) return;
-  encolar({tipo:'anular', id});
-  if(regAbierto===id) regAbierto=null;
-  reconstruir(); render(); pintarSync();
-  sincronizar();
-}
-function idxCola(id){ return cola.findIndex(o=>o.id===id); }
-
-function resetForm(which){
-  if(which==='reg'){
-    $('formReg').reset(); $('regId').value=''; $('r_cancel').style.display='none';
-    $('r_submit').textContent='Guardar actividad'; $('r_editando').innerHTML='';
-    $('r_valor').value=state.config.valorJornal; $('r_fecha').value=hoy();
-    bodegaTocada=false; poblarBodegaReg();
-    $('r_insumos').innerHTML=''; addInsumoRow();
-    $('r_derived').innerHTML=''; actSel.clear(); renderActPicker(); nucSel.clear(); renderNucPicker(); renderRegistros();
-  }
-  if(which==='mon'){
-    $('formMon').reset(); $('monId').value=''; $('m_cancel').style.display='none';
-    monEstado=''; monRango=''; quitarFotoMon();
-    $('m_otraBox').style.display='none'; $('m_espInfo').textContent=''; $('m_derived').innerHTML=''; $('m_mapa').innerHTML='';
-    renderOpcionesMon(); poblarMonSelects();
-  }
-}
-function irA(view){ document.querySelector(`.tab[data-view="${view}"]`).click(); setTimeout(()=>window.scrollTo({top:70,behavior:'smooth'}),60); }
-
-/* ============================================================ Config ============================================================ */
-function setValorJornal(){ state.config.valorJornal=num($('cfg_valor').value); save(); }
-
-/* ============================================================ Inventario / Bodegas ============================================================
-   Las compras ya no se registran aquí: entran en la oficina con la factura electrónica, y la oficina
-   reparte a las bodegas. Desde el celular: ver el saldo de las bodegas del título, aceptar lo que
-   llega, y enviar traslados entre bodegas. El consumo de campo sale de los registros. */
-const bodegaById = id => state.bodegas.find(b=>b.id===id);
-const bodegaNombre = id => (bodegaById(id)||{}).nombre || '—';
-function bodegaOpts(sel,todos){
-  let o = todos?`<option value="__all">Todas las bodegas</option>`:`<option value="">— Selecciona —</option>`;
-  o += state.bodegas.map(b=>`<option value="${b.id}" ${b.id===sel?'selected':''}>${esc(b.nombre)}</option>`).join('');
-  return o;
-}
-/* ---- Modal genérico ---- */
-function abrirModal(titulo, bodyHTML){ $('modalTitulo').textContent=titulo; $('modalBody').innerHTML=bodyHTML; $('modal').style.display='flex'; }
-function cerrarModal(){ $('modal').style.display='none'; $('modalBody').innerHTML=''; archivoTemp=null; }
-
-/* ---- Soporte de entrega (foto o PDF). La foto se achica antes de guardarla. ---- */
-let archivoTemp=null;
-function leerArchivo(f){
-  return new Promise((res,rej)=>{
-    if(f.type && f.type.startsWith('image/')){
-      const r=new FileReader();
-      r.onload=()=>{ const img=new Image(); img.onload=()=>{ let w=img.width,h=img.height; const max=1400; if(w>max||h>max){ const s=Math.min(max/w,max/h); w=Math.round(w*s); h=Math.round(h*s);} const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); res(c.toDataURL('image/jpeg',0.75)); }; img.onerror=rej; img.src=r.result; };
-      r.onerror=rej; r.readAsDataURL(f);
-    } else { const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); }
-  });
-}
-async function onArchivo(input, infoId){
-  const f=input.files[0], info=$(infoId);
-  if(!f){ archivoTemp=null; if(info) info.textContent=''; return; }
-  try{ const dataURL=await leerArchivo(f);
-    const kb=Math.round(dataURL.length/1024);
-    if(kb>2500){ archivoTemp=null; input.value=''; if(info) info.innerHTML=`<span style="color:var(--bad)">${esc(f.name)} pesa demasiado (~${kb} KB). Toma la foto con menos calidad.</span>`; return; }
-    archivoTemp={nombre:f.name, tipo:f.type||'', dataURL};
-    if(info) info.innerHTML=`✓ ${esc(f.name)} <span class="hint">(~${kb} KB)</span>`;
-  }catch(e){ alert('No se pudo leer el archivo.'); archivoTemp=null; }
-}
-
-/* ---- Enviar traslado ---- */
-function bodegasPropias(){ const ids=bodegasDeUsuario(usuarioActual()); return state.bodegas.filter(b=>ids.includes(b.id)); }
-function abrirTraslado(){
-  const mias=bodegasPropias(); archivoTemp=null;
-  if(!mias.length){ alert('Este título no tiene bodegas propias para enviar.'); return; }
-  abrirModal('Enviar traslado', `
-    <form onsubmit="guardarTraslado(event)">
-      <div class="grid-form">
-        <div><label>Fecha</label><input id="t_fecha" type="date" value="${hoy()}"></div>
-        <div><label>Desde <span class="req">*</span></label><select id="t_origen" required onchange="pintarSaldoTraslado()">${mias.map(b=>`<option value="${b.id}">${esc(b.nombre)}</option>`).join('')}</select></div>
-        <div><label>Hacia <span class="req">*</span></label><select id="t_destino" required><option value="">— Bodega —</option>${state.bodegas.map(b=>`<option value="${b.id}">${esc(b.nombre)}</option>`).join('')}</select></div>
-        <div><label>Insumo <span class="req">*</span></label><select id="t_insumo" required onchange="pintarSaldoTraslado()">${opcionesInsumoReg('')}</select></div>
-        <div><label>Cantidad <span class="req">*</span></label><input id="t_cant" type="number" step="0.01" min="0" required></div>
-      </div>
-      <div class="hint" id="t_saldo" style="margin-top:8px"></div>
-      <div style="margin-top:12px"><label>Soporte de entrega <span class="hint">— foto o PDF, opcional</span></label>
-        <input type="file" accept="image/*,application/pdf" onchange="onArchivo(this,'t_archInfo')">
-        <div class="hint" id="t_archInfo" style="margin-top:5px"></div>
-      </div>
-      <div><label style="margin-top:12px">Observaciones</label><textarea id="t_notas"></textarea></div>
-      <div class="hint" style="margin-top:8px">Sale de tu bodega desde ya. Llega como <b>pendiente</b> a la bodega destino y entra a su saldo cuando la acepten.</div>
-      <div class="form-actions"><button type="submit" class="btn btn-primary">Enviar traslado</button><button type="button" class="btn btn-soft" onclick="cerrarModal()">Cancelar</button></div>
-    </form>`);
-  pintarSaldoTraslado();
-}
-function pintarSaldoTraslado(){
-  const o=$('t_origen').value, i=$('t_insumo').value, c=catInsumo(i);
-  $('t_saldo').innerHTML = (o&&i) ? `En ${esc(bodegaNombre(o))} hay <b>${fmtNum(saldoEn(o,i))} ${esc(c.unidad||'')}</b>.` : '';
-}
-function guardarTraslado(e){
-  e.preventDefault();
-  const origen=$('t_origen').value, destino=$('t_destino').value, insumoId=$('t_insumo').value, cant=num($('t_cant').value);
-  if(!origen||!destino||!insumoId||!(cant>0)){ alert('Faltan datos: bodegas, insumo y cantidad.'); return; }
-  if(origen===destino){ alert('Origen y destino no pueden ser la misma bodega.'); return; }
-  const id=nuevoId(), c=catInsumo(insumoId), fecha=$('t_fecha').value||hoy(), notas=$('t_notas').value.trim();
-  encolar({tipo:'traslado', id,
-    local:{id, fecha, tipo:'traslado', insumoId, insumo:c.nombre, unidad:c.unidad, cantidad:cant, origenId:origen, destinoId:destino,
-           documento:'Soporte de entrega', notas, estado:'pendiente', creadoPor:'campo:'+((usuarioActual()||{}).nombre||''), tieneSoporte:!!archivoTemp},
-    datos:{id, origen_id:origen, destino_id:destino, insumo_id:insumoId, cantidad:cant, fecha, notas:notas||null,
-           soporte: archivoTemp ? {nombre:archivoTemp.nombre, tipo:archivoTemp.tipo, data:archivoTemp.dataURL} : null}});
-  const destinoNombre=bodegaNombre(destino);
-  cerrarModal(); reconstruir(); render(); pintarSync();
-  alert(`Traslado enviado a ${destinoNombre}. Le aparece como «por aceptar».`);
-  sincronizar();
-}
-
-function saldoCell(v,bold){
-  const cls = v<-0.0001?'style="color:var(--bad);font-weight:700"':(Math.abs(v)<0.0001?'style="color:var(--tinta-3)"':'');
-  const val = Math.abs(v)<0.0001?'—':fmtNum(v);
-  return `<td class="num" ${cls}>${bold&&Math.abs(v)>=0.0001?'<b>'+val+'</b>':val}</td>`;
-}
-function renderInventario(){
-  const u=usuarioActual(); if(!u) return;
-  const mis=bodegasDeUsuario(u), general=!mis.length;
-  const visibles = general ? state.bodegas : state.bodegas.filter(b=>mis.includes(b.id));
-  $('invTitulo').textContent = general ? 'Inventario de todas las bodegas' : (visibles.length===1 ? 'Bodega '+visibles[0].nombre : 'Mis bodegas');
-  $('invAcciones').innerHTML = general ? '' : `<button class="btn btn-primary" onclick="abrirTraslado()">📤 Enviar traslado</button>`;
-  $('secExistencias').style.display='';
-  $('tituloExistencias').textContent='Saldo';
-  const st=state.existencias||{};
-  let html = visibles.length ? '' : `<div class="banner">No hay bodegas. Se crean en la intranet.</div>`;
-  visibles.forEach(b=>{
-    const fila=st[b.id]||{};
-    const ids=Object.keys(fila).filter(k=>Math.abs(fila[k].saldo)>0.0001||fila[k].por>0.0001)
-      .sort((x,y)=>(catInsumo(x).nombre||'').localeCompare(catInsumo(y).nombre||''));
-    if(visibles.length>1) html+=`<div class="section-title" style="margin-top:10px">${esc(b.nombre)}</div>`;
-    if(!ids.length){ html+=`<div class="banner">${esc(b.nombre)} no tiene saldo. Lo que la oficina le reparta aparece aquí cuando se acepte.</div>`; return; }
-    const rows=ids.map(k=>{ const c=catInsumo(k), v=fila[k];
-      return `<tr><td>${esc(c.nombre||'(insumo)')} <span class="hint">(${esc(c.unidad||'')})</span></td>${saldoCell(v.saldo,true)}<td class="num">${v.por>0.0001?fmtNum(v.por):'—'}</td></tr>`; }).join('');
-    html += tabla(['Insumo','Saldo','En camino'],rows,'');
-  });
-  html += `<p class="hint" style="margin:8px 0 0">Saldo = lo recibido − lo enviado − lo gastado en los registros de campo. En rojo, un faltante: se gastó más de lo que figura recibido.</p>`;
-  $('tablaExistencias').innerHTML=html;
-  $('secCampo').style.display='none';
-  if(general) $('filtroMovBodega').innerHTML = bodegaOpts($('filtroMovBodega').value,true);
-  renderMovimientos();
-}
-function renderMovimientos(){
-  const u=usuarioActual(); const mis=u?bodegasDeUsuario(u):[]; const general=!mis.length;
-  const wrap=$('filtroMovWrap'); if(wrap) wrap.style.display = general?'':'none';
-  const cont=$('listaMovimientos');
-  let arr=[...state.movimientos].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
-  if(general){ const f=$('filtroMovBodega').value; if(f&&f!=='__all') arr=arr.filter(m=>m.origenId===f||m.destinoId===f); }
-  else arr=arr.filter(m=>mis.includes(m.origenId)||mis.includes(m.destinoId));
-  if(!arr.length){ cont.innerHTML=emptyBox('📦','Sin movimientos','Lo que la oficina reparta y lo que envíes aparece aquí.'); return; }
-  cont.innerHTML=arr.slice(0,200).map(m=>{
-    const flujo = m.tipo==='compra' ? `${esc(m.proveedor||'Proveedor')} → <b>${esc(bodegaNombre(m.destinoId))}</b>`
-      : m.tipo==='ajuste' ? (m.destinoId ? `Ajuste de conteo → <b>${esc(bodegaNombre(m.destinoId))}</b>` : `<b>${esc(bodegaNombre(m.origenId))}</b> → ajuste de conteo`)
-      : `<b>${esc(bodegaNombre(m.origenId))}</b> → <b>${esc(bodegaNombre(m.destinoId))}</b>`;
-    const tag = {compra:'<span class="chip slate">Compra</span>', traslado:'<span class="chip amber">Traslado</span>', ajuste:'<span class="chip">Ajuste</span>'}[m.tipo]||'';
-    const est = m.tipo!=='traslado' ? '' : m.estado==='pendiente' ? '<span class="chip amber">⏳ Por aceptar</span>'
-      : m.estado==='rechazado' ? '<span class="chip" style="background:#f3dcd6;border-color:#e3b6a9;color:var(--bad)">✕ Rechazado</span>'
-      : '<span class="chip green">✓ Aceptado</span>';
-    const env = m.pendiente ? `<span class="chip" style="color:var(--bad)">${m.errorSync?'No se pudo enviar':'Sin enviar todavía'}</span>` : '';
-    return `<div class="item">
-      <div class="item-top"><div style="flex:1"><span class="tag-grupo">${{compra:'Compra',traslado:'Traslado',ajuste:'Ajuste'}[m.tipo]||''}</span><h3>${esc(m.insumo)}</h3></div></div>
-      <div class="item-meta"><span>${flujo}</span><span>Cantidad: <b>${fmtNum(m.cantidad)} ${esc(m.unidad||'')}</b></span>${m.fecha?`<span>📅 ${fechaFmt(m.fecha)}</span>`:''}</div>
-      <div class="chips">${tag}${est}${env}${m.documento?`<span class="chip">📄 ${esc(m.documento)}</span>`:''}${m.tieneSoporte?'<span class="chip">📎 con soporte</span>':''}</div>
-      ${m.notas?`<p class="hint" style="margin:10px 0 0">${esc(m.notas)}</p>`:''}
-      ${m.errorSync?`<p class="hint" style="margin:8px 0 0;color:var(--bad)">${esc(m.errorSync)}</p>`:''}
-    </div>`;
-  }).join('');
-}
-
-/* ============================================================ Sesión / títulos / roles ============================================================
-   Se entra con un TÍTULO y su clave. La clave la pone la oficina en la intranet; la primera
-   entrada necesita señal. Después el celular conserva la sesión (90 días) y trabaja sin señal. */
-const usuarioActual = () => state.usuarios[0] || null;
-const bodegasDeUsuario = u => (u&&u.bodegaIds)||[];
-
-let tituloElegido = null;
-async function renderLogin(){
-  const guardados = leerJSON(K_TITULOS)||[];
-  pintarTitulos(guardados);
-  try{
-    const t = await rpc('campo_titulos');
-    guardarJSON(K_TITULOS, t||[]);
-    pintarTitulos(t||[]);
-  }catch(e){
-    if(!guardados.length) $('loginUsers').innerHTML = `<div class="banner">${e.codigo==='CONFIG' ? esc(e.message)
-      : 'Para entrar la primera vez se necesita señal. Busca un sitio con internet y vuelve a abrir la app.'}</div>`;
-  }
-}
-function pintarTitulos(lista){
-  $('loginUsers').innerHTML = lista.map(t=>`<button class="login-card${tituloElegido===t.nombre?' on':''}" onclick="elegirTitulo('${esc(t.nombre).replace(/'/g,"\\'")}')">
-      <div class="login-avatar">${esc((t.nombre||'?').charAt(0))}</div>
-      <div><div class="login-name">${esc(t.nombre)}</div><div class="login-rol">${esc(ROLES[t.rol]?.label||t.rol)}${t.tiene_clave===false?' · todavía sin clave':''}</div></div>
-    </button>`).join('');
-}
-function elegirTitulo(nombre){
-  tituloElegido = nombre;
-  pintarTitulos(leerJSON(K_TITULOS)||[]);
-  $('loginClave').innerHTML = `<form class="login-form" onsubmit="entrar(event)">
-      <label for="l_clave">Clave de ${esc(nombre)}</label>
-      <input id="l_clave" type="password" autocomplete="current-password" required>
-      <div id="l_msg" class="hint"></div>
-      <button class="btn btn-primary btn-lg" type="submit" style="width:100%;justify-content:center">Entrar</button>
-    </form>`;
-  setTimeout(()=>{ const c=$('l_clave'); if(c) c.focus(); }, 30);
-}
-async function entrar(ev){
-  ev.preventDefault();
-  const msg=$('l_msg'); msg.textContent='Entrando…';
-  try{
-    const r = await rpc('campo_ingresar', {p_titulo:tituloElegido, p_clave:$('l_clave').value, p_dispositivo:navigator.userAgent.slice(0,180)});
-    if(!r || !r.ok){ msg.textContent = (r && r.error) || 'No se pudo entrar.'; return; }
-    // Otro título en el mismo celular: lo bajado del anterior no le sirve.
-    if(datos && datos.titulo && datos.titulo.nombre!==r.titulo){ datos=null; localStorage.removeItem(K_DATOS); }
-    sesion = {token:r.token, titulo:r.titulo, rol:r.rol, expira:r.expira};
-    guardarJSON(K_SESION, sesion);
-    cola = leerJSON(kCola(sesion.titulo)) || [];
-    tituloElegido=null; $('loginClave').innerHTML='';
-    reconstruir(); aplicarSesion();
-    sincronizar();
-  }catch(e){
-    msg.textContent = e.codigo==='RED' ? 'Sin señal. Para entrar se necesita internet.' : e.message;
-  }
-}
-function logout(){
-  if(sesion && cola.length && !confirm(`Hay ${cola.length} cambio(s) que todavía no llegan a la base.\n\nQuedan guardados en este celular y se envían cuando vuelvas a entrar como ${sesion.titulo}. ¿Salir?`)) return;
-  sesion=null; localStorage.removeItem(K_SESION); cola=[];
-  aplicarSesion();
-}
-/* La cola NO se borra: queda guardada y se envía al volver a entrar con el mismo título. */
-function sesionVencida(msg){
-  const t = sesion && sesion.titulo, n = cola.length;
-  sesion=null; localStorage.removeItem(K_SESION); cola=[];
-  aplicarSesion();
-  alert(msg + (n ? `\n\nLo que no se alcanzó a enviar (${n}) sigue guardado y se envía al entrar otra vez como ${t}.` : ''));
-}
-function aplicarSesion(){
-  if(!sesion){ $('login').style.display='flex'; renderLogin(); return; }
-  $('login').style.display='none';
-  const u = usuarioActual() || {nombre:sesion.titulo, rol:sesion.rol};
-  $('sesionChip').innerHTML = `👤 <b>${esc(u.nombre)}</b> · ${esc(ROLES[u.rol]?.label||u.rol)}`;
-  const permit = ROLES[u.rol]?.tabs || ['inventario'];
-  let activeVisible=false;
-  document.querySelectorAll('.tab').forEach(t=>{ const ok=permit.includes(t.dataset.view); t.style.display=ok?'':'none'; if(ok && t.classList.contains('active')) activeVisible=true; });
-  if(!activeVisible){ const first=[...document.querySelectorAll('.tab')].find(t=>permit.includes(t.dataset.view)); if(first) first.click(); }
-  render(); pintarSync();
-}
-
-/* Bandeja: lo que llega a mis bodegas (por aceptar) y lo que envié y no han aceptado */
-function renderPorAceptar(){
-  const cont=$('porAceptar'); if(!cont) return;
-  const u=usuarioActual(); if(!u){ cont.innerHTML=''; return; }
-  const mis=bodegasDeUsuario(u), general=!mis.length;
-  const pend=state.movimientos.filter(m=>m.tipo==='traslado' && m.estado==='pendiente');
-  const entrantes = general ? pend : pend.filter(m=>mis.includes(m.destinoId));
-  const salientes = general ? [] : pend.filter(m=>mis.includes(m.origenId));
-  let html = general
-    ? `<div class="banner" style="background:#e3ebef;border-color:#c7d7de;color:var(--pizarra)">Título <b>${esc(u.nombre)}</b> sin bodega asignada: ves el inventario de todas.</div>`
-    : `<div class="banner" style="background:#e2efe4;border-color:#bfd9c5;color:var(--ok)">Título <b>${esc(u.nombre)}</b> — bodega(s): ${esc(mis.map(bodegaNombre).join(', ')||'—')}.</div>`;
-  if(entrantes.length) html += `<div class="section-title" style="margin-top:14px">Por aceptar (${entrantes.length})</div><div class="list">`+entrantes.map(m=>aceptarCard(m,true)).join('')+`</div>`;
-  if(salientes.length) html += `<div class="section-title">Enviados, esperando que los acepten (${salientes.length})</div><div class="list">`+salientes.map(m=>aceptarCard(m,false)).join('')+`</div>`;
-  cont.innerHTML=html;
-  const tab=[...document.querySelectorAll('.tab')].find(t=>t.dataset.view==='inventario');
-  if(tab) tab.innerHTML = 'Inventario'+(entrantes.length?` <span class="badge">${entrantes.length}</span>`:'');
-}
-function aceptarCard(m, acciones){
-  return `<div class="item">
-    <div class="item-top"><div style="flex:1"><span class="tag-grupo">Traslado pendiente</span><h3>${esc(m.insumo)} — ${fmtNum(m.cantidad)} ${esc(m.unidad||'')}</h3></div></div>
-    <div class="item-meta"><span><b>${esc(bodegaNombre(m.origenId))}</b> → <b>${esc(bodegaNombre(m.destinoId))}</b></span>${m.fecha?`<span>📅 ${fechaFmt(m.fecha)}</span>`:''}${m.notas?`<span>${esc(m.notas)}</span>`:''}</div>
-    ${acciones
-      ? `<div class="form-actions" style="margin-top:10px"><button class="btn btn-primary btn-sm" onclick="aceptarMov('${m.id}')">✓ Aceptar recepción</button><button class="btn btn-soft btn-sm" onclick="rechazarMov('${m.id}')">Rechazar</button></div>`
-      : `<div class="chips"><span class="chip amber">Esperando que ${esc(bodegaNombre(m.destinoId))} acepte</span></div>`}
-  </div>`;
-}
-function aceptarMov(id){ encolar({tipo:'recibir', id, aceptar:true}); reconstruir(); render(); pintarSync(); sincronizar(); }
-function rechazarMov(id){
-  if(!confirm('¿Rechazar este traslado? Vuelve a la bodega que lo envió.')) return;
-  encolar({tipo:'recibir', id, aceptar:false}); reconstruir(); render(); pintarSync(); sincronizar();
-}
-
-/* ============================================================ Render ============================================================ */
-function render(){ poblarSelects(); poblarBodegaReg(); renderActPicker(); renderNucPicker(); refrescarFilasInsumo(); poblarMonSelects(); renderOpcionesMon(); renderMonitoreos(); renderResumen(); renderLotes(); renderRegistros(); renderInventario(); renderPorAceptar(); renderConfig(); }
-
-/* Los lotes vienen del SIG: las zonas que la oficina confirmó después de campo y que ya tienen
-   su nucleación cargada. Aquí solo se ven. */
-function renderLotes(){
-  const cont=$('listaLotes');
-  if(!state.lotes.length){
-    cont.innerHTML=emptyBox('🗺️','Todavía no hay lotes con nucleación', datos
-      ? 'Aparecen cuando el SIG confirma los lotes de un predio y sube sus núcleos (intranet → SIG → Nucleación).'
-      : 'Se bajan de la base la primera vez que la app tenga señal.');
-    return;
-  }
-  cont.innerHTML = state.lotes.map(l=>{
-    const regs=state.registros.filter(r=>r.loteId===l.id);
-    const gasto=regs.reduce((s,r)=>s+costoTotalReg(r),0);
-    const nucs=new Set(); regs.forEach(r=>(r.nucleos||[]).forEach(n=>nucs.add(n)));
-    const roster=parseNucleos(l.nucleos);
-    return `<div class="item">
-      <div class="item-top"><h3>${esc(etiquetaLote(l))}</h3></div>
-      <div class="item-meta">
-        ${l.municipio?`<span>📍 ${esc(l.municipio)}${l.vereda?' · '+esc(l.vereda):''}</span>`:''}
-        ${l.areaHa?`<span>${fmtNum(l.areaHa)} ha</span>`:''}
-        <span>Núcleos del lote: <b>${roster.length}</b></span>
-        <span>Atendidos: <b>${nucs.size}</b></span>
-      </div>
-      <div class="chips">
-        <span class="chip slate">${regs.length} registro(s)</span>
-        <span class="chip amber">Gasto: ${fmtCOP(gasto)}</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-/* Un registro por fila; al tocarlo se despliega el detalle y desde ahí se edita o se borra. */
-let regAbierto = null;
-function toggleReg(id){ regAbierto = (regAbierto===id) ? null : id; renderRegistros(); }
-
-function renderRegistros(){
-  const cont=$('listaRegistros'); const f=$('filtroRegLote').value;
-  let arr=[...state.registros].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
-  if(f&&f!=='__all') arr=arr.filter(r=>r.loteId===f);
-  if(!arr.length){ cont.innerHTML=emptyBox('📝','Sin registros','Registra la primera actividad arriba.'); return; }
-  cont.innerHTML = arr.map(r=>{
-    const n=(r.nucleos||[]).length, mo=costoManoObra(r), ci=costoInsumosReg(r);
-    const rend=num(r.jornales)>0?n/num(r.jornales):0;
-    const acts=actsDe(r), grupos=gruposDe(r);
-    const abierto = regAbierto===r.id, editando = $('regId') && $('regId').value===r.id;
-    const insChips=(r.insumos||[]).map(i=>`<span class="chip green">${esc(i.insumo)}: ${fmtNum(i.cantidad)} ${esc(i.unidad)}${n?` (${fmtNum(i.cantidad/n)}/núcleo)`:''}</span>`).join('');
-    const envio = r.pendiente ? (r.errorSync ? '<span class="chip" style="color:var(--bad)">No se pudo enviar</span>' : '<span class="chip amber">Sin enviar todavía</span>') : '';
-    const k = r.pendiente ? idxCola(r.id) : -1;
-    return `<div class="item item-desplegable${abierto?' abierto':''}${editando?' en-edicion':''}">
-      <button type="button" class="item-cab" aria-expanded="${abierto}" onclick="toggleReg('${r.id}')">
-        <span class="item-flecha" aria-hidden="true">▸</span>
-        <span class="item-cab-txt">
-          <span class="tag-grupo">${esc(grupos.join(' · '))}</span>
-          <span class="item-acts">${acts.map(a=>`<span class="chip act-chip">${esc(a)}</span>`).join('')||'<b>Sin actividad</b>'}${envio}</span>
-          <span class="item-meta">
-            <span>📍 <b>${loteNombre(r.loteId)}</b></span>
-            ${r.fecha?`<span>📅 ${fechaFmt(r.fecha)}</span>`:''}
-            <span>Núcleos: <b>${n||esc(r.nucleosTxt||'0')}</b></span>
-            ${r.jornales?`<span>Jornales: <b>${fmtNum(r.jornales)}</b></span>`:''}
-            <span>Gasto: <b>${fmtCOP(mo+ci)}</b></span>
-          </span>
-        </span>
-      </button>
-      ${abierto?`<div class="item-detalle">
-        <div class="item-meta">
-          <span>Núcleos trabajados: <b>${esc(n?compressRanges(r.nucleos):(r.nucleosTxt||'—'))}</b></span>
-          ${r.personas?`<span>👥 ${fmtNum(r.personas)} persona(s)</span>`:''}
-          ${r.valorJornal?`<span>Jornal: <b>${fmtCOP(r.valorJornal)}</b></span>`:''}
-          ${r.bodegaId&&(r.insumos||[]).length?`<span>Insumos de: <b>${esc(bodegaNombre(r.bodegaId))}</b></span>`:''}
-          ${r.titulo?`<span>👤 ${esc(r.titulo)}</span>`:''}
-        </div>
-        <div class="chips">
-          <span class="chip amber">Mano de obra: ${fmtCOP(mo)}</span>
-          ${ci?`<span class="chip amber">Insumos: ${fmtCOP(ci)}</span>`:''}
-          ${rend>0?`<span class="chip">Rendimiento: ${fmtNum(rend)} núcleos/jornal</span>`:''}
-          ${insChips||'<span class="chip">Sin insumos</span>'}
-        </div>
-        ${acts.length>1?`<p class="hint" style="margin:10px 0 0">Las ${acts.length} actividades se hicieron sobre los mismos núcleos; en el resumen por actividad el costo se reparte entre ellas.</p>`:''}
-        ${r.notas?`<p class="hint" style="margin:10px 0 0">${esc(r.notas)}</p>`:''}
-        ${n<(r.nucleoIds||[]).length?`<p class="hint" style="margin:10px 0 0">Algunos núcleos de este registro ya no están en el mapa: el SIG volvió a subir la nucleación del lote. Quedan como se anotaron: ${esc(r.nucleosTxt||'')}.</p>`:''}
-        ${r.errorSync?`<p class="hint" style="margin:10px 0 0;color:var(--bad)">La base no lo aceptó: ${esc(r.errorSync)}</p>`:''}
-        <div class="form-actions" style="margin-top:12px">
-          <button type="button" class="btn btn-primary btn-sm" onclick="editarRegistro('${r.id}')">✏️ Editar</button>
-          <button type="button" class="btn btn-soft btn-sm" onclick="borrarRegistro('${r.id}')">🗑 Borrar</button>
-          ${r.errorSync&&k>=0?`<button type="button" class="btn btn-soft btn-sm" onclick="reintentarOp(${k})">Reintentar envío</button><button type="button" class="btn btn-soft btn-sm" onclick="descartarOp(${k})">Descartar cambio</button>`:''}
-        </div>
-      </div>`:''}
-    </div>`;
-  }).join('');
-}
-
-function describirOp(op){
-  if(op.tipo==='registro') return `Registro del ${esc(fechaFmt(op.local.fecha))} · ${loteNombre(op.local.loteId)} · ${esc(actsDe(op.local).join(', '))}`;
-  if(op.tipo==='anular') return 'Borrar un registro';
-  if(op.tipo==='traslado') return `Traslado: ${fmtNum(op.local.cantidad)} ${esc(op.local.unidad||'')} de ${esc(op.local.insumo||'')} a ${esc(bodegaNombre(op.local.destinoId))}`;
-  if(op.tipo==='recibir') return (op.aceptar?'Aceptar':'Rechazar')+' un traslado';
-  return esc(op.tipo);
-}
-function fechaHora(iso){ return iso ? new Date(iso).toLocaleString('es-CO',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : 'nunca'; }
-
-function renderConfig(){
-  $('cfg_valor').value=state.config.valorJornal;
-  $('catInsumos').innerHTML = state.config.catalogoInsumos.map(x=>
-    `<span class="chip">${esc(x.nombre)} <span style="color:var(--tinta-3)">(${esc(x.unidad)}${x.presentacion?' · '+esc(x.presentacion):''})</span></span>`).join('')
-    || '<span class="hint">Todavía no hay insumos: se bajan de la base cuando haya señal.</span>';
-  $('listaBodegas').innerHTML = state.bodegas.map(b=>`<div class="item" style="padding:12px 14px">
-      <div class="item-top"><h3 style="font-size:15px">${esc(b.nombre)}</h3></div>
-      ${b.responsable?`<div class="item-meta"><span>👤 <b>${esc(b.responsable)}</b></span></div>`:''}
-    </div>`).join('');
-
-  const pend = cola.map((op,i)=>`<div class="item" style="padding:12px 14px">
-      <div class="item-meta" style="margin-top:0"><span>${describirOp(op)}</span><span>${esc(fechaHora(op.creado))}</span></div>
-      ${op.error?`<p class="hint" style="margin:8px 0 0;color:var(--bad)">La base no lo aceptó: ${esc(op.error)}</p>
-        <div class="form-actions" style="margin-top:8px"><button class="btn btn-soft btn-sm" onclick="reintentarOp(${i})">Reintentar</button><button class="btn btn-soft btn-sm" onclick="descartarOp(${i})">Descartar</button></div>`:''}
-    </div>`).join('');
-  $('cfgSync').innerHTML = `
-    <div class="item-meta" style="margin-top:0">
-      <span>Título: <b>${esc(sesion?sesion.titulo:'—')}</b></span>
-      <span>Última vez con la base: <b>${esc(fechaHora(datos&&datos.recibido))}</b></span>
-      <span>Sin enviar: <b>${cola.length}</b></span>
-    </div>
-    ${sync.error?`<p class="hint" style="color:var(--bad)">${esc(sync.error)}</p>`:''}
-    <div class="form-actions"><button class="btn btn-primary btn-sm" onclick="sincronizar(true)">Sincronizar ahora</button><button class="btn btn-soft btn-sm" onclick="logout()">Cambiar de título</button></div>
-    ${pend?`<div class="list" style="margin-top:12px">${pend}</div>`:''}`;
-
-  const demo = localStorage.getItem(K_DEMO);
-  let resumenDemo = '';
-  if(demo){ try{ const d=JSON.parse(demo); resumenDemo=`${(d.registros||[]).length} registros, ${(d.movimientos||[]).length} movimientos de inventario`; }catch(e){} }
-  $('cfgDemo').innerHTML = demo
-    ? `<div class="banner" style="margin:14px 0 0">Este celular tiene datos del demo anterior (${esc(resumenDemo)}). No se subieron a la base porque sus lotes e insumos no eran los del SIG ni los de la bodega. Descárgalos si los necesitas. <div class="form-actions" style="margin-top:8px"><button class="btn btn-soft btn-sm" onclick="descargarDemo()">Descargar datos del demo</button></div></div>`
-    : '';
-}
-
-/* ============================================================ Resumen ============================================================ */
-function renderResumen(){
-  const f=$('filtroLote').value; const enLote = id => (!f||f==='__all')?true:id===f;
-  const regs=state.registros.filter(r=>enLote(r.loteId));
-  const lotes=state.lotes.filter(l=>enLote(l.id));
-  const gastoMO=regs.reduce((s,r)=>s+costoManoObra(r),0);
-  const gastoIns=regs.reduce((s,r)=>s+costoInsumosReg(r),0);
-  const jornales=regs.reduce((s,r)=>s+num(r.jornales),0);
-  // Una atencion = un nucleo tocado por una actividad. Si un registro trae tres actividades,
-  // ese nucleo se atendio tres veces: asi cuadra con la tabla por actividad de mas abajo.
-  const atenciones=regs.reduce((s,r)=>s+(r.nucleos||[]).length*Math.max(1,actsDe(r).length),0);
-  const nucDistintos=new Set(); regs.forEach(r=>(r.nucleos||[]).forEach(n=>nucDistintos.add(r.loteId+':'+n)));
-
-  $('stats').innerHTML =
-    stat((f&&f!=='__all')?1:state.lotes.length,(f&&f!=='__all')?'Lote':'Lotes') +
-    stat(fmtCOP(gastoMO+gastoIns),'Gasto total',true) +
-    stat(fmtCOP(gastoMO),'Mano de obra') +
-    stat(fmtCOP(gastoIns),'Insumos') +
-    stat(fmtNum(jornales),'Jornales') +
-    stat(nucDistintos.size,'Núcleos atendidos') +
-    stat(atenciones,'Atenciones (núcleo×act.)');
-
-  // Por lote
-  if(!lotes.length){ $('tablaLotes').innerHTML=emptyBox('📊','Nada que resumir','Cuando haya lotes con nucleación y registros, aquí salen los totales.'); }
-  else{
-    let tMO=0,tIns=0,tTot=0;
-    const rows=lotes.map(l=>{
-      const rr=state.registros.filter(r=>r.loteId===l.id);
-      const mo=rr.reduce((s,r)=>s+costoManoObra(r),0), ins=rr.reduce((s,r)=>s+costoInsumosReg(r),0), tot=mo+ins;
-      const nucs=new Set(); rr.forEach(r=>(r.nucleos||[]).forEach(n=>nucs.add(n)));
-      tMO+=mo;tIns+=ins;tTot+=tot;
-      return `<tr><td>${esc(etiquetaLote(l))}</td><td class="num">${nucs.size}</td>
-        <td class="num">${fmtCOP(mo)}</td><td class="num">${fmtCOP(ins)}</td><td class="num"><b>${fmtCOP(tot)}</b></td>
-        <td class="num">${nucs.size?fmtCOP(tot/nucs.size):'—'}</td></tr>`;
-    }).join('');
-    $('tablaLotes').innerHTML=tabla(['Lote','Núcleos','Mano de obra','Insumos','Gasto total','Gasto/núcleo'],rows,
-      `<tr><td>Total</td><td></td><td class="num">${fmtCOP(tMO)}</td><td class="num">${fmtCOP(tIns)}</td><td class="num">${fmtCOP(tTot)}</td><td></td></tr>`);
-  }
-
-  /* Por actividad. Cuando un registro trae varias actividades a la vez (trazado + ahoyado +
-     plateo el mismo día sobre los mismos núcleos) nadie midió cuánto costó cada una por
-     separado: los jornales y el gasto se reparten en partes iguales entre ellas. El total
-     de la tabla sigue cuadrando con el gasto real; lo de cada fila es un estimado, y por
-     eso se avisa debajo y se marca cuáles filas lo llevan. */
-  const ga={}; let compartidos=0;
-  regs.forEach(r=>{
-    const acts=actsDe(r); if(!acts.length) return;
-    const k=acts.length, n=(r.nucleos||[]).length;
-    const jor=num(r.jornales)/k, mo=costoManoObra(r)/k, ins=costoInsumosReg(r)/k;
-    if(k>1) compartidos++;
-    acts.forEach(a=>{
-      (ga[a] ||= {act:a,nuc:0,jor:0,mo:0,ins:0,repartida:false});
-      ga[a].nuc+=n; ga[a].jor+=jor; ga[a].mo+=mo; ga[a].ins+=ins;
-      if(k>1) ga[a].repartida=true;
-    });
-  });
-  const gaArr=Object.values(ga).sort((a,b)=>b.nuc-a.nuc);
-  if(!gaArr.length){ $('tablaActividades').innerHTML=`<div class="banner">Sin actividades registradas para esta selección.</div>`; }
-  else{
-    let tn=0,tj=0,tm=0,ti=0;
-    const rows=gaArr.map(g=>{ tn+=g.nuc;tj+=g.jor;tm+=g.mo;ti+=g.ins; const rend=g.jor>0?g.nuc/g.jor:0;
-      return `<tr><td>${esc(g.act)}${g.repartida?' <span class="marca-reparto" title="Parte de sus jornales y gastos vienen repartidos con otras actividades del mismo registro">≈</span>':''}</td>
-        <td class="num">${g.nuc}</td><td class="num">${fmtNum(g.jor)}</td>
-        <td class="num">${rend>0?fmtNum(rend)+' núc/jornal':'—'}</td>
-        <td class="num">${fmtCOP(g.mo)}</td><td class="num">${g.ins?fmtCOP(g.ins):'—'}</td></tr>`; }).join('');
-    $('tablaActividades').innerHTML=tabla(['Actividad','Núcleos','Jornales','Rendimiento','Mano de obra','Insumos'],rows,
-      `<tr><td>Total</td><td class="num">${tn}</td><td class="num">${fmtNum(tj)}</td><td></td><td class="num">${fmtCOP(tm)}</td><td class="num">${fmtCOP(ti)}</td></tr>`)
-      + (compartidos?`<p class="hint" style="margin:8px 0 0">Las filas con <b>≈</b> vienen de registros donde se hicieron varias actividades a la vez: jornales y gasto se repartieron en partes iguales entre ellas (${compartidos} registro(s)). Los totales sí son exactos.</p>`:'');
-  }
-
-  // Por insumo (agrupado por nombre+unidad)
-  const gi={};
-  regs.forEach(r=>(r.insumos||[]).forEach(i=>{ const k=i.insumo+'||'+i.unidad; (gi[k] ||= {insumo:i.insumo,unidad:i.unidad,cant:0,costo:0}); gi[k].cant+=num(i.cantidad); gi[k].costo+=num(i.cantidad)*num(i.costoUnitario); }));
-  const giArr=Object.values(gi).sort((a,b)=>b.costo-a.costo);
-  if(!giArr.length){ $('tablaInsumos').innerHTML=`<div class="banner">Sin insumos registrados para esta selección.</div>`; }
-  else{
-    let tc=0; const rows=giArr.map(g=>{ tc+=g.costo; return `<tr><td>${esc(g.insumo)}</td><td class="num">${fmtNum(g.cant)}</td><td>${esc(g.unidad)}</td><td class="num">${g.costo?fmtCOP(g.costo):'—'}</td></tr>`; }).join('');
-    $('tablaInsumos').innerHTML=tabla(['Insumo','Cantidad total','Unidad','Costo total'],rows,
-      `<tr><td>Total</td><td></td><td></td><td class="num">${fmtCOP(tc)}</td></tr>`);
-  }
-
-  // Detalle por núcleo (solo si hay un lote específico seleccionado)
-  renderNucleoDetalle(f);
-}
-
-function renderNucleoDetalle(f){
-  const cont=$('seccionNucleos');
-  if(!f || f==='__all'){ cont.innerHTML=`<div class="section-title">Insumo y gasto por núcleo</div><div class="banner">Selecciona un lote específico arriba para ver el reparto por núcleo (cada actividad reparte sus insumos y su mano de obra entre los núcleos que atendió).</div>`; return; }
-  const regs=state.registros.filter(r=>r.loteId===f);
-  if(!regs.length){ cont.innerHTML=`<div class="section-title">Insumo y gasto por núcleo</div><div class="banner">Este lote aún no tiene registros.</div>`; return; }
-  const insumosUsados=[...new Set(regs.flatMap(r=>(r.insumos||[]).map(i=>i.insumo)))];
-  const porNuc={};
-  regs.forEach(r=>{ const n=(r.nucleos||[]).length; if(!n) return; const moShare=costoManoObra(r)/n;
-    (r.nucleos||[]).forEach(nuc=>{
-      const o=(porNuc[nuc] ||= {acts:0,mo:0,insCosto:0,ins:{}});
-      o.acts++; o.mo+=moShare;
-      (r.insumos||[]).forEach(i=>{ o.ins[i.insumo]=(o.ins[i.insumo]||0)+num(i.cantidad)/n; o.insCosto+=num(i.cantidad)*num(i.costoUnitario)/n; });
-    });
-  });
-  const nucs=Object.keys(porNuc).map(Number).sort((a,b)=>a-b);
-  const headers=['Núcleo','Activ.',...insumosUsados.map(x=>x.split(' ')[0]),'Mano de obra','Insumos $','Total'];
-  let tMO=0,tIC=0,tTot=0;
-  const rows=nucs.map(nu=>{ const o=porNuc[nu]; const tot=o.mo+o.insCosto; tMO+=o.mo;tIC+=o.insCosto;tTot+=tot;
-    return `<tr><td><b>${nu}</b></td><td class="num">${o.acts}</td>`+
-      insumosUsados.map(ins=>`<td class="num">${o.ins[ins]?fmtNum(o.ins[ins]):'—'}</td>`).join('')+
-      `<td class="num">${fmtCOP(o.mo)}</td><td class="num">${o.insCosto?fmtCOP(o.insCosto):'—'}</td><td class="num"><b>${fmtCOP(tot)}</b></td></tr>`; }).join('');
-  const foot=`<tr><td>Total</td><td></td>${insumosUsados.map(()=>'<td></td>').join('')}<td class="num">${fmtCOP(tMO)}</td><td class="num">${fmtCOP(tIC)}</td><td class="num">${fmtCOP(tTot)}</td></tr>`;
-  cont.innerHTML=`<div class="section-title">Insumo y gasto por núcleo — ${loteNombre(f)}</div>
-    <p class="hint" style="margin:-4px 0 10px">Cada actividad reparte por igual sus insumos y su mano de obra entre los núcleos que atendió. Las cantidades de insumo están en la unidad de cada uno (bulto, litros, etc.).</p>
-    ${tabla(headers,rows,foot)}`;
-}
-
-function stat(n,lbl,amber){ return `<div class="stat ${amber?'amber':''}"><div class="stat-num">${n}</div><div class="stat-lbl">${lbl}</div></div>`; }
-function tabla(headers,rows,foot){ return `<div class="table-wrap"><table><thead><tr>${headers.map((h,i)=>`<th class="${i>0?'num':''}">${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody>${foot?`<tfoot>${foot}</tfoot>`:''}</table></div>`; }
-function emptyBox(icon,t,x){ return `<div class="empty"><div class="big">${icon}</div><b>${t}</b><p>${x}</p></div>`; }
-
-/* ============================================================ Datos ============================================================ */
-function exportarJSON(){
-  const respaldo={app:'actividades_monitoreo_campo', exportado:new Date().toISOString(), titulo:sesion?sesion.titulo:null,
-    sinEnviar:cola, base:datos, monitoreos:state.monitoreos, config:{valorJornal:state.config.valorJornal, especiesExtra:state.config.especiesExtra}};
-  descargar(new Blob([JSON.stringify(respaldo,null,2)],{type:'application/json'}), `actividades-campo_${hoy()}.json`);
-}
-function descargarDemo(){
-  const d=localStorage.getItem(K_DEMO); if(!d) return;
-  descargar(new Blob([d],{type:'application/json'}), `demo-monitoreo-siembra_${hoy()}.json`);
-}
-function exportarCSV(){
-  const head=['fecha','predio_lote','actividades','num_actividades','grupos','nucleos','num_nucleos','personas','jornales','valor_jornal','mano_obra','bodega','insumo','cantidad','unidad','costo_unitario','costo_insumo','consumo_por_nucleo','titulo','notas'];
-  const rows=[head];
-  state.registros.forEach(r=>{
-    const l=loteById(r.loteId); const n=(r.nucleos||[]).length;
-    const acts=actsDe(r);
-    const base=[r.fecha||'',etiquetaLote(l),acts.join(' + '),acts.length,gruposDe(r).join(' + '),n?compressRanges(r.nucleos):(r.nucleosTxt||''),n,r.personas||'',r.jornales||'',r.valorJornal||'',costoManoObra(r),r.bodegaId?bodegaNombre(r.bodegaId):''];
-    if((r.insumos||[]).length) r.insumos.forEach(i=>rows.push([...base,i.insumo,i.cantidad,i.unidad,i.costoUnitario||'',num(i.cantidad)*num(i.costoUnitario),n?num(i.cantidad)/n:'',r.titulo||'',r.notas||'']));
-    else rows.push([...base,'','','','','','',r.titulo||'',r.notas||'']);
-  });
-  const csv=rows.map(r=>r.map(c=>{ const s=String(c??''); return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(';')).join('\n');
-  descargar(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'}), `actividades-campo_${hoy()}.csv`);
-}
 function descargar(blob,nombre){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=nombre; a.click(); setTimeout(()=>URL.revokeObjectURL(u),1000); }
 function hoy(){ const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); }
 
-/* La cabecera se va con el scroll en el celular y las pestanas quedan pegadas arriba.
-   Eso necesita saber cuanto mide la cabecera: medirlo es lo unico que aguanta que
-   cambie el nombre del titulo, el tamano de la letra o el ancho de la pantalla. */
-function ajustarTopbar(){
-  try{
-    const h=document.querySelector('header'); if(!h) return;
-    document.documentElement.style.setProperty('--h-cabecera', h.offsetHeight+'px');
-  }catch(e){}
-}
-let _topbarTimer=null;
-window.addEventListener('resize', ()=>{ clearTimeout(_topbarTimer); _topbarTimer=setTimeout(ajustarTopbar,150); });
-
 /* ============================================================ Init ============================================================ */
-$('r_valor').value=state.config.valorJornal;
-$('r_fecha').value=hoy();   // casi siempre se registra el mismo dia
-reconstruir();              // con lo último que se bajó, la app abre aunque no haya señal
-addInsumoRow();
-poblarSelects();
-poblarBodegaReg();
-renderNucPicker();
+$('r_notasCaja').innerHTML = `<label class="campo"><span>Nota (opcional)</span><textarea id="r_notas" placeholder="Algo que la oficina deba saber de este día"></textarea></label>`;
+$('r_fecha').value = hoy();   // casi siempre se registra el mismo día
 $('m_fecha').value = hoy();
+reconstruir();                // con lo último que se bajó, la app abre aunque no haya señal
+cargarRecordado();
 renderOpcionesMon();
-aplicarSesion();   // muestra la entrada si no hay sesión; si la hay, aplica el rol y pinta
-ajustarTopbar();
+aplicarSesion();              // muestra la entrada si no hay sesión; si la hay, pinta todo
 if(sesion) sincronizar();
 /* Enviar lo pendiente apenas vuelve la señal, al volver a la app y cada dos minutos. */
 window.addEventListener('online', ()=>sincronizar());
@@ -2520,7 +2110,7 @@ setInterval(()=>{ if(document.visibilityState==='visible' && navigator.onLine) s
 setInterval(pintarSync, 30000);   // el «hace N min» se mueve solo
 </script>
 <!-- Guarda la app en el dispositivo para usarla sin internet, y avisa con un
-     boton cuando hay una version nueva. -->
+     botón cuando hay una versión nueva. -->
 <script src="/actualizar.js"></script>
 </body>
 </html>

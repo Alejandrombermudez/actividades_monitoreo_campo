@@ -1,7 +1,7 @@
 # actividades_monitoreo_campo
 
 App de campo de Amazonía Emprende para llevar, por **lote y núcleo forestal**, las
-**actividades** que se hacen, los **insumos** que consumen, el **inventario de las bodegas**
+**actividades** que se hacen, los **insumos** que consumen, **quiénes** las hicieron
 y el **monitoreo de lo sembrado**. Un solo sitio que se instala en el celular y funciona sin
 señal.
 
@@ -23,132 +23,61 @@ tener su propio link y su propio despliegue.
 >
 > La base y sus funciones: `Intranet-AE/docs/sql/migration_financiero_inventario.sql`.
 
-## Cómo se entra: por título y clave
+## 2026-11-24: solo el registro de campo
 
-Al abrir aparece una pantalla para elegir **con qué título entras** y escribir su **clave**.
-No son usuarios con nombre propio: son el **cargo o la actividad** que alguien está haciendo
-ese día, para que el mismo celular sirva aunque cambie quién lo carga.
+La app se dejó en lo que hace el ingeniero en el potrero: **registrar qué se hizo, dónde, con qué
+insumos y quiénes**. Salieron el resumen de gasto, «Lotes y núcleos», el inventario (saldos,
+traslados, por aceptar) y los jornales y su valor: eso se lleva en la intranet. El título BODEGA ya no
+aparece en la entrada.
 
-| Título | Ve |
-|---|---|
-| **BODEGA** | Solo el inventario de su bodega (Recepción): lo que tiene, lo que le llega y lo que envía. |
-| **SIEMBRA** | Resumen, lotes y núcleos, registros de campo e inventario de sus bodegas (Conexión Biodiversa y Ley del Árbol). |
-| **MONITOREO** | Lo mismo que Siembra, más el monitoreo de lo sembrado. Su bodega es el Vivero. |
+Migración de la base: `Intranet-AE/docs/sql/migration_campo_registro_v2.sql`. **La app funciona sin
+ella**: llama primero `campo_datos_v2` / `campo_guardar_registro_v2` y, si no existen, usa las de
+siempre y escribe quiénes trabajaron y los insumos «otro» en la nota del registro.
 
-Los títulos, sus claves y sus bodegas se crean en la **intranet → Administrativa → App de
-campo**. Nacen sin clave: hasta que la oficina se la pone, nadie entra con ellos. Cambiar la
-clave saca de la app a los celulares que entraron con la anterior; cinco claves equivocadas
-seguidas bloquean el título 15 minutos.
+## Cómo se entra: una sola vez
 
-La primera entrada necesita señal. Después la sesión dura 90 días y la app trabaja sin señal
-con lo último que bajó.
+Se elige el título (SIEMBRA o MONITOREO) y se escribe su clave, que se administra en la intranet
+(Administrativa → App de campo). La primera entrada necesita señal. **Después la app no vuelve a sacar
+a nadie**: solo sale con *Cerrar sesión* (menú ⋯), que antes de salir dice lo que aplica en ese momento:
 
-### Sin señal
+- Lo que no se ha enviado **no se borra** al cerrar sesión: queda en el celular, en una cola por título,
+  y se envía al volver a entrar **con el mismo título** y con señal.
+- Sin señal no se puede volver a entrar: hasta tenerla, no se registra nada.
+- Lo único que sí pierde lo pendiente es borrar los datos del navegador o desinstalar la app.
 
-- Lo que se registra entra a una **cola** en el celular, se ve de una vez en la lista
-  (marcado *sin enviar*) y descuenta del saldo de la bodega en pantalla.
-- La cola se envía sola al volver la señal, al volver a abrir la app y cada dos minutos. El
-  botón de estado de la cabecera dice si está *al día*, cuántos cambios faltan por enviar o
-  si alguno tuvo problema; tocarlo sincroniza.
-- Si la base rechaza un cambio (por ejemplo, descontar de una bodega que no es del título), no
-  se pierde: queda en Configuración con el motivo y los botones *Reintentar* y *Descartar*.
-- Cada registro lleva un identificador que pone el celular: reenviarlo con señal intermitente
-  no lo duplica.
-- Al salir del título con cambios sin enviar, quedan guardados y se envían al volver a entrar
-  con ese mismo título.
+Si la oficina cambia la clave del título, la base deja de aceptar el token viejo, pero la app **no cierra
+la sesión**: sigue registrando y muestra arriba un campo para escribir la clave nueva y enviar.
 
-## Cómo se registra un día de campo
+## Cómo se registra
 
-La pantalla sigue el orden en que pasan las cosas en el potrero, en cuatro pasos:
+1. **¿Dónde?** Fecha, predio, lote y los núcleos tocados en el mapa. Al marcar aparece un aviso con
+   cuáles quedaron marcados, para no llevarse uno de más o el vecino.
+2. **¿Qué se hizo?** Al elegir una actividad la lista se recoge. *＋ Otra actividad* la vuelve a abrir;
+   desde ahí ya no se recoge sola y aparece *Recoger la lista*.
+3. **Insumos.** Salen los que suele llevar esa actividad (`INSUMOS_DE` en `index.html`, por categoría
+   del catálogo); se escribe la cantidad solo en lo que se usó. *＋ Otro insumo* abre la lista completa y,
+   si no está, *Otro* para escribir cuál y su unidad. Ya no se elige bodega ni se mira el saldo: la base
+   anota el consumo en la bodega del proyecto del predio y la oficina concilia.
+4. **¿Quiénes?** La lista de trabajadores de campo que carga la oficina. Mientras esté vacía, se
+   escriben los nombres.
 
-1. **¿Dónde se trabajó?** — se elige el lote y se **tocan los núcleos en el mapa**. Los que se
-   van marcando aparecen listados debajo, y se quitan tocándolos otra vez (en el mapa o en su
-   ficha). Debajo del mapa hay una lista de números plegada, por si dos núcleos quedan muy
-   pegados para acertarle con el dedo.
-2. **¿Qué se hizo?** — se marcan **una o varias** actividades (ver abajo).
-3. **¿Qué insumos se gastaron?** — puede que ninguno. Se elige de qué bodega salen y, para
-   cada insumo, la cantidad; la unidad y el saldo de la bodega se ven al lado.
-4. **¿Cuánta gente y cuánto trabajo?** — personas, jornales y valor del jornal.
+Predio, lote, actividades y cuadrilla **se quedan elegidos** entre un registro y otro (y al volver a
+abrir la app): lo normal es pasar semanas en lo mismo. Al guardar se limpian solo núcleos, cantidades y
+nota. *Lo registrado* lista lo guardado por día; tocar un registro lo abre para editarlo o borrarlo.
 
-Al guardar, el registro aparece en la lista **Lo registrado**, abajo. Al tocarlo se despliega
-con todo el detalle y desde ahí se edita o se borra.
+El monitoreo de lo sembrado (título MONITOREO) sigue igual y todavía se guarda solo en el celular.
 
 ### El mapa
 
-Es la cartografía del SIG que baja de la base (el lote de siembra y su nucleación), dibujada
-con SVG puro: **sin mapas de internet, funciona sin señal**. Cada núcleo lleva **su número
-encima** (el de la columna «Nucleo» del shapefile del SIG; si falta o se repite, se numeran en
-orden), el contorno del lote va de fondo y el
-botón **📍 ¿Dónde estoy?** ubica a la persona con el GPS del celular si está dentro del lote.
+Es la cartografía del SIG que baja de la base, dibujada con SVG: **sin mapas de internet, funciona sin
+señal**. Cada núcleo lleva su número. En el celular arranca acercado para que un núcleo se pueda tocar
+y se arrastra de lado; *Ver lista* muestra los números en botones por si dos núcleos quedan pegados.
 
-En el celular el mapa completo dejaría cada núcleo en 13 px —imposible de tocar y con el
-número ilegible—, así que **arranca acercado** lo justo para que un núcleo mida unos 26 px y
-el mapa se **arrastra de lado**. Los botones **− / ＋** cambian el acercamiento a mano.
+## Cómo se ve
 
-### Varias actividades en un mismo registro
-
-Trazado, ahoyado y plateo casi siempre se hacen **el mismo día sobre los mismos núcleos**,
-así que un registro admite varias. Pero se marcan **una por una**, no en bloque: cualquiera
-puede no haberse hecho —la ahoyadora no encendió, alcanzó el tiempo para una más— y eso es
-justo lo que el registro tiene que poder decir.
-
-Cuando un registro trae varias, nadie midió cuánto costó cada una por separado. En el resumen
-**Rendimiento y gasto por actividad** los jornales y el gasto se **reparten en partes iguales**
-entre ellas: esas filas quedan marcadas con **≈** y hay una nota debajo. Los totales de la
-tabla siguen cuadrando con el gasto real.
-
-## Qué registra
-
-- **Lotes y núcleos:** los lotes de siembra del SIG con su nucleación (solo se ven: se
-  administran en la intranet → SIG → Nucleación).
-- **Registro de campo:** fecha · lote · **actividades** · **núcleos trabajados** ·
-  **insumos consumidos** (varios por registro, en su unidad real) · personas · jornales.
-  **Rendimiento = núcleos ÷ jornales**.
-- **Actividades:** Guadaña · Preparación (trazado, ahoyado, control químico, encalado) ·
-  Siembra (siembra, resiembra, fertilización, fertirriego, plateo) · Cerramiento ·
-  Transporte · Control sanitario. La unidad de trabajo es **núcleos**.
-- **Insumos**: el catálogo de la oficina (intranet → Administrativa → Insumos y bodegas). El
-  costo de cada uno es el promedio de lo que se ha pagado en las facturas.
-- **Monitoreo de lo sembrado:** especie observada por núcleo y fecha, estado, rango de
-  altura, observaciones y foto opcional. Export a CSV. **Todavía solo en el celular.**
-- **Resumen:** gasto total y por lote (mano de obra vs. insumos), gasto/núcleo, rendimiento
-  y costo por actividad, insumos consumidos, y —al filtrar por un lote— el reparto de
-  insumo y costo por núcleo.
-
-## Inventario y bodegas
-
-- **Bodegas**: Recepción (central), Conexión Biodiversa, Ley del Árbol y Vivero. Se crean en la
-  intranet.
-- **Las compras no se registran aquí.** Entran en la intranet con la factura electrónica de la
-  DIAN y la oficina las reparte a las bodegas de los proyectos.
-- **Traslados con aceptación:** lo que la oficina (o otra bodega) envía sale de su bodega de una
-  vez y le aparece a la bodega destino en *Por aceptar*. Entra a su saldo cuando lo acepta.
-- **Enviar traslado** desde el celular, con soporte de entrega opcional (foto o PDF).
-- **Saldo** = lo recibido − lo enviado − lo gastado en los registros de campo. En rojo, un
-  faltante: se gastó más de lo que figura recibido (falta registrar un envío, o hay que hacer un
-  ajuste por conteo en la intranet).
-- En cada registro de campo se elige **de qué bodega salen los insumos**. Por defecto, la del
-  proyecto del predio.
-
-## Cómo se ve, y por qué
-
-La app entera va sobre **verde bosque profundo**, con las tarjetas en hueso flotando
-encima y el **ámbar reservado para lo que se toca**. No es capricho: esto se abre a pleno
-sol en un potrero, y una pantalla clara a brillo alto se lava. Sobre verde oscuro la
-tarjeta clara es lo único que brilla y el ojo va directo a ella.
-
-Reglas para no romperlo al editar:
-
-- **Color:** sobre el verde se escribe en `--crema` y `--salvia`; dentro de una tarjeta se
-  escribe en `--tinta` y `--verde`. Las clases que aparecen en los dos sitios (`.hint`,
-  `.section-title`, `label`) llevan la versión clara por defecto y se corrigen dentro de
-  `.card` / `.item` / `.table-wrap` / `.login-box` / `.modal-box`.
-- **Toque:** nada por debajo de 44 px. Se usa de pie, con las manos sucias.
-- **Contraste:** todo el texto pasa 4.5:1 contra su fondo real (3:1 el texto grande).
-  Al cambiar un color de la paleta, revisar que siga cumpliendo.
-- **Nada de `top` en píxeles escrito a mano.** La cabecera y las pestañas son un solo
-  bloque pegajoso; en el celular la cabecera se va con el scroll y quedan solo las
-  pestañas, usando el alto real que mide `ajustarTopbar()` en `--h-cabecera`.
+Fondo hueso con manchas suaves de salvia y ámbar, superficies de vidrio, Poppins con Fraunces en los
+títulos (como la intranet), listas sin bordes (filas separadas por una línea fina) y el ámbar para lo
+que se toca. Nada por debajo de 44 px: se usa de pie y con las manos sucias.
 
 ## Estructura
 
@@ -167,7 +96,7 @@ icon-*.png          íconos
 ## Publicar un cambio
 
 1. Editar `index.html`.
-2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v4` → `ae-actividades-v5`).
+2. **Subir el número de `VERSION` en [`sw.js`](sw.js)** (`ae-actividades-v5` → `ae-actividades-v6`).
    Es el único paso fácil de olvidar y el que hace que el cambio llegue: sin eso, los
    celulares siguen abriendo la copia guardada.
 3. Empujar a `main`. Vercel despliega solo.
