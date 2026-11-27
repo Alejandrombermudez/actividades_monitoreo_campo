@@ -196,14 +196,17 @@
   .quitar{width:44px; height:44px; border-radius:50%; border:0; background:transparent; color:var(--arcilla); font-size:18px; flex:0 0 auto}
   .vacio-suave{padding:16px; color:var(--tenue); font-size:13.5px; text-align:center}
 
-  /* ============================================================ aviso de núcleos */
-  .aviso-nuc{
-    margin-top:10px; border-radius:var(--r-sm); padding:11px 14px; font-size:13.5px; line-height:1.45;
-    background:var(--ambar-claro); color:var(--ambar-txt); display:flex; gap:10px; align-items:flex-start;
-  }
-  .aviso-nuc b{font-weight:600}
-  .aviso-nuc[hidden]{display:none}
-  .aviso-nuc .ico{font-size:16px; line-height:1.3}
+  /* ============================================================ ventana para confirmar (centrada, no abajo) */
+  .velo.centro{align-items:center; padding:16px; background:rgba(30,26,24,.5)}
+  /* Opaca: encima del mapa, el vidrio dejaba ver los números y el texto no se leía. */
+  .velo.centro .hoja{border-radius:28px; margin:0; padding:22px 20px 18px; max-width:440px; background:var(--papel);
+    animation:emerge .2s cubic-bezier(.2,.8,.3,1)}
+  .velo.centro .hoja::before{display:none}
+  @keyframes emerge{from{transform:scale(.94); opacity:0}to{transform:none; opacity:1}}
+  .conf-nuc{background:var(--relleno); border-radius:var(--r-sm); padding:12px 14px; margin-top:12px; font-size:14px; line-height:1.5}
+  .conf-nuc .grande{font-size:30px; font-weight:600; color:var(--bosque); font-family:'Fraunces',serif; line-height:1.1}
+  .conf-nuc .lista{font-variant-numeric:tabular-nums; color:var(--tinta); font-weight:500; word-break:break-word}
+  .conf-ojo{background:var(--ambar-claro); color:var(--ambar-txt); border-radius:var(--r-sm); padding:10px 14px; margin-top:10px; font-size:13.5px; line-height:1.45}
 
   /* ============================================================ barra de guardar */
   .barra-guardar{
@@ -303,6 +306,16 @@
   .nuc-map .nuc.on{fill:var(--ambar); stroke:var(--bosque); stroke-width:2.6}
   .nuc-map .nuc-lbl{font-family:'Poppins',sans-serif; font-weight:600; text-anchor:middle; dominant-baseline:central; fill:var(--bosque); pointer-events:none}
   .nuc-map .nuc-lbl.on{fill:var(--tinta)}
+  /* Ya hecho (en otro registro con la misma actividad): verde, para que salte a la vista qué falta. */
+  .nuc-map .nuc.hecho{fill:var(--ok); stroke:var(--bosque); stroke-width:1.6}
+  .nuc-map .nuc-lbl.hecho{fill:#fff}
+  .nuc-map .nuc.hecho.on{fill:var(--ambar); stroke-width:2.6}
+  .nuc-map .nuc-lbl.hecho.on{fill:var(--tinta)}
+  .nuc-btn.hecho{background:var(--ok); color:#fff}
+  .nuc-btn.hecho.on{background:var(--bosque); color:var(--ambar)}
+  .lg-hecho{background:var(--ok); border:1.5px solid var(--bosque)}
+  .nuc-avance{font-size:13px; color:var(--tenue); margin-top:8px}
+  .nuc-avance b{color:var(--ok); font-weight:600}
   .nuc-map .yo{fill:#365468; stroke:#fff; stroke-width:2.5}
   .nuc-map .cap{font-family:'Poppins',sans-serif; font-size:11px; fill:#5c6a5e}
   .nuc-msg{padding:10px 12px; font-size:12px; color:var(--tenue); background:rgba(255,253,248,.7); display:flex; align-items:center; gap:10px; flex-wrap:wrap}
@@ -430,7 +443,6 @@
         <label class="campo" id="r_loteCampo"><span>Lote</span><select id="r_lote" onchange="onLoteReg()"></select></label>
         <div id="r_nucPicker"></div>
         <input type="hidden" id="r_nucleos">
-        <div class="aviso-nuc" id="r_avisoNuc" hidden></div>
       </div>
 
       <div class="bloque vidrio">
@@ -880,6 +892,13 @@ function loteDesdeBase(z){
   };
 }
 
+function nucleosDeRegistro(r, numDe){
+  const ids = r.nucleo_ids||[];
+  const nums = ids.map(id=>numDe.get(id)).filter(n=>n!=null);
+  if(nums.length < ids.length || !ids.length) parseNucleos(r.nucleos_txt).forEach(n=>nums.push(n));
+  return [...new Set(nums)].sort((a,b)=>a-b);
+}
+
 function reconstruir(){
   const d = datos || {};
   const ins = new Map((d.insumos||[]).map(i=>[i.id,i]));
@@ -898,8 +917,9 @@ function reconstruir(){
 
   let regs = (d.registros||[]).map(r=>({
     id:r.id, fecha:r.fecha, loteId:r.zona_id, actividades:r.actividades||[],
-    // Si el SIG volvió a subir la nucleación, los núcleos viejos ya no están: queda su texto.
-    nucleos:(r.nucleo_ids||[]).map(id=>numDe.get(id)).filter(n=>n!=null).sort((a,b)=>a-b),
+    // Si el SIG volvió a subir la nucleación, los ids viejos ya no están: se leen del texto
+    // («1-19, 30-36»), que guarda los números del SIG. Así lo ya hecho sigue en verde.
+    nucleos:nucleosDeRegistro(r, numDe),
     nucleoIds:r.nucleo_ids||[], nucleosTxt:r.nucleos_txt||'',
     insumos:(r.insumos||[]).map(i=>insumoDe(i.insumo_id, i.cantidad)),
     personas:r.personas, jornales:Number(r.jornales)||0, valorJornal:Number(r.valor_jornal)||0,
@@ -1023,11 +1043,13 @@ function diaFmt(f){
 }
 
 /* Hojas que suben desde abajo (menú y confirmaciones) y avisos cortos. */
-function abrirHoja(html){ $('hoja').innerHTML=html; $('velo').classList.add('abierta'); }
-function cerrarHoja(){ $('velo').classList.remove('abierta'); $('hoja').innerHTML=''; }
+function abrirHoja(html, centro){ $('hoja').innerHTML=html; $('velo').classList.toggle('centro', !!centro); $('velo').classList.add('abierta'); }
+function cerrarHoja(){ $('velo').classList.remove('abierta','centro'); $('hoja').innerHTML=''; }
+/* o.centro: ventana en el medio de la pantalla (confirmaciones que no se pueden pasar por alto).
+   o.html: cuerpo ya escapado, en vez de o.texto. */
 function hojaConfirmar(o){
-  abrirHoja(`<h2>${esc(o.titulo)}</h2><p class="nota">${esc(o.texto)}</p>
-    <div class="acciones"><button class="btn ${o.peligro?'btn-peligro':''}" id="hojaSi">${esc(o.si)}</button><button class="btn btn-suave" onclick="cerrarHoja()">Cancelar</button></div>`);
+  abrirHoja(`<h2>${esc(o.titulo)}</h2>${o.html || `<p class="nota">${esc(o.texto)}</p>`}
+    <div class="acciones"><button class="btn ${o.peligro?'btn-peligro':''}" id="hojaSi">${esc(o.si)}</button><button class="btn btn-suave" onclick="cerrarHoja()">${esc(o.no||'Cancelar')}</button></div>`, o.centro);
   $('hojaSi').onclick=()=>{ cerrarHoja(); o.alSi(); };
 }
 let _toastT=null;
@@ -1081,14 +1103,57 @@ function poblarLotes(){
 function onPredioReg(){ poblarLotes(); onLoteReg(); }
 function onLoteReg(){ nucSel.clear(); renderNucPicker(); recordarSeleccion(); }
 
-/* Aviso al marcar núcleos: el error típico es tocar uno de más o el vecino. */
-function pintarAvisoNuc(nuc){
-  const a=$('r_avisoNuc'); if(!a) return;
-  if(!nuc.length){ a.hidden=true; a.innerHTML=''; return; }
-  a.hidden=false;
-  a.innerHTML = nuc.length===1
-    ? `<span class="ico">⚠</span><span>Marcaste el núcleo <b>${nuc[0]}</b>. Confirma en el terreno que es ese antes de guardar.</span>`
-    : `<span class="ico">⚠</span><span>Marcaste <b>${nuc.length} núcleos</b> (${esc(compressRanges(nuc))}). Revisa que se trabajaron todos; toca uno en el mapa para quitarlo.</span>`;
+/* Núcleos ya hechos en el lote: los que tienen otro registro (enviado o por enviar) con las
+   actividades elegidas. Con varias actividades elegidas, un núcleo está hecho cuando las tiene
+   todas; sin actividad elegida, cuando tiene cualquiera. Lo pidió el ingeniero de La Guajira
+   (2026-11-26): al día siguiente no se sabía cuáles de los 30 plateados ya estaban.
+   Devuelve Map número → [{act, fecha}]. */
+function hechosLote(loteId, acts){
+  const porNuc = new Map();
+  if(!loteId) return porNuc;
+  const editId = $('regId') ? $('regId').value : '';
+  for(const r of state.registros||[]){
+    if(r.loteId!==loteId || r.id===editId) continue;
+    for(const n of r.nucleos||[]){
+      const v = porNuc.get(n) || [];
+      (r.actividades||[]).forEach(a=>v.push({act:a, fecha:r.fecha}));
+      porNuc.set(n, v);
+    }
+  }
+  const out = new Map();
+  for(const [n,v] of porNuc){
+    const tiene = new Set(v.map(x=>x.act));
+    const ok = acts.length ? acts.every(a=>tiene.has(a)) : v.length>0;
+    if(ok) out.set(n, acts.length ? v.filter(x=>acts.includes(x.act)) : v);
+  }
+  return out;
+}
+const hechosActual = () => hechosLote($('r_lote').value, [...actSel]);
+const fechaCorta = f => f ? new Date(f+'T00:00').toLocaleDateString('es-CO',{day:'numeric',month:'short'}) : '';
+function textoHecho(v){
+  const m = new Map(); v.forEach(x=>{ const k=x.act; if(!m.has(k) || m.get(k)<x.fecha) m.set(k,x.fecha); });
+  return [...m].map(([a,f])=>`${a} (${fechaCorta(f)})`).join(', ');
+}
+
+/* Antes de guardar, una ventana en el medio de la pantalla con lo que se va a registrar.
+   Antes era un aviso debajo del mapa que nadie leía. */
+function confirmarNucleos(nuc, acts, l, alSi){
+  const hechos = hechosLote(l.id, acts), repetidos = nuc.filter(n=>hechos.has(n));
+  const total = rosterLote(l.id).length, yaHechos = hechos.size;
+  const faltan = Math.max(0, total - yaHechos - nuc.filter(n=>!hechos.has(n)).length);
+  hojaConfirmar({
+    centro:true,
+    titulo: nuc.length===1 ? '¿Confirmas el núcleo?' : '¿Confirmas los núcleos?',
+    html: `<p class="nota">${esc(acts.join(' · '))} en ${esc(etiquetaLote(l))}.</p>
+      <div class="conf-nuc">
+        <div class="grande">${nuc.length} núcleo${nuc.length>1?'s':''}</div>
+        <div class="lista">${esc(compressRanges(nuc))}</div>
+      </div>
+      ${repetidos.length ? `<div class="conf-ojo">⚠ ${repetidos.length===1?'El núcleo':'Los núcleos'} <b>${esc(compressRanges(repetidos))}</b> ya ${repetidos.length===1?'tenía':'tenían'} esta actividad registrada. Si no se volvió a hacer, quítalo${repetidos.length===1?'':'s'}.</div>` : ''}
+      <p class="nota" style="margin-top:10px">Revisa en el terreno que se trabajaron todos.${total ? ` Después de guardar quedan <b>${faltan}</b> de ${total} por hacer en este lote.` : ''}</p>`,
+    si: 'Sí, guardar', no: 'Revisar',
+    alSi,
+  });
 }
 
 /* ============================================================ 2. Actividades ============================================================
@@ -1116,7 +1181,7 @@ function renderActPicker(){
     }).join('')}</div>`).join('')
     + (arr.length ? `<div class="plegar"><button type="button" class="btn btn-texto" onclick="cerrarActs()">▴ Recoger la lista</button></div>` : '');
 }
-function actCambio(){ renderActPicker(); renderInsumos(); recordarSeleccion(); calcReg(); }
+function actCambio(){ renderActPicker(); renderNucPicker(); renderInsumos(); recordarSeleccion(); calcReg(); }
 function actToggle(a){
   actSel.has(a) ? actSel.delete(a) : actSel.add(a);
   if(!actSel.size) actAbierta = true;
@@ -1254,7 +1319,6 @@ function perToggle(id){ perSel.has(id)?perSel.delete(id):perSel.add(id); renderP
 /* ============================================================ Resumen de abajo y guardar ============================================================ */
 function calcReg(){
   const nuc=parseNucleos($('r_nucleos').value), l=loteById($('r_lote').value), acts=[...actSel];
-  pintarAvisoNuc(nuc);
   const r=$('r_resumen'); if(!r) return;
   const {insumos,otros}=leerInsumos(), nIns=insumos.length+otros.length;
   let titulo;
@@ -1279,6 +1343,9 @@ function guardarRegistro(e){
   if(!nuc.length){ toast('Toca en el mapa al menos un núcleo.'); return; }
   if(!acts.length){ toast('Elige la actividad.'); return; }
   if(insOtros.some(o=>o.insumoId==='__otro' && num(o.cantidad)>0 && !o.nombre.trim())){ toast('Escribe el nombre del insumo que no está en la lista.'); return; }
+  confirmarNucleos(nuc, acts, l, ()=>guardarRegistroYa(editId, nuc, acts, loteId, l));
+}
+function guardarRegistroYa(editId, nuc, acts, loteId, l){
   const {insumos,otros}=leerInsumos();
   const hayLista=(state.trabajadores||[]).length>0;
   const trab=hayLista?[...perSel]:[], trabTxt=hayLista?'':perTxt.trim();
@@ -1433,7 +1500,7 @@ function abrirMenu(){
    el botón explica cómo hacerlo a mano. Una vez instalada, los botones de instalar desaparecen.
    Actualizar: le pide al service worker que busque la versión nueva y, si hay, la activa y
    recarga. Lo pendiente por enviar vive en el celular, así que recargar no lo pierde. */
-const APP_VERSION = 'v6';
+const APP_VERSION = 'v7';
 let avisoInstalar = null;
 const appInstalada = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 const esIphone = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -1654,7 +1721,20 @@ function pintarNucSel(){
   document.querySelectorAll('#r_nucPicker circle.nuc').forEach(c=>c.classList.toggle('on',nucSel.has(+c.dataset.n)));
   document.querySelectorAll('#r_nucPicker text.nuc-lbl').forEach(t=>t.classList.toggle('on',nucSel.has(+t.textContent)));
 }
-function nucToggle(n){ n=+n; nucSel.has(n)?nucSel.delete(n):nucSel.add(n); nucAplicar(); }
+/* Un núcleo ya hecho no se marca de un toque: se pregunta, porque lo normal es que haya sido
+   el vecino. Si de verdad se volvió a trabajar, se marca. */
+function nucToggle(n){
+  n=+n;
+  if(nucSel.has(n)){ nucSel.delete(n); nucAplicar(); return; }
+  const h=hechosActual().get(n);
+  if(h){
+    hojaConfirmar({centro:true, titulo:`El núcleo ${n} ya está hecho`,
+      html:`<p class="nota">Tiene registrado: <b>${esc(textoHecho(h))}</b>.</p><p class="nota" style="margin-top:8px">¿Se volvió a trabajar hoy?</p>`,
+      si:'Sí, marcarlo otra vez', no:'No, dejarlo', alSi:()=>{ nucSel.add(n); nucAplicar(); }});
+    return;
+  }
+  nucSel.add(n); nucAplicar();
+}
 function nucTodos(){ rosterActual().forEach(n=>nucSel.add(n)); nucAplicar(); }
 function nucNinguno(){ nucSel.clear(); nucAplicar(); }
 function nucInvertir(){ const antes=new Set(nucSel); nucSel=new Set(rosterActual().filter(n=>!antes.has(n))); nucAplicar(); }
@@ -1677,16 +1757,20 @@ function renderNucPicker(){
     if(roster.length) [...nucSel].forEach(n=>{ if(!roster.includes(n)) nucSel.delete(n); });
     if(!roster.length){ cont.innerHTML=nucFallbackHTML(); $('r_nucleos').value=compressRanges([...nucSel]); calcReg(); return; }
     const l=loteById(loteId);
+    const acts=[...actSel], hechos=hechosLote(loteId, acts);
+    const nHechos=roster.filter(n=>hechos.has(n)).length;
+    const queAct = acts.length ? acts.join(' + ') : 'alguna actividad';
     /* El mapa va primero: es lo que la persona reconoce parada en el potrero. La lista de
        números queda debajo, plegada, para cuando el mapa no alcance (dos núcleos pegados). */
     cont.innerHTML=`<div class="nuc-picker">
-      ${mapaSeguro(l,roster,{sel:nucSel})}
+      ${mapaSeguro(l,roster,{sel:nucSel, hechos, queAct})}
+      ${nHechos ? `<div class="nuc-avance"><b>${nHechos} de ${roster.length}</b> ya tienen ${esc(queAct)} · faltan <b style="color:var(--tinta)">${roster.length-nHechos}</b></div>` : ''}
       <div class="nuc-bar">
         <span class="nuc-info">${esc(etiquetaLote(l))} · ${roster.length} núcleos</span>
         <button type="button" class="btn btn-soft btn-sm" onclick="nucNinguno()">Limpiar</button>
         <button type="button" class="btn btn-soft btn-sm nuc-lista-btn" aria-expanded="${nucListaAbierta}" onclick="nucListaToggle()">${nucListaAbierta?'Ocultar lista ▴':'Ver lista ▾'}</button>
       </div>
-      ${nucListaAbierta?`<div class="nuc-grid">${roster.map(n=>`<button type="button" class="nuc-btn" data-n="${n}" aria-pressed="false" onclick="nucToggle(${n})">${n}</button>`).join('')}</div>`:''}
+      ${nucListaAbierta?`<div class="nuc-grid">${roster.map(n=>`<button type="button" class="nuc-btn${hechos.has(n)?' hecho':''}" data-n="${n}" aria-pressed="false" onclick="nucToggle(${n})"${hechos.has(n)?` aria-label="${n}, ya hecho"`:''}>${n}</button>`).join('')}</div>`:''}
     </div>`;
     $('r_nucleos').value=compressRanges([...nucSel]);
     pintarNucSel(); autoZoomMapas(); calcReg();
@@ -1733,10 +1817,11 @@ function mapaNucleos(l,roster,cfg){
     const rPx=Math.max(7,sig.radio*s);
     const poly=p=>p.map(([x,y])=>`${px(x).toFixed(1)},${py(y).toFixed(1)}`).join(' ');
     const areas=(sig.areas||[]).map(a=>`<polygon class="area" points="${poly(a.p)}"><title>${esc(a.n)} — ${fmtNum(a.ha)} ha</title></polygon>`).join('');
+    const hecho = n => !!(cfg.hechos && cfg.hechos.has(n));
     const circs=sig.nucleos.map(([n,x,y])=>{
       const dentro=!roster.length||roster.includes(n);
       const on=cfg.sel && cfg.sel.has(n);
-      return `<circle class="nuc${on?' on':''}" data-n="${n}" cx="${px(x).toFixed(1)}" cy="${py(y).toFixed(1)}" r="${rPx.toFixed(1)}"`
+      return `<circle class="nuc${on?' on':''}${hecho(n)?' hecho':''}" data-n="${n}" cx="${px(x).toFixed(1)}" cy="${py(y).toFixed(1)}" r="${rPx.toFixed(1)}"`
         + (dentro&&cfg.click?` onclick="${cfg.click}(${n})"`:'') + (dentro?'':` opacity=".3"`)
         + `><title>Núcleo ${n}</title></circle>`;
     }).join('');
@@ -1746,7 +1831,7 @@ function mapaNucleos(l,roster,cfg){
     const labels = rPx>=8 ? sig.nucleos.map(([n,x,y])=>{
       const dentro=!roster.length||roster.includes(n);
       const on=cfg.sel && cfg.sel.has(n);
-      return `<text class="nuc-lbl${on?' on':''}" x="${px(x).toFixed(1)}" y="${py(y).toFixed(1)}" font-size="${fs.toFixed(1)}"`
+      return `<text class="nuc-lbl${on?' on':''}${hecho(n)?' hecho':''}" x="${px(x).toFixed(1)}" y="${py(y).toFixed(1)}" font-size="${fs.toFixed(1)}"`
         + (dentro?'':` opacity=".3"`) + `>${n}</text>`;
     }).join('') : '';
     return `<div class="nuc-map">
@@ -1757,8 +1842,9 @@ function mapaNucleos(l,roster,cfg){
       </div>
       <div class="nuc-msg">
         <div class="nuc-leyenda">
-          <span><i class="lg lg-off"></i> sin marcar</span>
-          <span><i class="lg lg-on"></i> ${cfg.click==='nucToggle'?'trabajado':'el que monitoreas'}</span>
+          <span><i class="lg lg-off"></i> ${cfg.click==='nucToggle'?'por hacer':'sin marcar'}</span>
+          <span><i class="lg lg-on"></i> ${cfg.click==='nucToggle'?'lo que marcas hoy':'el que monitoreas'}</span>
+          ${cfg.hechos && cfg.hechos.size ? `<span><i class="lg lg-hecho"></i> ya hecho${cfg.queAct?' ('+esc(cfg.queAct)+')':''}</span>` : ''}
           <span><i class="lg lg-area"></i> lote de siembra</span>
         </div>
         <div class="nuc-acciones">
